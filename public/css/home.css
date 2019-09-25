@@ -1,0 +1,14 @@
+#page-header {
+    margin-top: 0 !important;
+    height: 400px;
+    max-height: 100px;
+    border-bottom: 1px solid #fff;
+    background-image: url('/img/banner.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.center-item {
+    text-align: center;
+}
