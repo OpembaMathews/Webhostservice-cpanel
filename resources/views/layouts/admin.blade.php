@@ -14,17 +14,13 @@
         @yield('style')
 
     </head>
-    <body class="index pushable" ontouchstart>
-        @include('includes.user.sidebar')
+    <body>
+        @include('includes.admin.sidebar')
         <div class="pusher">
-            <div style="min-height:100%;position:relative;" class="ui basic segment">
-                @include('includes.user.navbar')
-
-                @yield('content')
-                
-                @include('includes.user.footer')
+            <div class="ui basic segment">
+                @yield('content')                    
             </div>
         </div>
-        @include('includes.user.footerscripts')       
+        @include('includes.admin.footerscripts')       
     </body>
 </html>

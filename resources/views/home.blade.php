@@ -23,7 +23,7 @@
 
             
             <div class="ui segment">
-                <h3>Shorten URL</h3>
+                <h3>Eureka!!!</h3>
                 <hr/>
                 Welcome!!!
             </div>

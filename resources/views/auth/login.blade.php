@@ -27,13 +27,6 @@
                     </div>
                     @endif
 
-                    <div class="ui positive message">
-                        <i class="close icon"></i>
-                        <div class="header">
-                            NB: If you didn't receive an email with your login details after purchase, please click the 'Forgot Your Password' link below to reset
-                        </div>
-                    </div>
-
                     <br>
                     <form class="ui form" method="post" action="{{ url('login') }}" role="form">
                         {{ csrf_field() }}

@@ -27,7 +27,16 @@ class AuthController extends Controller
         {
             $user = User::where('email', $email)->first();
 
-            return redirect('dashboard');
+            if($user->type == 'admin')
+            {
+                return redirect('admin/dashboard');
+            }
+            else
+            {
+                return redirect('dashboard');
+            }
+            // return redirect()->action('HomeController@index');
+            // return 123;
         }
         else
         {
@@ -41,10 +50,11 @@ class AuthController extends Controller
     }
 
     public function register(Request $request)
-    {
-        // check if voucher exists, if it doesn't return back - This is a work for vueJs
-        $count = Voucher::where('voucher',$request->voucher)->count();
-        if($count > 0)
+    { //dd($request->voucher);
+        // create two new functions one registerAdmin and registerDefault
+        // make a check that checks by the voucher and 
+
+        if($request->voucher == 'kessingtech345')
         {
             $data = $request->all();
             $user = new User();
@@ -59,17 +69,51 @@ class AuthController extends Controller
                 $user->fill($data);        
                 $user->password = bcrypt($user->password);
                 $user->voucher = $request->voucher;
+                $user->type = 'admin';
                 
                 $user->save();
 
                 Auth::loginUsingId($user->id);
-                return redirect('dashboard');
+                return redirect('admin/dashboard');
             }
         }
         else
         {
-            return back()->with('status','Voucher Code Not Found');
+            // check if voucher exists, if it doesn't return back - This is a work for vueJs
+            // $usagecount = User::where('voucher',$request->voucher)->count(); $usagecount < 1 && 
+            $availcount = Voucher::where('voucher',$request->voucher)->exists();
+            if($availcount)
+            {
+                $data = $request->all();
+                $user = new User();
+                if($request->validate([
+                    'voucher' => 'required|string|max:50|unique:users', // this checks if a user hasn't used the voucher before
+                    'name' => 'required|string|min:3|max:250',
+                    // 'lastname' => 'required|string|min:3|max:50',
+                    'email' => 'required|string|email|max:50|unique:users',
+                    'password' => 'required|string|min:6',
+                ]))
+                {
+                    $user->fill($data);        
+                    $user->password = bcrypt($user->password);
+                    $user->voucher = $request->voucher;
+
+                    //change voucher to active
+                    Voucher::where('voucher',$request->voucher)->update(['active' => 1]);
+
+                    $user->save();
+
+
+                    Auth::loginUsingId($user->id);
+                    return redirect('dashboard');
+                }
+            }
+            else
+            {
+                return back()->with('status','Voucher Code Unavailable');
+            }
         }
+        
     }
 
     /**
@@ -171,6 +215,16 @@ class AuthController extends Controller
             case \Password::PASSWORD_RESET:
                 return view('auth.login')->with('success', 'Password Changed Successfully, Proceed to Login');
         }
+    }
+
+    public function registerAdmin($request)
+    {
+        
+    }
+
+    public function registerDefault($request)
+    {
+        
     }
 
     public function randomString()

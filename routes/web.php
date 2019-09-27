@@ -35,3 +35,18 @@ Route::post('password/reset', 'AuthController@postReset')->name('password.reques
 // Auth::routes();
 
 Route::get('/dashboard', 'HomeController@index')->name('home');
+
+// Admin  Routes
+Route::group(['middleware' => ['admin']], function () {
+    Route::get('admin/dashboard', 'AdminController@index')->name('admin.home');
+    Route::get('admin/customers', 'AdminController@customers')->name('admin.customers');
+    Route::get('delete/user/{id}', 'AdminController@deleteUser');
+    Route::get('edit/user/{id}', 'AdminController@editUser');
+    Route::post('admin/updateuser', 'AdminController@updateUser');
+    Route::get('admin/vouchers','AdminController@vouchers');
+    Route::view('admin/generateVoucher', 'admin.voucher.create');
+    Route::post('admin/generateVoucher', 'AdminController@generate');
+});
+
+
+
