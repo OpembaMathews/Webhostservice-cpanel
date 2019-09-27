@@ -217,15 +217,17 @@ class AuthController extends Controller
         }
     }
 
-    public function registerAdmin($request)
+    public function deleteUser($id)
     {
-        
+        $user = User::find($id);
+        if($user->type == 'default')
+        {
+            $user->delete();
+            return back()->with('status', 'User Deleted Successfully');
+        }
+        return back()->with('error', 'Cannot Delete Admin User');
     }
 
-    public function registerDefault($request)
-    {
-        
-    }
 
     public function randomString()
     {
