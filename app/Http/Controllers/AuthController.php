@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Auth\Passwords\DatabaseTokenRepository;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -53,13 +54,13 @@ class AuthController extends Controller
     { //dd($request->voucher);
         // create two new functions one registerAdmin and registerDefault
         // make a check that checks by the voucher and 
-
-        if($request->voucher == 'kessingtech345')
+        
+        if(Str::contains($request->voucher, 'kessingtech'))
         {
             $data = $request->all();
             $user = new User();
             if($request->validate([
-                // 'voucher' => 'required|string|max:50|unique:users', // this checks if a user hasn't used the voucher before
+                'voucher' => 'required|string|max:50|unique:users', // this checks if a user hasn't used the voucher before
                 'name' => 'required|string|min:3|max:250',
                 // 'lastname' => 'required|string|min:3|max:50',
                 'email' => 'required|string|email|max:50|unique:users',
