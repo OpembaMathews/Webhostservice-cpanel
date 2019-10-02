@@ -59,7 +59,7 @@ class AuthController extends Controller
             $data = $request->all();
             $user = new User();
             if($request->validate([
-                'voucher' => 'required|string|max:50|unique:users', // this checks if a user hasn't used the voucher before
+                // 'voucher' => 'required|string|max:50|unique:users', // this checks if a user hasn't used the voucher before
                 'name' => 'required|string|min:3|max:250',
                 // 'lastname' => 'required|string|min:3|max:50',
                 'email' => 'required|string|email|max:50|unique:users',
