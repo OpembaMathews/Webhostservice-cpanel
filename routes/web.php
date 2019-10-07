@@ -49,4 +49,10 @@ Route::group(['middleware' => ['admin']], function () {
 });
 
 
+// User Routes
+Route::get('profile','UserController@viewProfile');
+Route::post('profileupdate', 'UserController@updateProfile');
+Route::post('changepassword', 'UserController@changePassword');
+
+
 
