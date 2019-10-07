@@ -9,7 +9,7 @@
             <div class="column" style="text-align: center;">
                 <div class="ui raised segment">
                     <h2>No of Customers</h2>
-                    <h1 style="color: #17A6CC;">0</h1>
+                    <h1 style="color: #17A6CC;">{{ $users_count }}</h1>
                 </div>
             </div>
             <div class="column" style="text-align: center;">
