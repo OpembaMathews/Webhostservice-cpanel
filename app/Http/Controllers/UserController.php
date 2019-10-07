@@ -44,5 +44,13 @@ class UserController extends Controller
         return back()->with(['error' => 'Password Update Failed']);
     }
 
+    public function billing()
+    {
+        $user = Auth::user();
+        $current_plan = "free";
+        $invoices = collect();
+        return view('user.billing.index', compact('user','current_plan','invoices'));
+    }
+
 
 }
