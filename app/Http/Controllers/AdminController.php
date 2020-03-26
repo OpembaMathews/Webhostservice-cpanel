@@ -31,8 +31,13 @@ class AdminController extends Controller
     {
         $user = Auth::user();
         $users_count = User::count();
-        return view('admin.index', compact('user','users_count'));
 
+        if($user->type == 'admin'){
+            return view('admin.index', compact('user','users_count'));
+        }
+        else{
+            return redirect('dashboard');
+        }
     }
 
     public function customers()

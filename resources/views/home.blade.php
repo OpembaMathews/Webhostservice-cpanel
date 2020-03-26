@@ -31,7 +31,7 @@
 @endsection
 
 @section('footerscripts')
-    <script type="text/javascript" src="{{ asset("js/notify.min.js") }}"></script>
+    <script type="text/javascript" src="{{ asset('js/notify.min.js') }}"></script>
     <script>
         $('.message .close').on('click', function() {
             $(this).closest('.message').transition('fade');

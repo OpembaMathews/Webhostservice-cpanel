@@ -27,15 +27,16 @@ class AuthController extends Controller
             ]))
         {
             $user = User::where('email', $email)->first();
+            return redirect('dashboard');
 
-            if($user->type == 'admin')
-            {
-                return redirect('admin/dashboard');
-            }
-            else
-            {
-                return redirect('dashboard');
-            }
+            // if($user->type == 'admin')
+            // {
+            //     return redirect('admin/dashboard');
+            // }
+            // else
+            // {
+            //     return redirect('dashboard');
+            // }
             // return redirect()->action('HomeController@index');
             // return 123;
         }

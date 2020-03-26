@@ -24,13 +24,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if(auth()->user()->type == 'admin')
-        {
-            redirect('admin/dashboard');
-        }
-        else
-        {
-            return view('home');
-        }
+        return view('home');
+        // if(auth()->user()->type == 'admin')
+        // {
+        //     redirect('admin/dashboard');
+        // }
+        // else
+        // {
+        //     return view('home');
+        // }
     }
 }
