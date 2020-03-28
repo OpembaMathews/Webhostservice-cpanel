@@ -105,3 +105,99 @@ body,
       table-layout: fixed;
       width: 100%
   }
+
+.itemTextWrapper{
+  padding: 10px 0 10px 5px;
+  display: inline-block;
+  vertical-align: top;
+  width: 200px;
+  font-weight: bold;
+  color: #000000;
+  cursor: pointer;
+  line-height: 2.5;
+}
+
+.cpanelWrapper{
+  padding: 10px 0 10px 5px;
+  display: inline-block;
+  vertical-align: middle;
+  width: 200px;
+  font-weight: bold;
+  color: #000000;
+  cursor: pointer;
+}
+
+.itemTextWrapper:hover{
+  text-decoration: underline;
+}
+
+.cpanelWrapper:hover{
+  text-decoration: underline;
+  color: #4183c4;
+}
+
+.cpanel{
+  width: 48px;
+  height: 48px; 
+  display: inline-block;
+}
+
+.file-manager{
+  background-image: url(/img/icons.svg);
+  background-repeat: no-repeat;
+  background-size: 4815px 48px;
+  background-position: -1960px 0;
+  width: 48px;
+  height: 48px; 
+  display: inline-block;
+}
+
+.ftp-account{
+  background-image: url(/img/icons.svg);
+  background-repeat: no-repeat;
+  background-size: 4815px 48px;
+  background-position: -2066px 0;
+  width: 48px;
+  height: 48px; 
+  display: inline-block;
+}
+
+.phpmyadmin{
+  background-image: url(/img/icons.svg);
+  background-repeat: no-repeat;
+  background-size: 4815px 48px;
+  background-position: -3124px 0;
+  width: 48px;
+  height: 48px; 
+  display: inline-block;
+}
+
+.mysql{
+  background-image: url(/img/icons.svg);
+  background-repeat: no-repeat;
+  background-size: 4815px 48px;
+  background-position: -2912px 0;
+  width: 48px;
+  height: 48px; 
+  display: inline-block;
+}
+
+.domain{
+  background-image: url(/img/icons.svg);
+  background-repeat: no-repeat;
+  background-size: 4815px 48px;
+  background-position: -1430px 0;
+  width: 48px;
+  height: 48px; 
+  display: inline-block;
+}
+
+.subdomain{
+  background-image: url(/img/icons.svg);
+  background-repeat: no-repeat;
+  background-size: 4815px 48px;
+  background-position: -3971.9px 0;
+  width: 48px;
+  height: 48px; 
+  display: inline-block;
+}

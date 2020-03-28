@@ -11,7 +11,6 @@
             <link rel="stylesheet" type="text/css" href="{{url('css/campaign.css')}}">
 
             <title>@yield('title', 'EurekaHost')</title>
-
       </head>
       <body>
 
