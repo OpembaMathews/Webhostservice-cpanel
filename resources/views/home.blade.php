@@ -24,7 +24,7 @@
             
             <div class="ui segments">
                 <div class="ui segment">
-                    <h3>DASHBOARD</h3>
+                    <h3>MY HOSTING ACCOUNT</h3>
                 </div>
 
                 <div class="ui horizontal segments">
