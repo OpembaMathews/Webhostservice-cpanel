@@ -27,6 +27,39 @@
                     <h3>MY HOSTING ACCOUNT</h3>
                 </div>
 
+                <div class="ui segment">
+                    <form class="ui form domain-form">
+                        <div class="field">
+                            <label style="font-size: 1em">Type domain name:</label>
+                            <div class="ui right labeled input">
+                              <input type="text" name="domain" onkeypress="checkDomain('keypress')">
+                              <div class="ui dropdown label">
+                                <input type="hidden" name="ext" value=".com">
+                                <div class="text">.com</div>
+                                <i class="dropdown icon"></i>
+                                <div class="menu">
+                                  <div class="item" data-value=".com">.com</div>
+                                  <div class="item" data-value=".net">.net</div>
+                                  <div class="item" data-value=".org">.org</div>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+
+                        <div class="response"></div>
+
+                        <div class="field" style="text-align: center;">
+                            <button type="button" class="ui primary button check-domain" onclick="checkDomain('click')">
+                                <i class="search icon"></i>Check Availability
+                            </button>
+
+                            <button type="button" class="ui green button register-domain" onclick="registerDomain(this)" style="display: none;">
+                                <i class="globe icon"></i>Register Domain
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
                 <div class="ui horizontal segments">
                     <div class="ui segment">
                         <a href="https://gsf.websitewelcome.com:2087/xfercpanel" target="_blank">

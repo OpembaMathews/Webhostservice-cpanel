@@ -55,5 +55,12 @@ Route::post('profileupdate', 'UserController@updateProfile');
 Route::post('changepassword', 'UserController@changePassword');
 Route::get('billing', 'UserController@billing');
 
+// Domain Routes
+Route::get('domain','DomainController@index');
+Route::post('domain/create', 'DomainController@create');
+Route::get('domain/show', 'DomainController@show');
+Route::delete('domain/delete', 'DomainController@delete');
+Route::post('domain/check', 'DomainController@check');
+
 
 

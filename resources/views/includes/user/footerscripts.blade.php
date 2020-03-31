@@ -1,4 +1,4 @@
-<script src="{{ asset("js/jquery-3.4.1.min.js") }}"></script>
+<script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
 <script src='{{ asset("js/semantic.min.js") }}'></script>
 
 <script>
@@ -16,6 +16,78 @@
                 $('.pusher').removeClass('dimmed');
             }
         }
+    }
+
+    function checkDomain(type){
+        if(type != "onchange"){
+            $(".response").html("");
+            $(".check-domain").html('<i class="spinner loading icon"></i>Checking...');
+            $(".register-domain").hide();
+
+            var ajaxPost = $.ajax({
+                url: "{{ url('domain/check') }}",
+                method: "POST",
+                data: $(".domain-form").serialize(),
+                headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+            });
+
+            ajaxPost.done(function(response){
+                if(response.count == 0){
+                    $(".response").html("<div class='ui positive message' style='margin-bottom:10px'><div class='header'><i class='check icon'></i><span style='font-size:2em; margin-right:5px'>"+$("[name='domain']").val()+''+$("[name='ext']").val()+"</span> is available</div></div>").show();
+
+                    $(".register-domain").show();
+                    $(".check-domain").html('<i class="search icon"></i>Check Availability');
+
+                    // alert($("[name='domain']").val()+''+$("[name='ext']").val()+" is available.");
+                }
+                else{
+                    $(".response").html("<div class='ui negative message' style='margin-bottom:10px'><div class='header'><i class='times icon'></i>"+$("[name='domain']").val()+''+$("[name='ext']").val()+" is not available</div></div>").show();
+
+                    $(".register-domain").hide();
+                    $(".check-domain").html('<i class="search icon"></i>Check Availability');
+                }
+                
+            });
+
+            ajaxPost.fail(function(err){});
+        }
+        else{
+            $(".response").html("");
+            $(".register-domain").hide();
+            $(".check-domain").html('<i class="search icon"></i>Check Availability').show();
+        }
+    }
+
+    function registerDomain(){
+        $(".response").html("");
+        $(".check-domain").html('<i class="spinner loading icon"></i>Checking...');
+        $(".register-domain").hide();
+
+        var ajaxPost = $.ajax({
+            url: "{{ url('domain/check') }}",
+            method: "POST",
+            data: $(".domain-form").serialize(),
+            headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+        });
+
+        ajaxPost.done(function(response){
+            if(response.count == 0){
+                $(".response").html("<div class='ui positive message' style='margin-bottom:10px'><div class='header'><i class='check circle icon'></i>"+$("[name='domain']").val()+''+$("[name='ext']").val()+" is available</div></div>").show();
+
+                $(".register-domain").show();
+                $(".check-domain").html('<i class="search icon"></i>Check Availability');
+
+                // alert($("[name='domain']").val()+''+$("[name='ext']").val()+" is available.");
+            }
+            else{
+                $(".response").html("<div class='ui negative message' style='margin-bottom:10px'><div class='header'><i class='times icon'></i>"+$("[name='domain']").val()+''+$("[name='ext']").val()+" is not available</div></div>").show();
+
+                $(".register-domain").hide();
+                $(".check-domain").html('<i class="search icon"></i>Check Availability');
+            }
+        });
+
+        ajaxPost.fail(function(err){});
     }
 
     $(document).ready(function(){
@@ -53,6 +125,12 @@
             if($(this).hasClass("active"))
             {
                 $(this).parent('.content').addClass('active');
+            }
+        });
+
+        $(".ui.dropdown").dropdown({
+            onChange: function(value, text, $selectedItem) {
+              checkDomain("onchange");
             }
         });
     });
