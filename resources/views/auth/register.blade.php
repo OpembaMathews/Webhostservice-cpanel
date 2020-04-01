@@ -2,102 +2,73 @@
 @section('title', 'EurekaHost | Register')
 
 @section('content')
-    <div class="ui fluid container">
+<div class="account-pages pt-5 my-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6 col-xl-5">
+                <div class="account-card-box">
+                    <div class="card mb-0">
+                        <div class="card-body p-4">
+                            
+                            <div class="text-center">
+                                <div class="my-3">
+                                    <a href="index.html">
+                                        <h2>EurekaHost</h2>
+                                        <!-- <span><img src="assets/images/logo.png" alt="" height="28"></span> -->
+                                    </a>
+                                </div>
+                                <h5 class="text-muted text-uppercase py-3 font-16">Sign up</h5>
+                            </div>
 
-    </div>
-    <div class="ui container">
-        <div class="ui vertically stackable grid">
-            <div class="three column row">
-                <div class="column"></div>
-                <div class="column">
-                    @if ($errors->any())
-                        <div class="ui warning message">
-                            <i class="close icon"></i>
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+                            <div class="response"></div>
 
-                    @if(Session::has('error'))
-                    <div class="ui warning message">
-                        <i class="close icon"></i>
-                        <div class="header">
-                            {{ Session::get('error') }}
-                        </div>
+                            <form method="post" role="form" class="mt-2 register-form">
+                                <div class="form-group mb-3">
+                                    <input class="form-control" name="voucher" type="text" required="" placeholder="Type Voucher Code">
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <input class="form-control" name="name" type="text" required="" placeholder="Enter your username">
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <input class="form-control" name="email" type="email" required="" placeholder="Enter your email">
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <input class="form-control" name="password" type="password" required="" placeholder="Enter your password">
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="checkbox-signup" checked>
+                                        <label class="custom-control-label" for="checkbox-signup">I accept <a href="#">Terms and Conditions</a></label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group text-center">
+                                    <button class="btn btn-success btn-block waves-effect waves-light" type="button" onclick="register(this);"> <strong>Register</strong> </button>
+                                </div>
+
+                            </form>
+
+                        </div> <!-- end card-body -->
                     </div>
-                    @endif
-                    @if(Session::has('status'))
-                    <div class="ui positive message">
-                        <i class="close icon"></i>
-                        <div class="header">
-                            {{ Session::get('status') }}
-                        </div>
-                    </div>
-                    @endif
-
-                    <h2 class="center-item">Create an Account</h2>
-                    <form class="ui form" method="post" action="{{ url('/register') }}" role="form" enctype="multipart/form-data">
-                    {{ csrf_field() }}
-                        <div class="field">
-                            <label>Voucher Code</label>
-                            <input type="text" name="voucher" placeholder="Voucher Code" required/>
-                        </div>
-                        <div class="field">
-                            <label>Full Name</label>
-                            <input type="text" name="name" placeholder="Full Name" required/>
-                        </div>
-                        <!-- <div class="field">
-                            <label>Last Name</label>
-                            <input type="text" name="lastname" placeholder="Last Name" required/>
-                        </div> -->
-                        <div class="field">
-                            <label>Email</label>
-                            <input type="email" name="email" placeholder="Email Address" required/>
-                        </div>
-                        <div class="field">
-                            <label>Password</label>
-                            <input id="p-password" type="password" name="password" placeholder="Password" required/>
-                        </div>
-                        <div class="field">
-                            <label>Confirm Password</label>
-                            <input id="confirm-password" type="password" placeholder="Confirm Password" required />
-                        </div>
-                        <small id="match-message"></small>
-        
-                        <button id="submit-btn" type="submit" class="fluid ui primary large button">Register</button>
-                        <p class="center-item">Already Signed up? <a class="center-item" href="{{ url('login') }}">Log in</a> here</p>
-                    </form>
+                    <!-- end card -->
                 </div>
-                <div class="column"></div>
-            </div>
+
+                <div class="row mt-3">
+                    <div class="col-12 text-center">
+                        <p>Already have account? <a href="{{ url('login') }}" class="ml-1"><b>Sign In</b></a></p>
+                    </div> <!-- end col -->
+                </div>
+                <!-- end row -->
+
+            </div> <!-- end col -->
         </div>
+        <!-- end row -->
     </div>
-@endsection
-
-@section('footerscripts')
-    <script>
-        $('#confirm-password').on('keyup', function(){
-            var password = $("#p-password").val();
-            var confirmPassword = $("#confirm-password").val();
-
-            if(password === confirmPassword && (password != "" && confirmPassword != "")){
-                $('#match-message').html('Password Match').css('color', 'green');
-                $('#submit-btn').removeAttr("disabled");
-            } else if(password != "" && confirmPassword != "") {
-                $('#match-message').html('Password Mismatch').css('color', 'red');
-                $('#submit-btn').attr("disabled", "disabled");
-            }
-            else{
-                $('#match-message').html('');
-                $('#submit-btn').attr("disabled", "disabled");
-            }
-        });
-
-        $('.message .close').on('click', function() {
-            $(this).closest('.message').transition('fade');
-        });
-    </script>
+    <!-- end container -->
+</div>
+<!-- end page -->
 @endsection

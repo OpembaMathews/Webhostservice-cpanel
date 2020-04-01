@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+
+use App\User;
+use App\Voucher;
 
 class RegisterController extends Controller
 {
@@ -28,7 +31,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/dashboard';
 
     /**
      * Create a new controller instance.
@@ -49,9 +52,10 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'min:8'],
+            'voucher' => ['required', 'string']
         ]);
     }
 
@@ -61,12 +65,54 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(array $data)
+    protected function create(Request $request)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        $this->validator($request->all())->validate();
+
+        $data = (array) $request->all();
+
+        if($data['voucher'] == 'kessingtech')
+        {
+            $user =  User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'type'=>'admin'
+            ]);
+
+            $this->guard()->login($user);
+
+            return response()->json([
+                'redirect'=>'admin/dashboard'
+            ]);
+        }
+        else
+        { 
+            $count = Voucher::where(['voucher'=>$data['voucher'],'active'=>0])->exists();
+
+            if($count)
+            {
+                $user =  User::create([
+                    'name' => $data['name'],
+                    'email' => $data['email'],
+                    'password' => Hash::make($data['password']),
+                ]);
+
+                $this->guard()->login($user);
+
+                //change voucher to active
+                Voucher::where('voucher',$data['voucher'])->update(['active' => 1]);
+
+                return response()->json([
+                    'redirect'=>'dashboard'
+                ]);
+            }
+            else
+            {
+                return response()->json([
+                    'errors'=>['voucher'=>(array)['Voucher Code doest not exist.']]
+                ]);
+            }
+        }
     }
 }

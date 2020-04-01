@@ -5,24 +5,28 @@
             <meta name="description" content="">
             <meta name="author" content="">
             <meta name="csrf-token" content="{{ csrf_token() }}">
-            <link rel="icon" href='{{asset("favicon.ico") }}'/>
-            <link rel="stylesheet" type="text/css" href='{{ url("css/semantic.min.css") }}' />
-            <link rel="stylesheet" type="text/css" href='{{ url("css/home.css") }}'/>
-            <link rel="stylesheet" type="text/css" href="{{url('css/icon.css')}}">
-            <link rel="stylesheet" type="text/css" href="{{url('css/campaign.css')}}">
+
+            <!-- App favicon -->
+            <!-- <link rel="shortcut icon" href="{{url('assets/images/favicon.ico')}}"> -->
+
+            <!-- App css -->
+            <link href="{{ url('assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" id="bootstrap-stylesheet" />
+            <link href="{{ url('assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
+            <link href="{{ url('assets/css/app.min.css')}}" rel="stylesheet" type="text/css"  id="app-stylesheet" />
 
             <title>@yield('title', 'EurekaHost')</title>
       </head>
       <body>
-
-            @include('layouts.header')
             <div class="container-fluid">
                 <br>
                 @yield('content')
             </div>
 
-            <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-            <script src='{{ url("js/semantic.min.js") }}'></script>
-            @yield('footerscripts')
+            <!-- Vendor js -->
+            <script src="{{ url('assets/js/vendor.min.js')}}"></script>
+
+            <!-- App js -->
+            <script src="{{ url('assets/js/app.min.js')}}"></script>
+            @include('includes.user.footerscripts')
       </body>
   </html>

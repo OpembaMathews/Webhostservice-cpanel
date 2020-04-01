@@ -28,17 +28,6 @@ class AuthController extends Controller
         {
             $user = User::where('email', $email)->first();
             return redirect('dashboard');
-
-            // if($user->type == 'admin')
-            // {
-            //     return redirect('admin/dashboard');
-            // }
-            // else
-            // {
-            //     return redirect('dashboard');
-            // }
-            // return redirect()->action('HomeController@index');
-            // return 123;
         }
         else
         {
@@ -52,18 +41,15 @@ class AuthController extends Controller
     }
 
     public function register(Request $request)
-    { //dd($request->voucher);
-        // create two new functions one registerAdmin and registerDefault
-        // make a check that checks by the voucher and 
+    { 
         
         if(Str::contains($request->voucher, 'kessingtech'))
         {
             $data = $request->all();
             $user = new User();
             if($request->validate([
-                'voucher' => 'required|string|max:50|unique:users', // this checks if a user hasn't used the voucher before
-                'name' => 'required|string|min:3|max:250',
-                // 'lastname' => 'required|string|min:3|max:50',
+                'voucher' => 'required|string|max:50|unique:users', 
+                'name' => 'required|string|min:3|max:250|unique:users',
                 'email' => 'required|string|email|max:50|unique:users',
                 'password' => 'required|string|min:6',
             ]))
@@ -80,18 +66,15 @@ class AuthController extends Controller
             }
         }
         else
-        {
-            // check if voucher exists, if it doesn't return back - This is a work for vueJs
-            // $usagecount = User::where('voucher',$request->voucher)->count(); $usagecount < 1 && 
+        { 
             $availcount = Voucher::where('voucher',$request->voucher)->exists();
             if($availcount)
             {
                 $data = $request->all();
                 $user = new User();
                 if($request->validate([
-                    'voucher' => 'required|string|max:50|unique:users', // this checks if a user hasn't used the voucher before
-                    'name' => 'required|string|min:3|max:250',
-                    // 'lastname' => 'required|string|min:3|max:50',
+                    'voucher' => 'required|string|max:50|unique:users', 
+                    'name' => 'required|string|min:3|max:250|unique:users',
                     'email' => 'required|string|email|max:50|unique:users',
                     'password' => 'required|string|min:6',
                 ]))
@@ -112,7 +95,7 @@ class AuthController extends Controller
             }
             else
             {
-                return back()->with('status','Voucher Code Unavailable');
+                return back()->with('error','Voucher Code unavailable');
             }
         }
         
