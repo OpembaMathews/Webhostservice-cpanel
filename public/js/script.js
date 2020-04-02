@@ -19,7 +19,7 @@ function checkDomain(){
     $(".check-domain").html('<div class="spinner-border text-white m-1" role="status"><span class="sr-only">Loading...</span></div><span style="vertical-align:super"> Checking...</span>');
 
     var ajaxPost = $.ajax({
-        url: "http://"+window.location.host+"/domain/create",
+        url: "https://"+window.location.host+"/domain/create",
         method: "POST",
         data: $(".domain-form").serialize(),
         headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
