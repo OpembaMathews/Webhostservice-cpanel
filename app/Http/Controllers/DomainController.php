@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
-
+use App\Http\Controllers\CurlController;
 use App\Domain;
 
 class DomainController extends Controller
 {
+    use CurlController;
+
+    protected $result;
+
     public function index(){
     	$domain = Domain::all();
     	return response()->json([
@@ -19,13 +22,20 @@ class DomainController extends Controller
     }
 
     public function create(Request $request){
-    	$domain = Domain::create([
-    		'user_id'=>Auth::user()->id,
-    		'domain'=>$request->domain,
-    	]);
+        $count = Domain::where('domain',trim($request->domain.''.$request->ext))->count();
+
+        if(!$count){
+            $domain = Domain::create([
+                'user_id'=>Auth::user()->id,
+                'domain'=>$request->domain,
+            ]);
+
+            $this->result = $this->postCall($request,Auth::user()->name,'https://hostname.example.com:2087/cpsess##########/json-api/createacct?api.version=1');
+        }
 
     	return response()->json([
-    		'domain'=>$domain,
+            'count'=>$count,
+            'result'=>$this->result,
     		'status'=>200
     	]);
     }
@@ -47,14 +57,4 @@ class DomainController extends Controller
     		'status'=>200
     	]);
     }
-
-    public function check(Request $request){
-    	$count = Domain::where('domain',trim($request->domain.''.$request->ext))->count();
-
-    	return response()->json([
-    		'count'=>$count,
-    		'status'=>200
-    	]);
-    }
-
 }

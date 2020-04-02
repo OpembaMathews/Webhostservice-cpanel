@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Domain;
 
 class HomeController extends Controller
 {
@@ -14,7 +16,6 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        // $this->middleware('admin');
     }
 
     /**
@@ -24,14 +25,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
-        // if(auth()->user()->type == 'admin')
-        // {
-        //     redirect('admin/dashboard');
-        // }
-        // else
-        // {
-        //     return view('home');
-        // }
+        $count = Domain::where('user_id',Auth::user()->id)->count();
+        return view('home',['count'=>$count]);
     }
 }

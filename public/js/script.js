@@ -14,44 +14,32 @@ function checkWidth(init)
     }
 }
 
-function checkDomain(type){
-    if(type != "onchange"){
-        $(".response").html("");
-        $(".check-domain").html('<i class="spinner loading icon"></i>Checking...');
-        $(".register-domain").hide();
+function checkDomain(){
+    $(".response").html("");
+    $(".check-domain").html('<div class="spinner-border text-white m-1" role="status"><span class="sr-only">Loading...</span></div><span style="vertical-align:super"> Checking...</span>');
 
-        var ajaxPost = $.ajax({
-            url: "{{ url('domain/check') }}",
-            method: "POST",
-            data: $(".domain-form").serialize(),
-            headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
-        });
+    var ajaxPost = $.ajax({
+        url: "http://"+window.location.host+"/domain/create",
+        method: "POST",
+        data: $(".domain-form").serialize(),
+        headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+    });
 
-        ajaxPost.done(function(response){
-            if(response.count == 0){
-                $(".response").html("<div class='ui positive message' style='margin-bottom:10px'><div class='header'><i class='check icon'></i><span style='font-size:2em; margin-right:5px'>"+$("[name='domain']").val()+''+$("[name='ext']").val()+"</span> is available</div></div>").show();
+    ajaxPost.done(function(response){
+        if(response.count){
+            $(".response").html("<div class='alert alert-danger' style='margin-bottom:10px'><strong>"+$("[name='domain']").val()+" is not available</strong></div>").show();
 
-                $(".register-domain").show();
-                $(".check-domain").html('<i class="search icon"></i>Check Availability');
+            $(".check-domain").html('Create hosting account');
+        }
+        else{
+            $(".response").html("<div class='alert alert-success' style='margin-bottom:10px'><strong> Domain name created successfully!</strong></div>").show();
 
-                // alert($("[name='domain']").val()+''+$("[name='ext']").val()+" is available.");
-            }
-            else{
-                $(".response").html("<div class='ui negative message' style='margin-bottom:10px'><div class='header'><i class='times icon'></i>"+$("[name='domain']").val()+''+$("[name='ext']").val()+" is not available</div></div>").show();
+            $(".check-domain").html('Create hosting account');
+        }
+        
+    });
 
-                $(".register-domain").hide();
-                $(".check-domain").html('<i class="search icon"></i>Check Availability');
-            }
-            
-        });
-
-        ajaxPost.fail(function(err){});
-    }
-    else{
-        $(".response").html("");
-        $(".register-domain").hide();
-        $(".check-domain").html('<i class="search icon"></i>Check Availability').show();
-    }
+    ajaxPost.fail(function(err){}); 
 }
 
 function register(e){

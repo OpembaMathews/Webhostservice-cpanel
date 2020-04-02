@@ -1,5 +1,13 @@
-<div style="position:absolute;bottom:0;width:100%;" class="ui basic segment">
-    <a style="margin-left:30px;" href="{{ url('terms')}}">Terms &amp; Conditions</a>
-    <a style="margin-left:30px;" href="{{ url('privacy')}}">Privacy Policy &amp; GDPR</a>
-    <a style="margin-left:30px;" href="#">Contact</a>
-</div>
+<footer class="footer">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <a href="https://eurekahost.io/terms" target="_blank">Terms &amp; Conditions |</a>
+            
+                <a href="https://eurekahost.io/privacy" target="_blank">Privacy Policy &amp; GDPR |</a>
+            
+                <a href="#" target="_blank">Contact</a>
+            </div>
+        </div>
+    </div>
+</footer>
