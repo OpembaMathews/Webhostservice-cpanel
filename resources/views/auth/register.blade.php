@@ -12,7 +12,7 @@
                             
                             <div class="text-center">
                                 <div class="my-3">
-                                    <a href="index.html">
+                                    <a href="/">
                                         <!-- <h2>EurekaHost</h2> -->
                                         <span><img src="img/logo-dark.png" alt="" height="50"></span>
                                     </a>
