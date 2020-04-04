@@ -25,12 +25,12 @@ class DomainController extends Controller
         $count = Domain::where('domain',trim($request->domain.''.$request->ext))->count();
 
         if(!$count){
-            $domain = Domain::create([
-                'user_id'=>Auth::user()->id,
-                'domain'=>$request->domain,
-            ]);
+            // $domain = Domain::create([
+            //     'user_id'=>Auth::user()->id,
+            //     'domain'=>$request->domain,
+            // ]);
 
-            $this->result = $this->postCall($request,Auth::user()->name,'https://hostname.example.com:2087/cpsess##########/json-api/createacct?api.version=1');
+            $this->result = $this->postCall($request,Auth::user()->name,'https://gsf.websitewelcome.com:2087/cpsess5515959548/json-api/createacct?api.version=1&owner=root&password=12345luggage');
         }
 
     	return response()->json([

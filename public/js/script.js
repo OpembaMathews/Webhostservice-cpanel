@@ -19,7 +19,7 @@ function checkDomain(){
     $(".check-domain").html('<div class="spinner-border text-white m-1" role="status"><span class="sr-only">Loading...</span></div><span style="vertical-align:super"> Checking...</span>');
 
     var ajaxPost = $.ajax({
-        url: "https://"+window.location.host+"/domain/create",
+        url: "http://"+window.location.host+"/domain/create",
         method: "POST",
         data: $(".domain-form").serialize(),
         headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
@@ -37,7 +37,7 @@ function checkDomain(){
             $(".check-domain").html('Create hosting account');
 
             setTimeout(function(){
-                window.location.reload()
+                //window.location.reload()
             },3000);
         }
         
@@ -82,3 +82,114 @@ function errorResponse(response){
         }
     }
 }
+
+$(".user-settings").on("click",function(){
+    $(".profile-dropdown").addClass("show");
+});
+
+$(document).on("click",function(event){
+    var trigger = $(".user-settings");
+    if(trigger !== event.target && !trigger.has(event.target).length){
+        $(".profile-dropdown").removeClass("show");
+    }  
+});
+
+$('.message .close').on('click', function() {
+    $(this).closest('.message').transition('fade');
+});
+
+$('#confirm-password').on('keyup', function(){
+    var password = $("#p-password").val();
+    var confirmPassword = $("#confirm-password").val();
+
+    if(password === confirmPassword && (password != "" && confirmPassword != "")){
+        $('#match-message').html('Password Match').css('color', 'green');
+        $('#submit-btn').removeAttr("disabled");
+    } else if(password != "" && confirmPassword != "") {
+        $('#match-message').html('Password Mismatch').css('color', 'red');
+        $('#submit-btn').attr("disabled", "disabled");
+    }
+    else{
+        $('#match-message').html('');
+        $('#submit-btn').attr("disabled", "disabled");
+    }
+});
+
+//Upload Picture
+$('#cpic').on('click', function(e){
+    e.preventDefault();
+    $('#imageInput').click();
+});
+var croppieInitialized = false;
+$('#imageInput').on('change', function(){
+    $('#profilePic').hide();
+    if(!croppieInitialized)
+    {
+        $uploadCrop = $('#profilePic').croppie({
+            enableExif: true,
+            enableOrientation: true,
+            viewport: {
+                width: 200,
+                height: 200,
+            },
+            boundary: {
+                width: 250,
+                height: 250
+            }
+        });
+        croppieInitialized = true;
+    }
+
+    var reader = new FileReader();
+    reader.onload = function(e){
+        $uploadCrop.croppie('bind', {
+            url: e.target.result
+        }).then(function(){
+            console.log('jQuery bind complete');
+        })
+    }
+    reader.readAsDataURL(this.files[0]);
+    $('#cpic').hide();
+    $('#uploadDiv').show();
+});
+
+$('#uploadFile').on('click', function(e){
+    e.preventDefault();
+    console.log("{{ url('pictureupdate') }}");
+    $uploadCrop.croppie('result', {
+        type: 'canvas',
+        size: 'viewport'
+    }).then(function(resp) {
+        $.ajax({
+            url: "{{ url('pictureupdate') }}",
+            method: "POST",
+            data: {"image":resp, _token: '{{ csrf_token() }}'},
+            success: function (data){
+                $("#profilePic").attr('src', resp);
+                $("#profilePicture").attr('src', resp);
+                $uploadCrop.croppie('destroy');
+                croppieInitialized = false;
+                $('#uploadDiv').hide();
+                $('#profilePic').show();
+                $("#cpic").show();
+            }
+        });
+    });
+});
+
+$('#uploadCancel').on('click', function(e){
+    e.preventDefault();
+    croppieInitialized = false;
+    $uploadCrop.croppie('destroy'); 
+    $('#uploadDiv').hide();
+    $('#profilePic').show();
+    $("#cpic").show();
+});
+
+$('#rotateLeft').on('click', function(e){
+    $uploadCrop.croppie('rotate', -90);
+});
+
+$('#rotateRight').on('click', function(e){
+    $uploadCrop.croppie('rotate', 90);
+});

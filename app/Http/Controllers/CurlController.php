@@ -16,6 +16,7 @@ trait CurlController
 			'username' => urlencode($username),
 			'domain' => urlencode($request->domain),
 		);
+		$header = ['Authorization: whm root:1UKCT53WRA7ETH3PVLDO18X5VWYH8FOT'];
 
 		//url-ify the data for the POST
 		foreach($fields as $key=>$value) { 
@@ -32,6 +33,7 @@ trait CurlController
 		curl_setopt($ch,CURLOPT_POST, count($fields));
 		curl_setopt($ch,CURLOPT_POSTFIELDS, $this->f);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch,CURLOPT_HTTPHEADER,$header);
 
 		//execute post
 		$result = curl_exec($ch);
