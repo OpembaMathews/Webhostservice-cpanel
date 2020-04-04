@@ -25,6 +25,12 @@
                     <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
 
                         <!-- item-->
+                        <a href="{{url('dashboard')}}" class="dropdown-item notify-item">
+                            <i class="mdi mdi-view-dashboard"></i>
+                            <span>Dashboard</span>
+                        </a>
+
+                        <!-- item-->
                         <a href="{{url('profile')}}" class="dropdown-item notify-item">
                             <i class="mdi mdi-account-outline"></i>
                             <span>Profile</span>
@@ -45,7 +51,7 @@
 
             <!-- LOGO -->
             <div class="logo-box">
-                <a href="index.html" class="logo text-center logo-dark">
+                <a href="{{url('dashboard')}}" class="logo text-center logo-dark">
                     <span class="logo-lg">
                         <!-- <img src="assets/images/logo.png" alt="" height="22"> -->
                         <!-- <span class="logo-lg-text-dark">Uplon</span> -->
@@ -56,7 +62,7 @@
                     </span>
                 </a>
 
-                <a href="index.html" class="logo text-center logo-light">
+                <a href="{{url('dashboard')}}" class="logo text-center logo-light">
                     <span class="logo-lg" style="font-size: 2em; color: #fff;margin-top: 10px">
                         <img src="img/logo.png" alt="" height="50">
                         <!-- <span class="logo-lg-text-dark">Uplon</span> -->
@@ -80,7 +86,7 @@
                 <ul class="navigation-menu in">
 
                     <li class="has-submenu">
-                        <a href="index.html">
+                        <a href="{{url('dashboard')}}">
                             <i class="mdi mdi-view-dashboard"></i>Dashboard
                         </a>
                     </li>
@@ -96,7 +102,7 @@
                     </li>
 
                     <li class="has-submenu">
-                        <a href="index.html">
+                        <a href="{{url('dashboard')}}">
                             <i class="mdi mdi-view-dashboard"></i>FAQ Support
                         </a>
                     </li>

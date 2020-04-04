@@ -13,8 +13,8 @@
                             <div class="text-center">
                                 <div class="my-3">
                                     <a href="index.html">
-                                        <h2>EurekaHost</h2>
-                                        <!-- <span><img src="assets/images/logo.png" alt="" height="28"></span> -->
+                                        <!-- <h2>EurekaHost</h2> -->
+                                        <span><img src="img/logo-dark.png" alt="" height="50"></span>
                                     </a>
                                 </div>
                                 <h5 class="text-muted text-uppercase py-3 font-16">Sign up</h5>
