@@ -57,9 +57,8 @@
                 </a>
 
                 <a href="index.html" class="logo text-center logo-light">
-                    <span class="logo-lg" style="font-size: 2em; color: #fff">
-                        EurekaHost
-                        <!-- <img src="assets/images/logo-light.png" alt="" height="22"> -->
+                    <span class="logo-lg" style="font-size: 2em; color: #fff;margin-top: 10px">
+                        <img src="img/logo.png" alt="" height="50">
                         <!-- <span class="logo-lg-text-dark">Uplon</span> -->
                     </span>
                     <span class="logo-sm">
