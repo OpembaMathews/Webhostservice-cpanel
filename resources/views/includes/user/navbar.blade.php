@@ -62,6 +62,7 @@
                         <!-- <span class="logo-lg-text-dark">Uplon</span> -->
                     </span>
                     <span class="logo-sm">
+                        <img src="img/logo.png" alt="" height="30" style="margin-top: 20px">
                         <!-- <span class="logo-lg-text-dark">U</span> -->
                         <!-- <img src="assets/images/logo-sm-light.png" alt="" height="24"> -->
                     </span>
