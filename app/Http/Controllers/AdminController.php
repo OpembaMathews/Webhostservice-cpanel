@@ -90,18 +90,25 @@ class AdminController extends Controller
     public function generate(Request $request)
     {   
         $data = $request->all();
-        $number = $data['number'];
-        $arr = [];  
-        for ($i=0; $i < $number; $i++) 
-        { 
-            array_push($arr, strtoupper(Str::random(10)));
+        $number = $data['voucher_number'];
+        //$arr = [];  
+        for ($i=0; $i < $number; $i++) { 
+            //array_push($arr, strtoupper(Str::random(10)));
+            Voucher::create([
+                'voucher' => strtoupper(Str::random(10)),//$a,
+                'host_size'=>$request->host_period,
+                'drive_size'=>$request->storage_capacity,
+                'type'=>$request->voucher_type
+            ]);
         }
-        // dd($arr);
-        foreach ($arr as $a) 
-        {
-            Voucher::create(['voucher' => $a]);
-        }
-        return back()->with('status', "Voucher(s) Generated Sucessfully");
+        
+        // foreach ($arr as $a){
+            
+        // }
+
+        return response()->json([
+            'message'=>'success'
+        ]);
     }
 
 

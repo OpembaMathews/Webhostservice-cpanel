@@ -181,6 +181,61 @@ function confirmDeleteFile(e){
     });
 }
 
+function checkForHostOrDrive(e){
+    var _v = $(e).val();
+
+    if(_v == ""){
+        $(".host-select").hide();
+        $(".drive-select").hide();
+        $(".voucher-number").hide();
+    }
+
+    if(_v == "host"){
+        $(".host-select").show();
+        $(".drive-select").hide();
+        $(".voucher-number").show();
+    }
+
+    if(_v == "drive"){
+        $(".host-select").hide();
+        $(".drive-select").show();
+        $(".voucher-number").show();
+    }
+
+    if(_v == "both"){
+        $(".host-select").show();
+        $(".drive-select").show();
+        $(".voucher-number").show();
+    }
+}
+
+function generateVoucher(e){
+    $(e).html("<strong><div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div><span style='vertical-align:super' class='ml-1'>Please wait...</span></strong>");
+
+    var ajaxPost = $.ajax({
+        url: "http://"+window.location.host+"/admin/generateVoucher",
+        method: "POST",
+        data: $(".generate-voucher-form").serialize(),
+        headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+    });
+
+    ajaxPost.done(function(res){
+        $(e).html("<strong>Generate Voucher</strong>");
+
+        if(res.message == "success"){
+            $(".voucher-response").html('<div class="alert alert-success" role="alert"><strong><i class="mdi mdi-check-circle-outline"></> Voucher generated successully.</strong></div>');
+
+            setTimeout(function(){
+                window.location.href = "http://"+window.location.host+"/admin/vouchers";
+            },2000);
+        }
+        else{
+            $(".voucher-response").html('<div class="alert alert-danger" role="alert"><strong>'+res.message+'</strong></div>');
+        }
+    });
+
+    ajaxPost.fail(function(res){});
+}
 
 $(".user-settings").on("click",function(){
     $(".profile-dropdown").addClass("show");

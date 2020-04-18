@@ -116,29 +116,34 @@ class DriveController extends Controller
     }
 
     public function getDrive($type){
-    	$myFile = $this->getMyFiles();
-    	$recent = $this->getRecent();
-    	$trash = $this->getTrash();
-        $total_usage = $this->getCapacity('d_usage');
-        $total_storage = $this->getCapacity('capacity');
+        if(Auth::user()->account_type == 2 || Auth::user()->account_type == 3){
+        	$myFile = $this->getMyFiles();
+        	$recent = $this->getRecent();
+        	$trash = $this->getTrash();
+            $total_usage = $this->getCapacity('d_usage');
+            $total_storage = $this->getCapacity('capacity');
 
-        $uVal = explode('-', $total_usage);
-        $sVal = explode('-', $total_storage);
+            $uVal = explode('-', $total_usage);
+            $sVal = explode('-', $total_storage);
 
-        $percent = ((int)$uVal[1] * 100) / (int)$sVal[1];
+            $percent = ((int)$uVal[1] * 100) / (int)$sVal[1];
 
-    	if($type == 'all'){
-    		$this->drive = $myFile;
-    	}
-    	else if($type == 'recent'){
-    		$this->drive = $recent;
-    	}
-    	else if($type == 'trash'){
-    		$this->drive = $trash;
-    	}
-    	else{ return abort(404); }
+        	if($type == 'all'){
+        		$this->drive = $myFile;
+        	}
+        	else if($type == 'recent'){
+        		$this->drive = $recent;
+        	}
+        	else if($type == 'trash'){
+        		$this->drive = $trash;
+        	}
+        	else{ return abort(404); }
 
-    	return view('drive.'.$type,['data'=>$this->drive,'count_all'=>sizeof($myFile),'count_recent'=>sizeof($recent),'count_trash'=>sizeof($trash),'total_storage'=>$sVal[0],'total_usage'=>$uVal[0],'percentage'=>round($percent,0)]);
+        	return view('drive.'.$type,['data'=>$this->drive,'count_all'=>sizeof($myFile),'count_recent'=>sizeof($recent),'count_trash'=>sizeof($trash),'total_storage'=>$sVal[0],'total_usage'=>$uVal[0],'percentage'=>round($percent,0)]);
+        }
+        else{
+            return redirect('logout');
+        }
     }
 
     public function download($file){

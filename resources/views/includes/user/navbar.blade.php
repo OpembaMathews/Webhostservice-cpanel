@@ -22,7 +22,7 @@
                         <span class="d-none d-sm-inline-block ml-1 font-weight-medium">{{Auth::user()->name}}</span>
                         <i class="mdi mdi-chevron-down d-none d-sm-inline-block"></i>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+                    <div class="dropdown-menu dropdown-menu-right profile-dropdown" style="width: 250px">
 
                         <!-- item-->
                         <a href="{{url('dashboard')}}" class="dropdown-item notify-item">
@@ -34,6 +34,12 @@
                         <a href="{{url('profile')}}" class="dropdown-item notify-item">
                             <i class="mdi mdi-account-outline"></i>
                             <span>Profile</span>
+                        </a>
+
+                        <!-- item-->
+                        <a href="{{url('drive/file/all')}}" class="dropdown-item notify-item">
+                            <i class="mdi mdi-server"></i>
+                            <span>Switch To <strong>EurekaHost Drive</strong></span>
                         </a>
 
                         <div class="dropdown-divider"></div>
@@ -72,6 +78,20 @@
                         <!-- <span class="logo-lg-text-dark">U</span> -->
                         <!-- <img src="assets/images/logo-sm-light.png" alt="" height="24"> -->
                     </span>
+                </a>
+            </div>
+
+            <div class="logo-box">
+                <a class="logo">
+                    <strong style="color: #ffffff">Subscription: </strong>
+                    <strong style="color: #64b0f2">{{$plan->host_period}} Years</strong>
+                </a>
+            </div>
+
+            <div class="logo-box">
+                <a class="logo">
+                    <strong style="color: #ffffff">Expiry Date: </strong>
+                    <strong style="color: #ff5d48">{{$expires}}</strong>
                 </a>
             </div>
 
