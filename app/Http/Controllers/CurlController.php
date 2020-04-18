@@ -16,7 +16,7 @@ trait CurlController
 			'username' => urlencode($username),
 			'domain' => urlencode($request->domain),
 		);
-		$header = ['Authorization: whm root:1UKCT53WRA7ETH3PVLDO18X5VWYH8FOT'];
+		$header = ['Authorization: Basic '.base64_encode('root:1UKCT53WRA7ETH3PVLDO18X5VWYH8FOT')];
 
 		//url-ify the data for the POST
 		foreach($fields as $key=>$value) { 

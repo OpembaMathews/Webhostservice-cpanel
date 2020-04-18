@@ -83,6 +83,105 @@ function errorResponse(response){
     }
 }
 
+function moveToTrash(e){
+    var path = $(e).attr("data-value");
+    var id = $(e).attr("data-id");
+    $("img.trash-file").attr("src","https://eurekahostdrive.nyc3.cdn.digitaloceanspaces.com/"+path);
+    $("[name='trash_id']").val(id);
+}
+
+function restoreFile(e){
+    var path = $(e).attr("data-value");
+    var id = $(e).attr("data-id");
+    $("img.trash-file").attr("src","https://eurekahostdrive.nyc3.cdn.digitaloceanspaces.com/"+path);
+    $("[name='trash_id']").val(id);
+}
+
+function deleteFile(e){
+    var path = $(e).attr("data-value");
+    var id = $(e).attr("data-id");
+
+    $("img.trash-file").attr("src","https://eurekahostdrive.nyc3.cdn.digitaloceanspaces.com/"+path);
+    $("[name='trash_id']").val(id);
+    $("[name='trash_file']").val(path);
+}
+
+function confirmMoveToTrash(e){
+    $(e).html("<strong><div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div><span style='vertical-align:super' class='ml-1'>Please wait...</span></strong>");
+
+    var ajaxPost = $.ajax({
+        url: "http://"+window.location.host+"/drive/move/trash",
+        method: "POST",
+        data: $(".move-to-trash-form").serialize(),
+        headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+    });
+
+    ajaxPost.done(function(res){
+        $(e).html("<strong>Move</strong>");
+     $(".response").html('<div class="alert alert-success" role="alert"><strong><i class="mdi mdi-check-circle-outline"></> File moved to trash</strong></div>');
+
+        setTimeout(function(){
+            window.location.reload()
+        },2000);
+    });
+
+    ajaxPost.fail(function(res){
+    });
+}
+
+function confirmRestoreFile(e){
+    $(e).html("<strong><div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div><span style='vertical-align:super' class='ml-1'>Please wait...</span></strong>");
+
+    var ajaxPost = $.ajax({
+        url: "http://"+window.location.host+"/drive/restore",
+        method: "POST",
+        data: $(".restore-file-form").serialize(),
+        headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+    });
+
+    ajaxPost.done(function(res){
+        $(e).html("<strong>Restore</strong>");
+     $(".response").html('<div class="alert alert-success" role="alert"><strong><i class="mdi mdi-check-circle-outline"></> File restored</strong></div>');
+
+        setTimeout(function(){
+            window.location.reload()
+        },2000);
+    });
+
+    ajaxPost.fail(function(res){
+    });
+}
+
+function confirmDeleteFile(e){
+    $(e).html("<strong><div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div><span style='vertical-align:super' class='ml-1'>Please wait...</span></strong>");
+
+    var ajaxPost = $.ajax({
+        url: "http://"+window.location.host+"/drive/delete",
+        method: "DELETE",
+        data: $(".delete-file-form").serialize(),
+        headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+    });
+
+    ajaxPost.done(function(res){
+        $(e).html("<strong>Delete</strong>");
+
+        if(res.message == "success"){
+            $(".response").html('<div class="alert alert-success" role="alert"><strong><i class="mdi mdi-check-circle-outline"></> File deleted</strong></div>');
+
+            setTimeout(function(){
+                window.location.reload()
+            },2000);
+        }
+        else{
+            $(".response").html('<div class="alert alert-danger" role="alert"><strong>'+res.message+'</strong></div>');
+        }
+    });
+
+    ajaxPost.fail(function(res){
+    });
+}
+
+
 $(".user-settings").on("click",function(){
     $(".profile-dropdown").addClass("show");
 });
@@ -155,7 +254,6 @@ $('#imageInput').on('change', function(){
 
 $('#uploadFile').on('click', function(e){
     e.preventDefault();
-    console.log("{{ url('pictureupdate') }}");
     $uploadCrop.croppie('result', {
         type: 'canvas',
         size: 'viewport'
@@ -192,4 +290,35 @@ $('#rotateLeft').on('click', function(e){
 
 $('#rotateRight').on('click', function(e){
     $uploadCrop.croppie('rotate', 90);
+});
+
+var myDropzone = new Dropzone(".dropzone", { 
+    init: function() {
+        this.on("sending", function(file, xhr, formData) {
+          formData.append("file_name", file.upload.filename);
+          formData.append("file_size", file.size);
+
+          $(".upload-response").html('<div class="alert alert-info"><strong><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div><span class="ml-1" style="vertical-align:super">Uploading...</span></strong></div>');
+        });
+    },
+    url: "http://"+window.location.host+"/drive/create",
+    method: "post",
+    paramName: "filename",
+    dictDefaultMessage: "Drop files here or click to upload.",
+    headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+    acceptedFiles:"image/*,application/pdf,.psd,.zip,",
+    addRemoveLinks: true,
+    dictRemoveFile: "Remove",
+    success: function(file,response){
+        if(response.message == "success"){
+            $(".upload-response").html('<div class="alert alert-success" role="alert"><strong><i class="mdi mdi-check-circle-outline"></> File uploaded successully.</strong></div>');
+
+            setTimeout(function(){
+                window.location.reload()
+            },2000);
+        }
+        else{
+            $(".upload-response").html('<div class="alert alert-danger" role="alert"><strong>'+response.message+'</strong></div>');
+        }
+    }
 });
