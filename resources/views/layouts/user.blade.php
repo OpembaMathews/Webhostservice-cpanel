@@ -11,7 +11,7 @@
     <!-- App css -->
     <link href="{{ url('assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" id="bootstrap-stylesheet" />
     <link href="{{ url('assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{ url('assets/css/app.min.css')}}" rel="stylesheet" type="text/css"  id="app-stylesheet" />
+    <link href="{{ url('assets/css/horizontal.min.css')}}" rel="stylesheet" type="text/css"  id="app-stylesheet" />
     <link href="{{ url('/css/user.css')}}" rel="stylesheet" type="text/css"  id="app-stylesheet" />
 
     <title>@yield('title', 'EurekaHost')</title>
