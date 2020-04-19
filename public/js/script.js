@@ -93,7 +93,7 @@ function login(e){
             $(".response").append('<div class="alert alert-success" role="alert"><strong><i class="mdi mdi-check-circle-outline"></i> Login successful. <br>You will be redirected shortly.</strong></div>');
 
             setTimeout(function(){
-                window.location.href = window.location.protocol+"//"+window.location.host+"/"+res.redirect;
+                window.location.href = window.location.protocol+"//"+window.location.host+""+res.redirect;
             },2000);
         }
     });
