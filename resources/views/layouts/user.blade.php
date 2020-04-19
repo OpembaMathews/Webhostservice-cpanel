@@ -6,7 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- App favicon -->
-    <!-- <link rel="shortcut icon" href="{{url('assets/images/favicon.ico')}}"> -->
+    <link rel="shortcut icon" href="/img/host-icon.png">
 
     <!-- App css -->
     <link href="{{ url('assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" id="bootstrap-stylesheet" />

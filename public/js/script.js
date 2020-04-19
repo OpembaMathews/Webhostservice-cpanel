@@ -75,6 +75,35 @@ function register(e){
     });
 }
 
+function login(e){
+    $(e).html("<strong><div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div><span style='vertical-align:super' class='ml-1'>Please wait...</span></strong>");
+
+    var ajaxPost = $.ajax({
+        url: "http://"+window.location.host+"/user/login",
+        method: "POST",
+        data: $(".login-form").serialize(),
+        headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+    });
+
+    ajaxPost.done(function(res){
+        errorResponse(res);
+        $(e).html("<strong>Log In</strong>");
+
+        if(res.hasOwnProperty("redirect")){
+            $(".response").append('<div class="alert alert-success" role="alert"><strong><i class="mdi mdi-check-circle-outline"></i> Login successful. <br>You will be redirected shortly.</strong></div>');
+
+            setTimeout(function(){
+                window.location.href = "http://"+window.location.host+"/"+res.redirect;
+            },2000);
+        }
+    });
+
+    ajaxPost.fail(function(res){
+        errorResponse(res.responseJSON);
+        $(e).html("<strong>Log In</strong>");
+    });
+}
+
 function errorResponse(response){
     if(response.hasOwnProperty("errors")){
         if(response.errors.hasOwnProperty("voucher")){

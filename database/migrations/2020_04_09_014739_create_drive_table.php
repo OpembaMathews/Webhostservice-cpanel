@@ -17,6 +17,7 @@ class CreateDriveTable extends Migration
             $table->bigIncrements('id');
             $table->longText('name')->nullable();
             $table->unsignedBigInteger('size')->nullable();
+            $table->string('type')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

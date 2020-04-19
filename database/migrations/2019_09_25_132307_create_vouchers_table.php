@@ -18,6 +18,9 @@ class CreateVouchersTable extends Migration
             $table->string('voucher');
             $table->boolean('active')->default(0);
             $table->integer('user_id')->nullable();
+            $table->bigInteger('host_size');
+            $table->bigInteger('drive_size');
+            $table->string('type');
             $table->timestamps();
         });
     }

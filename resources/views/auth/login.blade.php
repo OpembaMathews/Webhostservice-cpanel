@@ -65,21 +65,9 @@
                                         </div>
                                         <h5 class="text-muted text-uppercase py-3 font-16">Sign In</h5>
                                     </div>
-
-                                    @if(Session::has('status'))
-                                    <div class="alert alert-success" role="alert">
-                                        {{ Session::get('status') }}
-                                    </div>
-                                    @endif
-
-                                    @if(Session::has('error'))
-                                    <div class="alert alert-danger" role="alert">
-                                        <strong>{{ Session::get('error') }}</strong>
-                                    </div>
-                                    @endif
     
-                                    <form method="post" action="{{ url('/login') }}" role="form" class="mt-2">
-                                        {{ csrf_field() }}
+                                    <form class="login-form">
+                                        <div class="response"></div>
                                         <div class="form-group mb-3">
                                             <input class="form-control" name="email" type="email" required="" placeholder="Enter your email">
                                         </div>
@@ -96,7 +84,7 @@
                                         </div>
     
                                         <div class="form-group text-center">
-                                            <button class="btn btn-success btn-block waves-effect waves-light" type="submit"> <strong>Log In</strong> </button>
+                                            <button class="btn btn-success btn-block waves-effect waves-light" type="button" onclick="login(this)"> <strong>Log In</strong> </button>
                                         </div>
 
                                         <a href="#" class="text-muted"><i class="mdi mdi-lock mr-1"></i> Forgot your password?</a>

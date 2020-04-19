@@ -13,13 +13,13 @@ class CreateHostPlanTable extends Migration
      */
     public function up()
     {
-        Schema::create('host_plan', function (Blueprint $table) {
+        Schema::create('hosting_plan', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('host_period');
             $table->timestamps();
         });
 
-        Schema::table('host_plan', function (Blueprint $table) {
+        Schema::table('hosting_plan', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
         });
