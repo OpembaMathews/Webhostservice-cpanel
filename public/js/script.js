@@ -19,7 +19,7 @@ function checkDomain(){
     $(".check-domain").html('<div class="spinner-border text-white m-1" role="status"><span class="sr-only">Loading...</span></div><span style="vertical-align:super"> Checking...</span>');
 
     var ajaxPost = $.ajax({
-        url: "http://"+window.location.host+"/domain/create",
+        url: window.location.protocol+"//"+window.location.host+"/domain/create",
         method: "POST",
         data: $(".domain-form").serialize(),
         headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
@@ -50,7 +50,7 @@ function register(e){
     $(e).html("<strong><div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div><span style='vertical-align:super' class='ml-1'>Please wait...</span></strong>");
 
     var ajaxPost = $.ajax({
-        url: "http://"+window.location.host+"/user/create",
+        url: window.location.protocol+"//"+window.location.host+"/user/create",
         method: "POST",
         data: $(".register-form").serialize(),
         headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
@@ -64,7 +64,7 @@ function register(e){
             $(".response").append('<div class="alert alert-success" role="alert"><strong><i class="mdi mdi-check-circle-outline"></i> Account created successfully. <br>You will be redirected shortly.</strong></div>');
 
             setTimeout(function(){
-                window.location.href = "http://"+window.location.host+"/"+res.redirect;
+                window.location.href = window.location.protocol+"//"+window.location.host+"/"+res.redirect;
             },2000);
         }
     });
@@ -79,7 +79,7 @@ function login(e){
     $(e).html("<strong><div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div><span style='vertical-align:super' class='ml-1'>Please wait...</span></strong>");
 
     var ajaxPost = $.ajax({
-        url: "http://"+window.location.host+"/user/login",
+        url: window.location.protocol+"//"+window.location.host+"/user/login",
         method: "POST",
         data: $(".login-form").serialize(),
         headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
@@ -93,7 +93,7 @@ function login(e){
             $(".response").append('<div class="alert alert-success" role="alert"><strong><i class="mdi mdi-check-circle-outline"></i> Login successful. <br>You will be redirected shortly.</strong></div>');
 
             setTimeout(function(){
-                window.location.href = "http://"+window.location.host+"/"+res.redirect;
+                window.location.href = window.location.protocol+"//"+window.location.host+"/"+res.redirect;
             },2000);
         }
     });
@@ -151,7 +151,7 @@ function confirmMoveToTrash(e){
     $(e).html("<strong><div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div><span style='vertical-align:super' class='ml-1'>Please wait...</span></strong>");
 
     var ajaxPost = $.ajax({
-        url: "http://"+window.location.host+"/drive/move/trash",
+        url: window.location.protocol+"//"+window.location.host+"/drive/move/trash",
         method: "POST",
         data: $(".move-to-trash-form").serialize(),
         headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
@@ -174,7 +174,7 @@ function confirmRestoreFile(e){
     $(e).html("<strong><div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div><span style='vertical-align:super' class='ml-1'>Please wait...</span></strong>");
 
     var ajaxPost = $.ajax({
-        url: "http://"+window.location.host+"/drive/restore",
+        url: window.location.protocol+"//"+window.location.host+"/drive/restore",
         method: "POST",
         data: $(".restore-file-form").serialize(),
         headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
@@ -197,7 +197,7 @@ function confirmDeleteFile(e){
     $(e).html("<strong><div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div><span style='vertical-align:super' class='ml-1'>Please wait...</span></strong>");
 
     var ajaxPost = $.ajax({
-        url: "http://"+window.location.host+"/drive/delete",
+        url: window.location.protocol+"//"+window.location.host+"/drive/delete",
         method: "DELETE",
         data: $(".delete-file-form").serialize(),
         headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
@@ -254,7 +254,7 @@ function generateVoucher(e){
     $(e).html("<strong><div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div><span style='vertical-align:super' class='ml-1'>Please wait...</span></strong>");
 
     var ajaxPost = $.ajax({
-        url: "http://"+window.location.host+"/admin/generateVoucher",
+        url: window.location.protocol+"//"+window.location.host+"/admin/generateVoucher",
         method: "POST",
         data: $(".generate-voucher-form").serialize(),
         headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
@@ -267,7 +267,7 @@ function generateVoucher(e){
             $(".voucher-response").html('<div class="alert alert-success" role="alert"><strong><i class="mdi mdi-check-circle-outline"></> Voucher generated successully.</strong></div>');
 
             setTimeout(function(){
-                window.location.href = "http://"+window.location.host+"/admin/vouchers";
+                window.location.href = window.location.protocol+"//"+window.location.host+"/admin/vouchers";
             },2000);
         }
         else{
@@ -397,7 +397,7 @@ var myDropzone = new Dropzone(".dropzone", {
           $(".upload-response").html('<div class="alert alert-info"><strong><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div><span class="ml-1" style="vertical-align:super">Uploading...</span></strong></div>');
         });
     },
-    url: "http://"+window.location.host+"/drive/create",
+    url: window.location.protocol+"//"+window.location.host+"/drive/create",
     method: "post",
     paramName: "filename",
     dictDefaultMessage: "Drop files here or click to upload.",
