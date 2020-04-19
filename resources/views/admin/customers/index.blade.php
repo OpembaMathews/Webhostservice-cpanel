@@ -69,7 +69,7 @@
         </div>
 
         @include('admin.scripts.index')
-        @include('admin.layouts.datatable-js')
+        @include('admin.scripts.datatable-js')
         
     </body>
 <html>

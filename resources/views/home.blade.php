@@ -16,7 +16,7 @@
                             <li class="breadcrumb-item active">My Hosting Account</li>
                         </ol>
                     </div> -->
-                    <h4 class="page-title">My Hosting Account</h4>
+                    <h4 class="page-title"><strong>My Hosting Account</strong></h4>
                 </div>
             </div>
         </div>

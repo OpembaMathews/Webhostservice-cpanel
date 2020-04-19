@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('type')->default('default');
+            $table->string('type')->nullable();
             $table->string('voucher')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

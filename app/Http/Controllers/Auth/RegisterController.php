@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Validator;
 
 use App\User;
 use App\Voucher;
+use App\HostingPlan;
+use App\DriveCapacity;
 
 class RegisterController extends Controller
 {
@@ -77,8 +79,22 @@ class RegisterController extends Controller
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
-                'type'=>'admin'
+                'type'=>'admin',
+                'voucher'=>$data['voucher']
             ]);
+
+            HostingPlan::create([
+                'host_period'=>10,
+                'user_id'=>$user->id
+            ]);
+
+            DriveCapacity::create([
+                'capacity'=>1000000000,
+                'd_usage'=>0,
+                'user_id'=>$user->id
+            ]);
+
+            User::where('id',$user->id)->update(['account_type'=>3]);
 
             $this->guard()->login($user);
 
@@ -88,20 +104,55 @@ class RegisterController extends Controller
         }
         else
         { 
-            $count = Voucher::where(['voucher'=>$data['voucher'],'active'=>0])->exists();
+            $voucher = Voucher::where(['voucher'=>$data['voucher'],'active'=>0])->get();
 
-            if($count)
+            if(sizeof($voucher))
             {
                 $user =  User::create([
                     'name' => $data['name'],
                     'email' => $data['email'],
                     'password' => Hash::make($data['password']),
+                    'voucher' => $data['voucher'],
+                    'type'=>'customer'
                 ]);
 
-                $this->guard()->login($user);
+                if($voucher[0]->type == 'host'){
+                    HostingPlan::create([
+                        'host_period'=>$voucher[0]->host_size,
+                        'user_id'=>$user->id
+                    ]);
 
-                //change voucher to active
-                Voucher::where('voucher',$data['voucher'])->update(['active' => 1]);
+                    User::where('id',$user->id)->update(['account_type'=>1]);
+                }
+
+                if($voucher[0]->type == 'drive'){
+                    DriveCapacity::create([
+                        'capacity'=>$voucher[0]->drive_size,
+                        'd_usage'=>0,
+                        'user_id'=>$user->id
+                    ]);
+
+                    User::where('id',$user->id)->update(['account_type'=>2]);
+                }
+
+                if($voucher[0]->type == 'both'){
+                    HostingPlan::create([
+                        'host_period'=>$voucher[0]->host_size,
+                        'user_id'=>$user->id
+                    ]);
+
+                    DriveCapacity::create([
+                        'capacity'=>$voucher[0]->drive_size,
+                        'd_usage'=>0,
+                        'user_id'=>$user->id
+                    ]);
+
+                    User::where('id',$user->id)->update(['account_type'=>3]);
+                }
+
+                Voucher::where('voucher',$data['voucher'])->update(['active' => 1,'user_id'=>$user->id]);
+
+                $this->guard()->login($user);
 
                 return response()->json([
                     'redirect'=>'dashboard'

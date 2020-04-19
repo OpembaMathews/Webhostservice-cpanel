@@ -20,23 +20,24 @@
                     <span>Profile</span>
                 </a>
 
+                @if(Auth::user()->account_type == 3)
                 <!-- item-->
                 <a href="{{url('dashboard')}}" class="dropdown-item notify-item">
                     <i class="mdi mdi-database"></i>
                     <span>Switch To <strong>EurekaHost</strong></span>
                 </a>
+                @endif
 
                 <div class="dropdown-divider"></div>
 
                 <!-- item-->
-                <a href="{{url('login')}}" class="dropdown-item notify-item">
+                <a href="{{url('logout')}}" class="dropdown-item notify-item">
                     <i class="mdi mdi-logout-variant"></i>
                     <span>Logout</span>
                 </a>
 
             </div>
         </li>
-
         
     </ul>
 

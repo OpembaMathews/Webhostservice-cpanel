@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class HostingPlan extends Model
 {
-	protected $table = 'host_plan';
+	protected $table = 'hosting_plan';
     protected $guarded = [];
 }

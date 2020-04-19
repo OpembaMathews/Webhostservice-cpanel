@@ -47,6 +47,8 @@ function checkDomain(){
 }
 
 function register(e){
+    $(e).html("<strong><div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div><span style='vertical-align:super' class='ml-1'>Please wait...</span></strong>");
+
     var ajaxPost = $.ajax({
         url: "http://"+window.location.host+"/user/create",
         method: "POST",
@@ -55,30 +57,40 @@ function register(e){
     });
 
     ajaxPost.done(function(res){
-        errorResponse(res)
+        errorResponse(res);
+        $(e).html("<strong>Register</strong>");
+
+        if(res.hasOwnProperty("redirect")){
+            $(".response").append('<div class="alert alert-success" role="alert"><strong><i class="mdi mdi-check-circle-outline"></i> Account created successfully. <br>You will be redirected shortly.</strong></div>');
+
+            setTimeout(function(){
+                window.location.href = "http://"+window.location.host+"/"+res.redirect;
+            },2000);
+        }
     });
 
     ajaxPost.fail(function(res){
         errorResponse(res.responseJSON);
+        $(e).html("<strong>Register</strong>");
     });
 }
 
 function errorResponse(response){
     if(response.hasOwnProperty("errors")){
         if(response.errors.hasOwnProperty("voucher")){
-            $(".response").append('<div class="alert alert-danger" role="alert">'+response.errors.voucher+'</div>');
+            $(".response").append('<div class="alert alert-danger" role="alert"><strong><i class="mdi mdi-cancel"></i> '+response.errors.voucher+'</strong></div>');
         }
 
         if(response.errors.hasOwnProperty("name")){
-            $(".response").append('<div class="alert alert-danger" role="alert">'+response.errors.name+'</div>');
+            $(".response").append('<div class="alert alert-danger" role="alert"><strong><i class="mdi mdi-cancel"></i> '+response.errors.name+'</strong></div>');
         }
 
         if(response.errors.hasOwnProperty("email")){
-            $(".response").append('<div class="alert alert-danger" role="alert">'+response.errors.email+'</div>');
+            $(".response").append('<div class="alert alert-danger" role="alert"><strong><i class="mdi mdi-cancel"></i> '+response.errors.email+'</strong></div>');
         }
 
         if(response.errors.hasOwnProperty("password")){
-            $(".response").append('<div class="alert alert-danger" role="alert">'+response.errors.password+'</div>');
+            $(".response").append('<div class="alert alert-danger" role="alert"><strong><i class="mdi mdi-cancel"></i> '+response.errors.password+'</strong></div>');
         }
     }
 }

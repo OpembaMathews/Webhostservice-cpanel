@@ -36,11 +36,13 @@
                             <span>Profile</span>
                         </a>
 
+                        @if(Auth::user()->account_type == 3)
                         <!-- item-->
                         <a href="{{url('drive/file/all')}}" class="dropdown-item notify-item">
                             <i class="mdi mdi-server"></i>
                             <span>Switch To <strong>EurekaHost Drive</strong></span>
                         </a>
+                        @endif
 
                         <div class="dropdown-divider"></div>
 
