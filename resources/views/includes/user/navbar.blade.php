@@ -88,20 +88,6 @@
                 </a>
             </div>
 
-            <div class="logo-box">
-                <a class="logo">
-                    <strong style="color: #ffffff">Subscription: </strong>
-                    <strong style="color: #64b0f2">{{$plan->host_period}} Years</strong>
-                </a>
-            </div>
-
-            <div class="logo-box">
-                <a class="logo">
-                    <strong style="color: #ffffff">Expiry Date: </strong>
-                    <strong style="color: #ff5d48">{{$expires}}</strong>
-                </a>
-            </div>
-
         </div> <!-- end container-fluid-->
     </div>
     <!-- end Topbar -->

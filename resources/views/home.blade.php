@@ -16,7 +16,19 @@
                             <li class="breadcrumb-item active">My Hosting Account</li>
                         </ol>
                     </div> -->
-                    <h4 class="page-title"><strong>My Hosting Account</strong></h4>
+                    <h4 class="page-title">
+                        <strong>My Hosting Account</strong>
+
+                        <small class="float-right">
+                            <strong style="color: #343a40">Expiry Date: </strong>
+                            <strong style="color: #ff5d48">{{$expires}}</strong>
+                        </small>
+
+                        <small class="float-right mr-4">
+                            <strong style="color: #343a40">Subscription: </strong>
+                            <strong style="color: #64b0f2">{{$plan->host_period}} Years</strong>
+                        </small>
+                    </h4>
                 </div>
             </div>
         </div>
