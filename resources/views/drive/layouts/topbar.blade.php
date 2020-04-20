@@ -8,7 +8,7 @@
                 <span class="d-none d-sm-inline-block ml-1 font-weight-medium">{{Auth::user()->name}}</span>
                 <i class="mdi mdi-chevron-down d-none d-sm-inline-block"></i>
             </a>
-            <div class="dropdown-menu dropdown-menu-left">
+            <div class="dropdown-menu dropdown-menu-right" style="right: 50px !important">
                 <!-- item-->
                 <div class="dropdown-header noti-title" style="background-color: #e51c4a">
                     <h6 class="text-overflow text-white m-0">Welcome !</h6>
