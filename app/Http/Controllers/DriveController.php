@@ -37,7 +37,7 @@ class DriveController extends Controller
                     'name'=>explode('.',$request->file_name)[0],
                     'size'=>$request->file_size,
                     'type'=>explode('.',strtolower($request->file_name))[1],
-                    'user_id'=>1
+                    'user_id'=>Auth::user()->id
                 ]);
 
                 DriveCapacity::create([
