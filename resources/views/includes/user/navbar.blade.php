@@ -43,7 +43,7 @@
                             <span>Switch To <strong>EurekaHost Drive</strong></span>
                         </a>
 
-                        <a href="{{url('drive/file/all')}}" class="dropdown-item notify-item">
+                        <a href="{{url('admin/dashboard')}}" class="dropdown-item notify-item">
                             <i class="mdi mdi-shield-account"></i>
                             <span>Go To <strong>Admin Dashboard</strong></span>
                         </a>
