@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 use App\User;
 use App\Voucher;
@@ -80,7 +81,7 @@ class RegisterController extends Controller
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
                 'type'=>'admin',
-                'voucher'=>$data['voucher'],
+                'voucher'=>Str::random(5),
                 'account_type'=>3
             ]);
 
