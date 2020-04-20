@@ -80,7 +80,8 @@ class RegisterController extends Controller
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
                 'type'=>'admin',
-                'voucher'=>$data['voucher']
+                'voucher'=>$data['voucher'],
+                'account_type'=>3
             ]);
 
             HostingPlan::create([
