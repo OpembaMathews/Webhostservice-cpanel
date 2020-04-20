@@ -26,6 +26,12 @@
                     <i class="mdi mdi-database"></i>
                     <span>Switch To <strong>EurekaHost</strong></span>
                 </a>
+
+                <!-- item-->
+                <a href="{{url('dashboard')}}" class="dropdown-item notify-item">
+                    <i class="mdi mdi-shield-account"></i>
+                    <span>Go To <strong>Admin Dashboard</strong></span>
+                </a>
                 @endif
 
                 <div class="dropdown-divider"></div>

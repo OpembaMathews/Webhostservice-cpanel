@@ -165,6 +165,16 @@
                     <span>Profile</span>
                 </a>
 
+                <a href="{{url('dashboard')}}" class="dropdown-item notify-item">
+                    <i class="mdi mdi-view-dashboard"></i>
+                    <span>Go To Host</span>
+                </a>
+
+                <a href="{{url('drive/file/all')}}" class="dropdown-item notify-item">
+                    <i class="mdi mdi-dtabase"></i>
+                    <span>Go To Drive</span>
+                </a>
+
                 <div class="dropdown-divider"></div>
 
                 <!-- item-->
