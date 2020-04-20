@@ -91,15 +91,33 @@ class AdminController extends Controller
     {   
         $data = $request->all();
         $number = $data['voucher_number'];
-        //$arr = [];  
+        
         for ($i=0; $i < $number; $i++) { 
-            //array_push($arr, strtoupper(Str::random(10)));
-            Voucher::create([
-                'voucher' => strtoupper(Str::random(10)),//$a,
-                'host_size'=>$request->host_period,
-                'drive_size'=>$request->storage_capacity,
-                'type'=>$request->voucher_type
-            ]);
+
+            if($request->voucher_type == 'host'){
+                Voucher::create([
+                    'voucher' => strtoupper(Str::random(10)),
+                    'host_size'=>$request->host_period,
+                    'type'=>$request->voucher_type
+                ]);
+            }
+
+            if($request->voucher_type == 'drive'){
+                Voucher::create([
+                    'voucher' => strtoupper(Str::random(10)),
+                    'drive_size'=>$request->storage_capacity,
+                    'type'=>$request->voucher_type
+                ]);
+            }
+
+            if($request->voucher_type == 'both'){
+                Voucher::create([
+                    'voucher' => strtoupper(Str::random(10)),
+                    'host_size'=>$request->host_period,
+                    'drive_size'=>$request->storage_capacity,
+                    'type'=>$request->voucher_type
+                ]);
+            }
         }
         
         // foreach ($arr as $a){
