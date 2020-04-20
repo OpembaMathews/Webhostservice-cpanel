@@ -402,7 +402,8 @@ var myDropzone = new Dropzone(".dropzone", {
     paramName: "filename",
     dictDefaultMessage: "Drop files here or click to upload.",
     headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-    acceptedFiles:"image/*,application/pdf,.psd,.zip,",
+    //acceptedFiles:"image/*,application/pdf,.psd,.zip,",
+    accept: function(file,done){ return done(); },
     addRemoveLinks: true,
     dictRemoveFile: "Remove",
     success: function(file,response){
