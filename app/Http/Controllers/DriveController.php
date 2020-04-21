@@ -97,6 +97,7 @@ class DriveController extends Controller
 
         foreach ($trash as $t) {
             if($now->diffInDays($t->deleted_at) >= 7){
+                Storage::disk('spaces')->delete($t->path);
                 Drive::where('deleted_at',$t->deleted_at)->forceDelete();
             }
         }
