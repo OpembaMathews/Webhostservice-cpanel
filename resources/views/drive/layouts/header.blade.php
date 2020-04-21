@@ -26,6 +26,10 @@
         <link href="/assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-stylesheet">
         <link href="/css/dropzone.min.css" rel="stylesheet" type="text/css" id="app-stylesheet">
 
+        <style type="text/css">
+            [data-toggle="tooltip"]:hover{text-decoration: underline !important;}
+        </style>
+
     </head>
     <body>
     	<div id="wrapper">

@@ -26,6 +26,7 @@
                         <!-- end page title --> 
 
                         <div class="row">
+                            
                             @foreach($data as $d)
                             <div class="col-sm-6 col-lg-2">
                                 <!-- Simple card -->
@@ -33,7 +34,13 @@
                                     <img class="card-img-top img-fluid" src="https://eurekahostdrive.nyc3.digitaloceanspaces.com/{{$d->path}}" alt="Card image cap">
                                     <div class="card-body" style="padding-bottom: 0">
                                         <h6 class="card-title">
-                                            <span style="line-height: 2.5; color: #c51c4a">{{$d->name}}</span>
+                                            <span style="line-height: 2.5; color: #c51c4a;cursor:pointer" title="{{$d->name}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{$d->name}}.{{$d->type}}">
+                                                {{strlen($d->name) > 15 ? substr($d->name,0,14).'...' : $d->name}}
+                                            </span><br>
+                                            <small style="line-height: 2.5;">
+                                                <i class="mdi mdi-clock-outline"></i>
+                                                {{date_format($d->created_at,'M d, Y h:i A')}}
+                                            </small>
                                             <div class="btn-group mt-1 mr-1 float-right">
                                                 <button class="btn btn-white btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="mdi mdi-dots-horizontal" style="font-size: 1.5em"></i>
