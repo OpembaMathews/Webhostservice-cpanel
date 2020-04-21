@@ -24,6 +24,15 @@
                         <!-- end page title --> 
 
                         <div class="row">
+                            <div class="col-md-12">
+                                <div class="alert alert-danger">
+                                    <h6><i class="mdi mdi-folder-information-outline"></i> Files that have been in Trash more than 7 days will be automatically deleted.
+</h6>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
                             @foreach($data as $d)
                             <div class="col-sm-6 col-lg-2">
                                 <!-- Simple card -->

@@ -93,6 +93,13 @@ class DriveController extends Controller
 
     public function getTrash(){
     	$trash = Drive::where('user_id',Auth::user()->id)->onlyTrashed()->get();
+        $now = Carbon::now();
+
+        foreach ($trash as $t) {
+            if($now->diffInDays($t->deleted_at) >= 7){
+                Drive::where('deleted_at',$t->deleted_at)->forceDelete();
+            }
+        }
 
     	return $trash;
     }
@@ -140,6 +147,7 @@ class DriveController extends Controller
         	else{ return abort(404); }
 
         	return view('drive.'.$type,['data'=>$this->drive,'count_all'=>sizeof($myFile),'count_recent'=>sizeof($recent),'count_trash'=>sizeof($trash),'total_storage'=>$sVal[0],'total_usage'=>$uVal[0],'percentage'=>round($percent,0)]);
+            
         }
         else{
             return redirect('logout');
