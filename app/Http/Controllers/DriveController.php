@@ -170,19 +170,14 @@ class DriveController extends Controller
         $delete = Storage::disk('spaces')->delete($request->trash_file);
         $drive = Drive::where('id',$request->trash_id)->select('size')->first();
 
-        if($delete){
-            DriveCapacity::create([
-                'd_usage'=> 0 - $drive->size,
-                'capacity'=>0,
-                'user_id'=>Auth::user()->id
-            ]);
+        DriveCapacity::create([
+            'd_usage'=> 0 - $drive->size,
+            'capacity'=>0,
+            'user_id'=>Auth::user()->id
+        ]);
 
-            Drive::where('id',$request->trash_id)->forceDelete();
-            $this->data = 'success';
-        }
-        else{
-            $this->data = 'Oops! Network error. Please try again.';
-        }
+        Drive::where('id',$request->trash_id)->forceDelete();
+        $this->data = 'success';
 
         return response()->json([
             'message'=>$this->data,
