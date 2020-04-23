@@ -239,7 +239,7 @@ function confirmDeleteCustomer(e){
             $(".response").html('<div class="alert alert-success" role="alert"><strong><i class="mdi mdi-check-circle-outline"></> Customer deleted successully.</strong></div>');
 
             setTimeout(function(){
-                window.location.reload()
+                window.location.href = window.location.protocol+"//"+window.location.host+"/admin/customers";
             },2000);
         }
         else{

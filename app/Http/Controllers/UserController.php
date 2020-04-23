@@ -12,10 +12,11 @@ use App\Drive;
 use App\DriveCapacity;
 use App\Voucher;
 use App\Domain;
+use App\User;
 
 class UserController extends Controller
 {
-    protected $data;
+    protected $data = 'success';
 
     public function __construct()
     {
@@ -62,8 +63,8 @@ class UserController extends Controller
     }
 
     public function delete(Request $request){
-        //HostingPlan::where('user_id',$request->user_id)->delete();
-        //DriveCapacity::where('user_id',$request->user_id)->forceDelete();
+        HostingPlan::where('user_id',$request->user_id)->delete();
+        DriveCapacity::where('user_id',$request->user_id)->forceDelete();
         Voucher::where('user_id',$request->user_id)->delete();
         Domain::where('user_id',$request->user_id)->delete();
 
@@ -82,7 +83,7 @@ class UserController extends Controller
             }
         }
 
-        User::where('user_id',$request->user_id)->delete();
+        User::where('id',$request->user_id)->delete();
 
         return response()->json([
             'message'=>$this->data

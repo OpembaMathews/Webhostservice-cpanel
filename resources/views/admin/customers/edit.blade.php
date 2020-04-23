@@ -64,7 +64,7 @@
                                                 <h4 class="text-primary text-uppercase mt-0">{{$account_type}}</h4>
                                                 <div>
                                                     <strong class="text-danger mr-1">Space:</strong> 
-                                                    <strong style="font-size: 1.5em">{{$drive_capacity}} GB</strong>
+                                                    <strong style="font-size: 1.5em">{{$drive_capacity/1000000000}} GB</strong>
                                                 </div>
                                             @else
                                                 <h4 class="text-primary text-uppercase mt-0">{{$account_type}}</h4>

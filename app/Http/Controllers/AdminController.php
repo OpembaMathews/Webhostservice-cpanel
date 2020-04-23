@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
+    protected $expires;
     /**
      * Create a new controller instance.
      *
@@ -52,28 +53,27 @@ class AdminController extends Controller
         return view('admin.customers.index')->with('users', $users);
     }
 
-    public function deleteUser($id)
-    {
-        $user = User::find($id);
-        if($user->type == 'default')
-        {
-            $user->delete();
-            return back()->with('status', 'User Deleted Successfully');
-        }
-        return back()->with('error', 'Cannot Delete Admin User');
-    }
-
-
     public function editUser($id)
     {
         $user = User::find($id);
-        $account_type = $user->account_type == 1 ? 'Host' : $user->account_type == 2 ? 'Drive' : 'Host & Drive';
+        
         $host = HostingPlan::where('user_id',$id)->get();
         $drive = Drive::where('user_id',$id)->get();
         $drive_capacity = DriveCapacity::where('user_id',$id)->sum('capacity');
-        $expires = Carbon::parse($host[0]->updated_at)->addYears($host[0]->host_period)->format('F jS, Y, h:i A');
+
+        if($user->account_type == 1){
+            $account_type = 'Host';
+            $this->expires = Carbon::parse($host[0]->updated_at)->addYears($host[0]->host_period)->format('F jS, Y, h:i A');
+        }
+        else if($user->account_type == 2){
+            $account_type = 'Drive';
+        }
+        else{
+            $account_type =  'Host & Drive';
+            $this->expires = Carbon::parse($host[0]->updated_at)->addYears($host[0]->host_period)->format('F jS, Y, h:i A');
+        }
         
-        return view('admin.customers.edit')->with(['user' => $user, 'account_type'=>$account_type,'host'=>$host,'drive'=>$drive,'drive_capacity'=>$drive_capacity,'account_type_number'=>$user->account_type,'expires'=>$expires]);
+        return view('admin.customers.edit')->with(['user' => $user, 'account_type'=>$account_type,'host'=>$host,'drive'=>$drive,'drive_capacity'=>$drive_capacity,'account_type_number'=>$user->account_type,'expires'=>$this->expires]);
     }
 
     public function updateUser(Request $request)

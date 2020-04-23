@@ -30,7 +30,6 @@ Route::get('/dashboard', 'HomeController@index')->name('home');
 Route::group(['middleware' => ['admin']], function () {
     Route::get('admin/dashboard', 'AdminController@index')->name('admin.home');
     Route::get('admin/customers', 'AdminController@customers')->name('admin.customers');
-    Route::get('delete/user/{id}', 'AdminController@deleteUser');
     Route::get('edit/user/{id}', 'AdminController@editUser');
     Route::get('admin/edit/user/{id}', 'AdminController@editUser');
     Route::post('admin/updateuser', 'AdminController@updateUser');
