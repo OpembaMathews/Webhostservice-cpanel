@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Voucher;
+use App\HostingPlan;
+use App\Drive;
+use App\DriveCapacity;
+use Carbon\Carbon;
+
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -62,9 +67,13 @@ class AdminController extends Controller
     public function editUser($id)
     {
         $user = User::find($id);
+        $account_type = $user->account_type == 1 ? 'Host' : $user->account_type == 2 ? 'Drive' : 'Host & Drive';
+        $host = HostingPlan::where('user_id',$id)->get();
+        $drive = Drive::where('user_id',$id)->get();
+        $drive_capacity = DriveCapacity::where('user_id',$id)->sum('capacity');
+        $expires = Carbon::parse($host[0]->updated_at)->addYears($host[0]->host_period)->format('F jS, Y, h:i A');
         
-        return view('admin.customers.edit')->with(['user' => $user]);
-        
+        return view('admin.customers.edit')->with(['user' => $user, 'account_type'=>$account_type,'host'=>$host,'drive'=>$drive,'drive_capacity'=>$drive_capacity,'account_type_number'=>$user->account_type,'expires'=>$expires]);
     }
 
     public function updateUser(Request $request)

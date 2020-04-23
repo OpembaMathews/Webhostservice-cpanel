@@ -47,8 +47,7 @@
                                                 <td>{{ $user->email }}</td>
                                                 <td>{{ $user->created_at }}</td>
                                                 <td>
-                                                    <a class="ui button" href="{{ url('edit/user').'/'.$user->id }}">Edit</a>
-                                                    <a class="ui button" href="{{ url('delete/user').'/'.$user->id}}">Delete</a>
+                                                    <a class="ui button" href="{{ url('edit/user').'/'.$user->id }}">View</a>
                                                 </td>
                                             </tr>
                                             @endforeach

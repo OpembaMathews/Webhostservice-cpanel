@@ -26,7 +26,9 @@
                     <i class="mdi mdi-database"></i>
                     <span>Switch To <strong>EurekaHost</strong></span>
                 </a>
+                @endif
 
+                @if(Auth::user()->type == 'admin')
                 <!-- item-->
                 <a href="{{url('admin/dashboard')}}" class="dropdown-item notify-item">
                     <i class="mdi mdi-shield-account"></i>
