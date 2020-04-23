@@ -33,7 +33,7 @@
                             </div>
                             <div class="col-6">
                                 <div class="card-box">
-                                    <form method="post" action="{{ url('admin/updateuser') }}" role="form" enctype="multipart/form-data">
+                                    <form>
                                         {{ csrf_field() }}
                                         <input type="hidden" name="user_id" value="{{ $user->id }}"/>
 
@@ -95,7 +95,7 @@
                         <div class="row">
                             <div class="col-3"></div>
                             <div class="col-6">
-                                <button class="btn btn-danger btn-block" type="button" data-toggle="modal" data-target=".delete-user-modal">
+                                <button class="btn btn-danger btn-block" type="button" data-toggle="modal" data-target=".delete-user-modal" onclick="deleteCustomer(this);">
                                     <strong>Delete Customer</strong>
                                 </button>
                             </div>
@@ -127,22 +127,20 @@
             </style>
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header" style="background-color: #e51c4a;">
+                    <div class="modal-header" style="background-color: #2b3d51;">
                         <h5 class="modal-title" style="color: #ffffff !important">Want to delete this customer?</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="color: #ffffff !important">×</button>
                     </div>
                     <div class="modal-body" style="text-align: center;">
                         <div class="response"></div>
-                        <img src="" style="width: 300px; height: auto; border-radius: .25rem" class="trash-file">
-                        <form class="delete-file-form">
-                            <input type="hidden" name="trash_id">
-                            <input type="hidden" name="trash_file">
+                        <form class="delete-user-form">
+                            <input type="hidden" name="user_id" value="{{$user->id}}">
                             <h5>All the customer data( e.g files, subscriptions) will deleted and cannot be retrieved.</h5>
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light waves-effect" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn waves-effect waves-light" style="background-color: #e51c4a;" onclick="confirmDeleteFile(this);">
+                        <button type="button" class="btn waves-effect waves-light" style="background-color: #e51c4a;" onclick="confirmDeleteCustomer(this);">
                             <strong>Delete</strong>
                         </button>
                     </div>

@@ -222,6 +222,35 @@ function confirmDeleteFile(e){
     });
 }
 
+function confirmDeleteCustomer(e){
+    $(e).html("<strong><div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div><span style='vertical-align:super' class='ml-1'>Please wait...</span></strong>");
+
+    var ajaxPost = $.ajax({
+        url: window.location.protocol+"//"+window.location.host+"/user/delete",
+        method: "DELETE",
+        data: $(".delete-user-form").serialize(),
+        headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+    });
+
+    ajaxPost.done(function(res){
+        $(e).html("<strong>Delete</strong>");
+
+        if(res.message == "success"){
+            $(".response").html('<div class="alert alert-success" role="alert"><strong><i class="mdi mdi-check-circle-outline"></> Customer deleted successully.</strong></div>');
+
+            setTimeout(function(){
+                window.location.reload()
+            },2000);
+        }
+        else{
+            $(".response").html('<div class="alert alert-danger" role="alert"><strong>'+res.message+'</strong></div>');
+        }
+    });
+
+    ajaxPost.fail(function(res){
+    });
+}
+
 function checkForHostOrDrive(e){
     var _v = $(e).val();
 
