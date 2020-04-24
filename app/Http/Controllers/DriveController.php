@@ -168,7 +168,7 @@ class DriveController extends Controller
 
     public function delete(Request $request){
         $delete = Storage::disk('spaces')->delete($request->trash_file);
-        $drive = Drive::where('id',(int)$request->trash_id)->first();
+        $drive = Drive::withTrashed()->where('id',(int)$request->trash_id)->first();
 
         DriveCapacity::create([
             'd_usage'=> 0 - $drive->size,
@@ -176,11 +176,10 @@ class DriveController extends Controller
             'user_id'=>Auth::user()->id
         ]);
 
-        Drive::where('id',$request->trash_id)->forceDelete();
-        $this->data = 'success';
+        Drive::withTrashed()->where('id',$request->trash_id)->forceDelete();
 
         return response()->json([
-            'message'=>$this->data,
+            'message'=>'success',
             'status'=>200
         ]);
     }
