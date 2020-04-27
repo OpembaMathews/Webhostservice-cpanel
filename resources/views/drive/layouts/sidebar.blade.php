@@ -59,13 +59,13 @@
                     <li class="mm-active">
                         <a href="{{url('')}}" class="{{Request::is('drive/file/audio/view') ? 'sidebar-active' : ''}}">
                             <i class="mdi mdi-music"></i>
-                            <span> Audio <small>({{$count_trash}})</small></span>
+                            <span> Audios <small>({{$count_trash}})</small></span>
                         </a>
                     </li>
                     <li class="mm-active">
                         <a href="{{url('')}}" class="{{Request::is('drive/file/video/view') ? 'sidebar-active' : ''}}">
                             <i class="mdi mdi-video"></i>
-                            <span> Video <small>({{$count_trash}})</small></span>
+                            <span> Videos <small>({{$count_trash}})</small></span>
                         </a>
                     </li>
                     <li class="mm-active">

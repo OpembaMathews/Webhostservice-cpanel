@@ -354,6 +354,14 @@ function getDriveFiles(){
     })
 }
 
+$('.search-input').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        event.preventDefault();
+        getDriveFiles(); 
+    }
+});
+
 $(".user-settings").on("click",function(){
     $(".profile-dropdown").addClass("show");
 });
