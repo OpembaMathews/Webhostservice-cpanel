@@ -1,3 +1,4 @@
+var resp;
 function checkWidth(init)
 {
     if($(window).width() < 767)
@@ -305,6 +306,52 @@ function generateVoucher(e){
     });
 
     ajaxPost.fail(function(res){});
+}
+
+function showAllFiles(e){
+    var searchType = $(".search-type").val();
+
+    if($(e).val() == ""){
+        $(".default-files-"+searchType).show();
+        $(".search-files-"+searchType).hide();
+    }
+}
+
+function getDriveFiles(){
+    var searchType = $(".search-type").val();
+    var searchInput = $(".search-input").val();
+
+    $(".default-files-"+searchType).hide();
+
+    $(".search-files-"+searchType).show();
+    $(".search-col").hide();
+    $(".search-response").html("<strong><div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div><span style='vertical-align:super' class='ml-1'>Searching...</span></strong>").show();
+
+    var ajaxPost = $.ajax({
+        url: window.location.protocol+"//"+window.location.host+"/drive/file/"+searchType+"/search",
+        method: "GET",
+        headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+    });
+
+    ajaxPost.done(function(res){
+        const fuse = new Fuse(res, {
+          keys: ['name']
+        })
+
+        //console.log(fuse.search(searchInput))
+
+        if(fuse.search(searchInput).length > 0 ){
+            $(".search-response").hide();
+
+            $.map(fuse.search(searchInput),function(item,index){
+                $('[data-name="'+item.item.name+'"]').show();
+            });
+        }
+        else{
+            $(".search-col").hide();
+            $(".search-response").html("<strong><i class='mdi mdi-cancel'></i> No file found</strong>").show();
+        }
+    })
 }
 
 $(".user-settings").on("click",function(){

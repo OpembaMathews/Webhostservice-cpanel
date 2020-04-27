@@ -87,9 +87,9 @@
             <form class="app-search">
                 <div class="app-search-box">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search..." style="background-color: #ffffff">
+                        <input type="text" class="form-control search-input" placeholder="Search..." style="background-color: #ffffff" onkeyup="showAllFiles(this)">
                         <div class="input-group-append">
-                            <button class="btn" type="submit" style="background-color: #ffffff">
+                            <button type="button" class="btn" type="submit" style="background-color: #ffffff" onclick="getDriveFiles();">
                                 <i class="fas fa-search"></i>
                             </button>
                         </div>

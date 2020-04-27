@@ -55,7 +55,7 @@ Route::get('drive','DriveController@index');
 Route::post('drive/create', 'DriveController@create');
 Route::get('drive/show', 'DriveController@show');
 Route::delete('drive/delete', 'DriveController@delete');
-Route::get('drive/file/{type}', 'DriveController@getDrive');
+Route::get('drive/file/{type}/{response_type}', 'DriveController@getDrive');
 Route::get('drive/download/{file}', 'DriveController@download');
 Route::post('drive/move/trash', 'DriveController@moveToTrash');
 Route::post('drive/restore', 'DriveController@restore');

@@ -3,11 +3,11 @@
 	<head>
         <meta charset="utf-8">
         <title>
-            @if(Request::is('drive/file/recent'))
+            @if(Request::is('drive/file/recent/view'))
                 Recent Files
-            @elseif(Request::is('drive/file/all'))
+            @elseif(Request::is('drive/file/all/view'))
                 My Files
-            @elseif(Request::is('drive/file/trash'))
+            @elseif(Request::is('drive/file/trash/view'))
                 Trash
             @else
                 EurekaHostDrive
@@ -33,3 +33,12 @@
     </head>
     <body>
     	<div id="wrapper">
+            @if(Request::is('drive/file/all/view'))
+                <input type="hidden" class="search-type" value="all">
+            @elseif(Request::is('drive/file/recent/view'))
+                <input type="hidden" class="search-type" value="recent">
+            @elseif(Request::is('drive/file/trash/view'))
+                <input type="hidden" class="search-type" value="trash">
+            @else
+                <input type="hidden" class="search-type" value="">
+            @endif

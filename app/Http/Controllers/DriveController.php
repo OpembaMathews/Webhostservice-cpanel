@@ -123,7 +123,7 @@ class DriveController extends Controller
         ]);
     }
 
-    public function getDrive($type){
+    public function getDrive($type,$response_type){
         if(Auth::user()->account_type == 2 || Auth::user()->account_type == 3){
         	$myFile = $this->getMyFiles();
         	$recent = $this->getRecent();
@@ -147,7 +147,12 @@ class DriveController extends Controller
         	}
         	else{ return abort(404); }
 
-        	return view('drive.'.$type,['data'=>$this->drive,'count_all'=>sizeof($myFile),'count_recent'=>sizeof($recent),'count_trash'=>sizeof($trash),'total_storage'=>$sVal[0],'total_usage'=>$uVal[0],'percentage'=>round($percent,0)]);
+            if($response_type == 'view'){
+        	   return view('drive.'.$type,['data'=>$this->drive,'count_all'=>sizeof($myFile),'count_recent'=>sizeof($recent),'count_trash'=>sizeof($trash),'total_storage'=>$sVal[0],'total_usage'=>$uVal[0],'percentage'=>round($percent,0)]);
+            }
+            else{
+                return $this->drive;
+            }
             
         }
         else{

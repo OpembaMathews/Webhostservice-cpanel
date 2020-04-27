@@ -26,15 +26,50 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="alert alert-danger">
-                                    <h6><i class="mdi mdi-folder-information-outline"></i> Files that have been in Trash more than 7 days will be automatically deleted.
-</h6>
+                                    <h6><i class="mdi mdi-folder-information-outline"></i> Files that have been in Trash more than 7 days will be automatically deleted.</h6>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row default-files-trash">
                             @foreach($data as $d)
                             <div class="col-sm-6 col-lg-2">
+                                <!-- Simple card -->
+                                <div class="card">
+                                    <img class="card-img-top img-fluid" src="https://eurekahostdrive.nyc3.digitaloceanspaces.com/{{$d->path}}" alt="Card image cap">
+                                    <div class="card-body" style="padding-bottom: 0">
+                                        <h6 class="card-title">
+                                            <span style="line-height: 2.5; color: #c51c4a;cursor:pointer" title="{{$d->name}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{$d->name}}.{{$d->type}}">
+                                                {{strlen($d->name) > 15 ? substr($d->name,0,14).'...' : $d->name}}
+                                            </span><br>
+                                            <small style="line-height: 2.5;">
+                                                <i class="mdi mdi-clock-outline"></i>
+                                                {{date_format($d->created_at,'M d, Y h:i A')}}
+                                            </small>
+                                            <div class="btn-group mt-1 mr-1 float-right">
+                                                <button class="btn btn-white btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="mdi mdi-dots-horizontal" style="font-size: 1.5em"></i>
+                                                </button>
+                                                <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 28px, 0px);">
+                                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target=".restore-file-modal" data-value="{{$d->path}}" data-id="{{$d->id}}" onclick="restoreFile(this);">Restore</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="#" style="color: #e51c4a" onclick="deleteFile(this);" data-toggle="modal" data-target=".delete-file-modal" data-value="{{$d->path}}" data-id="{{$d->id}}">Delete</a>
+                                                </div>
+                                            </div>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div><!-- end col -->
+                            @endforeach
+                        </div>
+
+                        <div class="row search-files-trash" style="display: none">
+                            <div class='alert alert-info search-response' style='width:100%'>
+                                <strong><span style='vertical-align:super' class='ml-1'>No file found</span></strong>
+                            </div>
+
+                            @foreach($data as $d)
+                            <div class="col-sm-6 col-lg-2 search-col" data-name="{{$d->name}}">
                                 <!-- Simple card -->
                                 <div class="card">
                                     <img class="card-img-top img-fluid" src="https://eurekahostdrive.nyc3.digitaloceanspaces.com/{{$d->path}}" alt="Card image cap">
@@ -151,6 +186,5 @@
         </div>
 
         @include('drive.scripts.index')
-        
     </body>
 <html>
