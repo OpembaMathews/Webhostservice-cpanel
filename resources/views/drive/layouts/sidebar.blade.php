@@ -37,7 +37,7 @@
                     <li class="mm-active">
                         <a href="{{url('drive/file/all/view')}}" class="{{Request::is('drive/file/all/view') ? 'sidebar-active' : ''}}">
                             <i class="mdi mdi-folder-multiple-outline"></i>
-                            <span> My Files <small>({{$count_all}})</small></span>
+                            <span> My Files <small>({{$count_all + sizeof($folder)}})</small></span>
                         </a>
                     </li>
 
@@ -51,33 +51,33 @@
                     <li class="menu-title">Quick Links</li>
 
                     <li class="mm-active">
-                        <a href="{{url('')}}" class="{{Request::is('drive/file/photo/view') ? 'sidebar-active' : ''}}">
+                        <a href="{{url('drive/file/photo/view')}}" class="{{Request::is('drive/file/photo/view') ? 'sidebar-active' : ''}}">
                             <i class="mdi mdi-image-outline"></i>
-                            <span> Photos <small>({{$count_trash}})</small></span>
+                            <span> Photos <small>({{$count_photo}})</small></span>
                         </a>
                     </li>
                     <li class="mm-active">
-                        <a href="{{url('')}}" class="{{Request::is('drive/file/audio/view') ? 'sidebar-active' : ''}}">
+                        <a href="{{url('drive/file/audio/view')}}" class="{{Request::is('drive/file/audio/view') ? 'sidebar-active' : ''}}">
                             <i class="mdi mdi-music"></i>
-                            <span> Audios <small>({{$count_trash}})</small></span>
+                            <span> Audios <small>({{$count_audio}})</small></span>
                         </a>
                     </li>
                     <li class="mm-active">
-                        <a href="{{url('')}}" class="{{Request::is('drive/file/video/view') ? 'sidebar-active' : ''}}">
+                        <a href="{{url('drive/file/video/view')}}" class="{{Request::is('drive/file/video/view') ? 'sidebar-active' : ''}}">
                             <i class="mdi mdi-video"></i>
-                            <span> Videos <small>({{$count_trash}})</small></span>
+                            <span> Videos <small>({{$count_video}})</small></span>
                         </a>
                     </li>
                     <li class="mm-active">
-                        <a href="{{url('')}}" class="{{Request::is('drive/file/document/view') ? 'sidebar-active' : ''}}">
+                        <a href="{{url('drive/file/document/view')}}" class="{{Request::is('drive/file/document/view') ? 'sidebar-active' : ''}}">
                             <i class="mdi mdi-file-document-box-outline"></i>
-                            <span> Documents <small>({{$count_trash}})</small></span>
+                            <span> Documents <small>({{$count_document}})</small></span>
                         </a>
                     </li>
                     <li class="mm-active">
-                        <a href="{{url('')}}" class="{{Request::is('drive/file/compress/view') ? 'sidebar-active' : ''}}">
+                        <a href="{{url('drive/file/compress/view')}}" class="{{Request::is('drive/file/compress/view') ? 'sidebar-active' : ''}}">
                             <i class="mdi mdi-folder-zip"></i>
-                            <span> Compressed <small>({{$count_trash}})</small></span>
+                            <span> Compressed <small>({{$count_compress}})</small></span>
                         </a>
                     </li>
                 </ul>

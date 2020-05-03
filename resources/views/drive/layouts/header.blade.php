@@ -9,6 +9,16 @@
                 My Files
             @elseif(Request::is('drive/file/trash/view'))
                 Trash
+            @elseif(Request::is('drive/file/photo/view'))
+                Photos
+            @elseif(Request::is('drive/file/audio/view'))
+                Audios
+            @elseif(Request::is('drive/file/video/view'))
+                Videos
+            @elseif(Request::is('drive/file/document/view'))
+                Documents
+            @elseif(Request::is('drive/file/compress/view'))
+                Compressed
             @else
                 EurekaHostDrive
             @endif 
@@ -23,6 +33,7 @@
         <!-- App css -->
         <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap-stylesheet">
         <link href="/assets/css/icons.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="/css/plyr.css"/>
         <link href="/assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-stylesheet">
         <link href="/css/dropzone.min.css" rel="stylesheet" type="text/css" id="app-stylesheet">
 
@@ -39,6 +50,16 @@
                 <input type="hidden" class="search-type" value="recent">
             @elseif(Request::is('drive/file/trash/view'))
                 <input type="hidden" class="search-type" value="trash">
+            @elseif(Request::is('drive/file/photo/view'))
+                <input type="hidden" class="search-type" value="photo">
+            @elseif(Request::is('drive/file/video/view'))
+                <input type="hidden" class="search-type" value="video">
+            @elseif(Request::is('drive/file/audio/view'))
+                <input type="hidden" class="search-type" value="audio">
+            @elseif(Request::is('drive/file/document/view'))
+                <input type="hidden" class="search-type" value="document">
+            @elseif(Request::is('drive/file/compress/view'))
+                <input type="hidden" class="search-type" value="compress">
             @else
                 <input type="hidden" class="search-type" value="">
             @endif

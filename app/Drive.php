@@ -11,4 +11,8 @@ class Drive extends Model
 	
 	protected $table = 'drive';
     protected $guarded = [];
+
+    public function folder(){
+    	return $this->belongsTo('App\Folder');
+    }
 }

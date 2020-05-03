@@ -20,6 +20,19 @@
             </div>
             <div class="modal-body">
                 <div class="upload-response"></div>
+                @if(sizeof($folder))
+                <div class="form-group" style="width: 40%">
+                    <label>Select a folder</label>
+                    
+                    <select class="form-control folder-select">
+                        <option value="">-- option --</option>
+                        @foreach($folder as $f)
+                        <option value="{{$f->id}}">{{$f->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                 @endif
+
                 <form action="{{url('drive/create')}}" class="dropzone upload-box" id="my-awesome-dropzone">
                 </form>
             </div>

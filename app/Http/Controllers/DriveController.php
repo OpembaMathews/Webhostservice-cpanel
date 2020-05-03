@@ -6,9 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use App\Drive;
+use App\Folder;
 use App\DriveCapacity;
 use Carbon\Carbon;
 use App\Http\Controllers\DriveCapacityTrait;
+use Illuminate\Support\Facades\DB;
 
 class DriveController extends Controller
 {
@@ -36,7 +38,7 @@ class DriveController extends Controller
                     'path'=>$path,
                     'name'=>explode('.',$request->file_name)[0],
                     'size'=>$request->file_size,
-                    'type'=>explode('.',strtolower($request->file_name))[1],
+                    'type'=>strtolower(explode('.',strtolower($request->file_name))[1]),
                     'user_id'=>Auth::user()->id
                 ]);
 
@@ -70,7 +72,7 @@ class DriveController extends Controller
     }
 
     public function getMyFiles(){
-    	$drive = Drive::where('user_id',Auth::user()->id)->get();
+    	$drive = Drive::where(['user_id'=>Auth::user()->id,'folder_id'=>NULL])->get();
 
     	return $drive;
     }
@@ -105,6 +107,65 @@ class DriveController extends Controller
     	return $trash;
     }
 
+    public function getFolder(){
+        $folder = Folder::select(DB::raw('folder.*, drive.folder_id, COUNT(*) AS count'))
+                        ->join('drive', 'drive.folder_id','=', 'folder.id')
+                        ->groupBy('folder.name')
+                        ->get();
+
+        return $folder;
+    }
+
+    public function getPhoto(){
+        $drive = Drive::leftJoin('folder','folder.id','=','drive.folder_id')
+                      ->where('drive.user_id',Auth::user()->id)
+                      ->whereIn('type',['jpg','png','gif','webp','tiff','psd','raw','bmp','heif','indd','jpeg','svg','ai','eps'])
+                      ->select('drive.*','folder.name AS folder_name')
+                      ->get();
+
+        return $drive;
+    }
+
+    public function getVideo(){
+        $drive = Drive::leftJoin('folder','folder.id','=','drive.folder_id')
+                      ->where('drive.user_id',Auth::user()->id)
+                      ->whereIn('type',['webm','mpg','mp2','mpeg','mpe','mpv','ogg','mp4','m4p','m4v','avi','wmv','mov','qt','flv','swf'])
+                      ->select('drive.*','folder.name AS folder_name')
+                      ->get();
+
+        return $drive;
+    }
+
+    public function getAudio(){
+        $drive = Drive::leftJoin('folder','folder.id','=','drive.folder_id')
+                      ->where('drive.user_id',Auth::user()->id)
+                      ->whereIn('type',['aif','cda','mid','midi','mp3','mpa','ogg','wav','wma','wpl'])
+                      ->select('drive.*','folder.name AS folder_name')
+                      ->get();
+
+        return $drive;
+    }
+
+    public function getDocument(){
+        $drive = Drive::leftJoin('folder','folder.id','=','drive.folder_id')
+                      ->where('drive.user_id',Auth::user()->id)
+                      ->whereIn('type',['doc','docx','odt','pdf','rtf','tex','txt','wpd','bak','cab','cfg','cpl','cur','dll','dmp','drv','icns','ico','ini','lnk','msi','sys','tmp','ods','xls','xlsm','xlsx','c','class','cpp','cs','h','java','pl','sh','swift','vb','key','odp','pps','ppt','pptx','asp','aspx','cer','cfm','cgi','css','htm','html','js','jsp','part','php','py','rss','xhtml','fnt','eot','fon','otf','ttf','apk','bat','bin','cgi','com','exe','gadget','jar','msi','py','wsf','email','eml','emlx','msg','oft','ost','pst','vcf','csv','dat','db','dbf','log','mdb','sav','sql','tar','xml','bin','dmg','iso','toast','vcd'])
+                      ->select('drive.*','folder.name AS folder_name')
+                      ->get();
+
+        return $drive;
+    }
+
+    public function getCompressed(){
+        $drive = Drive::leftJoin('folder','folder.id','=','drive.folder_id')
+                      ->where('drive.user_id',Auth::user()->id)
+                      ->whereIn('type',['7z','arj','deb','pkg','rar','rpm','tar.gz','z','zip'])
+                      ->select('drive.*','folder.name AS folder_name')
+                      ->get();
+
+        return $drive;
+    }
+
     public function moveToTrash(Request $request){
         Drive::where('id',$request->trash_id)->delete();
 
@@ -128,6 +189,13 @@ class DriveController extends Controller
         	$myFile = $this->getMyFiles();
         	$recent = $this->getRecent();
         	$trash = $this->getTrash();
+            $folder = $this->getFolder();
+            $photo = $this->getPhoto();
+            $video = $this->getVideo();
+            $audio = $this->getAudio();
+            $document = $this->getDocument();
+            $compressed = $this->getCompressed();
+
             $total_usage = $this->getCapacity('d_usage');
             $total_storage = $this->getCapacity('capacity');
 
@@ -145,10 +213,27 @@ class DriveController extends Controller
         	else if($type == 'trash'){
         		$this->drive = $trash;
         	}
+            else if($type == 'photo'){
+                $this->drive = $photo;
+            }
+            else if($type == 'video'){
+                $this->drive = $video;
+            }
+            else if($type == 'audio'){
+                $this->drive = $audio;
+            }
+            else if($type == 'document'){
+                $this->drive = $document;
+            }
+            else if($type == 'compress'){
+                $this->drive = $compressed;
+            }
         	else{ return abort(404); }
 
             if($response_type == 'view'){
-        	   return view('drive.'.$type,['data'=>$this->drive,'count_all'=>sizeof($myFile),'count_recent'=>sizeof($recent),'count_trash'=>sizeof($trash),'total_storage'=>$sVal[0],'total_usage'=>$uVal[0],'percentage'=>round($percent,0)]);
+        	   return view('drive.'.$type,['data'=>$this->drive,'count_all'=>sizeof($myFile),'count_recent'=>sizeof($recent),'count_trash'=>sizeof($trash),'total_storage'=>$sVal[0],'total_usage'=>$uVal[0],'percentage'=>round($percent,0),'folder'=>$folder,'count_photo'=>sizeof($photo),'count_video'=>sizeof($video),'count_audio'=>sizeof($audio),'count_document'=>sizeof($document),'count_compress'=>sizeof($compressed)]);
+
+                //return $this->drive;
             }
             else{
                 return $this->drive;

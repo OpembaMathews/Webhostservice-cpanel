@@ -61,5 +61,8 @@ Route::post('drive/move/trash', 'DriveController@moveToTrash');
 Route::post('drive/restore', 'DriveController@restore');
 Route::delete('drive/delete', 'DriveController@delete');
 
+Route::get('folder/show/{id}', 'FolderController@show');
+Route::post('folder/create', 'FolderController@create');
+
 
 

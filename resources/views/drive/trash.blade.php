@@ -17,7 +17,7 @@
                                             <li class="breadcrumb-item active">Starter</li>
                                         </ol>
                                     </div> -->
-                                    <h4 class="page-title"><i class="mdi mdi-trash-can-outline" style="margin: 0 10px 0 3px;"></i>Trash ({{$count_trash}})</h4>
+                                    <h4 class="page-title"><i class="mdi mdi-trash-can-outline" style="margin: 0 10px 0 3px;"></i>Trash <small>({{$count_trash}})</small></h4>
                                 </div>
                             </div>
                         </div>     
@@ -36,7 +36,18 @@
                             <div class="col-sm-6 col-lg-2">
                                 <!-- Simple card -->
                                 <div class="card">
-                                    <img class="card-img-top img-fluid" src="https://eurekahostdrive.nyc3.digitaloceanspaces.com/{{$d->path}}" alt="Card image cap">
+                                    @if($d->file_type == 'photo')
+                                    <img class="card-img-top img-fluid" src="https://eurekahostdrive.nyc3.digitaloceanspaces.com/{{$d->path}}" alt="{{$d->name}}">
+                                    @elseif($d->file_type == 'audio')
+                                    <img class="card-img-top img-fluid" src="{{asset('img/music.svg')}}" alt="{{$d->name}}">
+                                    @elseif($d->file_type == 'video')
+                                    <img class="card-img-top img-fluid" src="{{asset('img/video.svg')}}" alt="{{$d->name}}">
+                                    @elseif($d->file_type == 'document')
+                                    <img class="card-img-top img-fluid" src="{{asset('img/document.svg')}}" alt="{{$d->name}}">
+                                    @elseif($d->file_type == 'compress')
+                                    <img class="card-img-top img-fluid" src="{{asset('img/archive.svg')}}" alt="{{$d->name}}">
+                                    @endif
+
                                     <div class="card-body" style="padding-bottom: 0">
                                         <h6 class="card-title">
                                             <span style="line-height: 2.5; color: #c51c4a;cursor:pointer" title="{{$d->name}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{$d->name}}.{{$d->type}}">
@@ -72,7 +83,18 @@
                             <div class="col-sm-6 col-lg-2 search-col" data-name="{{$d->name}}">
                                 <!-- Simple card -->
                                 <div class="card">
-                                    <img class="card-img-top img-fluid" src="https://eurekahostdrive.nyc3.digitaloceanspaces.com/{{$d->path}}" alt="Card image cap">
+                                    @if($d->file_type == 'photo')
+                                    <img class="card-img-top img-fluid" src="https://eurekahostdrive.nyc3.digitaloceanspaces.com/{{$d->path}}" alt="{{$d->name}}">
+                                    @elseif($d->file_type == 'audio')
+                                    <img class="card-img-top img-fluid" src="{{asset('img/music.svg')}}" alt="{{$d->name}}">
+                                    @elseif($d->file_type == 'video')
+                                    <img class="card-img-top img-fluid" src="{{asset('img/video.svg')}}" alt="{{$d->name}}">
+                                    @elseif($d->file_type == 'document')
+                                    <img class="card-img-top img-fluid" src="{{asset('img/document.svg')}}" alt="{{$d->name}}">
+                                    @elseif($d->file_type == 'compress')
+                                    <img class="card-img-top img-fluid" src="{{asset('img/archive.svg')}}" alt="{{$d->name}}">
+                                    @endif
+                                    
                                     <div class="card-body" style="padding-bottom: 0">
                                         <h6 class="card-title">
                                             <span style="line-height: 2.5; color: #c51c4a;cursor:pointer" title="{{$d->name}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{$d->name}}.{{$d->type}}">

@@ -18,7 +18,16 @@
                                         </ol>
                                     </div> -->
                                     <h4 class="page-title">
-                                        <i class="mdi mdi-folder-multiple-outline" style="margin: 0 10px 0 3px;"></i>My Files ({{$count_all}})
+                                        <div class="row">
+                                            <div class="col-sm-10">
+                                                <i class="mdi mdi-folder-multiple-outline" style="margin: 0 10px 0 3px;"></i>My Files <small>({{$count_all + sizeof($folder)}})</small>
+                                            </div>
+                                            <div class="col-sm-2 text-right">
+                                                <button type="button" class="btn btn-danger waves-effect waves-light" style="background-color: #e51c4a" data-toggle="modal" data-target=".create-folder-modal">
+                                                    <strong><i class="mdi mdi-plus"></i> Create Folder</strong>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </h4>
                                 </div>
                             </div>
@@ -26,11 +35,54 @@
                         <!-- end page title --> 
 
                         <div class="row default-files-all">
+                            @foreach($folder as $f)
+                            <div class="col-sm-6 col-lg-2">
+                                <div class="card">
+                                    <img class="card-img-top img-fluid" src="{{asset('img/folder.jpg')}}" alt="Card image cap">
+                                    <div class="card-body" style="padding-bottom: 0">
+                                        <h6 class="card-title">
+                                            <span style="line-height: 2.5; color: #c51c4a;cursor:pointer" title="{{$f->name}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{$f->name}}">
+                                                {{strlen($f->name) > 15 ? substr($f->name,0,14).'...' : $f->name}} <small>({{$f->count}})</small>
+                                            </span><br>
+                                            <small style="line-height: 2.5;">
+                                                <i class="mdi mdi-clock-outline"></i>
+                                                {{date_format($f->created_at,'M d, Y h:i A')}}
+                                            </small>
+                                            <div class="btn-group mt-1 mr-1 float-right">
+                                                <button class="btn btn-white btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="mdi mdi-dots-horizontal" style="font-size: 1.5em"></i>
+                                                </button>
+                                                <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 28px, 0px);">
+                                                    
+                                                    <a class="dropdown-item" href="#" onclick="moveToTrash(this);" data-toggle="modal" data-target=".move-to-trash-modal" data-value="{{$f->name}}" data-id="{{$f->id}}">Open</a>
+                                                    <a class="dropdown-item" href="#" onclick="moveToTrash(this);" data-toggle="modal" data-target=".move-to-trash-modal" data-value="{{$f->name}}" data-id="{{$f->id}}">Rename</a>
+                                                    <a class="dropdown-item" href="#" onclick="moveToTrash(this);" data-toggle="modal" data-target=".move-to-trash-modal" data-value="{{$f->name}}" data-id="{{$f->id}}">Move to trash</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="#" style="color: #e51c4a" onclick="deleteFile(this);" data-toggle="modal" data-target=".delete-file-modal" data-value="{{$f->path}}" data-id="{{$f->id}}">Delete</a>
+                                                </div>
+                                            </div>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+
                             @foreach($data as $d)
                             <div class="col-sm-6 col-lg-2">
                                 <!-- Simple card -->
                                 <div class="card">
-                                    <img class="card-img-top img-fluid" src="https://eurekahostdrive.nyc3.digitaloceanspaces.com/{{$d->path}}" alt="Card image cap">
+                                    @if($d->file_type == 'photo')
+                                    <img class="card-img-top img-fluid" src="https://eurekahostdrive.nyc3.digitaloceanspaces.com/{{$d->path}}" alt="{{$d->name}}">
+                                    @elseif($d->file_type == 'audio')
+                                    <img class="card-img-top img-fluid" src="{{asset('img/music.svg')}}" alt="{{$d->name}}">
+                                    @elseif($d->file_type == 'video')
+                                    <img class="card-img-top img-fluid" src="{{asset('img/video.svg')}}" alt="{{$d->name}}">
+                                    @elseif($d->file_type == 'document')
+                                    <img class="card-img-top img-fluid" src="{{asset('img/document.svg')}}" alt="{{$d->name}}">
+                                    @elseif($d->file_type == 'compress')
+                                    <img class="card-img-top img-fluid" src="{{asset('img/archive.svg')}}" alt="{{$d->name}}">
+                                    @endif
+
                                     <div class="card-body" style="padding-bottom: 0">
                                         <h6 class="card-title">
                                             <span style="line-height: 2.5; color: #c51c4a;cursor:pointer" title="{{$d->name}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{$d->name}}.{{$d->type}}">
@@ -45,10 +97,7 @@
                                                     <i class="mdi mdi-dots-horizontal" style="font-size: 1.5em"></i>
                                                 </button>
                                                 <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 28px, 0px);">
-                                                    <a class="dropdown-item" href="{{url('drive/download/'.$d->path)}}">Download</a>
-                                                    <a class="dropdown-item" href="#" onclick="moveToTrash(this);" data-toggle="modal" data-target=".move-to-trash-modal" data-value="{{$d->path}}" data-id="{{$d->id}}">Move to trash</a>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="#" style="color: #e51c4a" onclick="deleteFile(this);" data-toggle="modal" data-target=".delete-file-modal" data-value="{{$d->path}}" data-id="{{$d->id}}">Delete</a>
+                                                    @include('drive.layouts.file-action')
                                                 </div>
                                             </div>
                                         </h5>
@@ -67,7 +116,18 @@
                             <div class="col-sm-6 col-lg-2 search-col" data-name="{{$d->name}}">
                                 <!-- Simple card -->
                                 <div class="card">
-                                    <img class="card-img-top img-fluid" src="https://eurekahostdrive.nyc3.digitaloceanspaces.com/{{$d->path}}" alt="Card image cap">
+                                    @if($d->file_type == 'photo')
+                                    <img class="card-img-top img-fluid" src="https://eurekahostdrive.nyc3.digitaloceanspaces.com/{{$d->path}}" alt="{{$d->name}}">
+                                    @elseif($d->file_type == 'audio')
+                                    <img class="card-img-top img-fluid" src="{{asset('img/music.svg')}}" alt="{{$d->name}}">
+                                    @elseif($d->file_type == 'video')
+                                    <img class="card-img-top img-fluid" src="{{asset('img/video.svg')}}" alt="{{$d->name}}">
+                                    @elseif($d->file_type == 'document')
+                                    <img class="card-img-top img-fluid" src="{{asset('img/document.svg')}}" alt="{{$d->name}}">
+                                    @elseif($d->file_type == 'compress')
+                                    <img class="card-img-top img-fluid" src="{{asset('img/archive.svg')}}" alt="{{$d->name}}">
+                                    @endif
+
                                     <div class="card-body" style="padding-bottom: 0">
                                         <h6 class="card-title">
                                             <span style="line-height: 2.5; color: #c51c4a;cursor:pointer" title="{{$d->name}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{$d->name}}.{{$d->type}}">
@@ -176,6 +236,75 @@
                         <button type="button" class="btn waves-effect waves-light" style="background-color: #e51c4a;" onclick="confirmDeleteFile(this);">
                             <strong>Delete</strong>
                         </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+
+        <!-- confirm delete file -->
+        <div class="modal fade create-folder-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
+            <style type="text/css">
+                .upload-box {
+                    border: 2px dashed #e51c4a !important;
+                    border-radius: 5px;
+                    background: white;
+                    min-height: 150px;
+                    border: 2px solid rgba(0, 0, 0, 0.3);
+                    background: white;
+                    padding: 54px 54px;
+                }
+                .dz-button{ font-weight: bold !important; font-size: 1.5em !important }
+            </style>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: #e51c4a;">
+                        <h5 class="modal-title" style="color: #ffffff !important">Create Folder</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="color: #ffffff !important">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="response"></div>
+                        <form class="create-folder-form">
+                            <div class="form-group">
+                                <label>Foder Name</label>
+                                <input type="text" name="folder_name" class="form-control">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light waves-effect" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn waves-effect waves-light" style="background-color: #e51c4a;" onclick="createFolder(this);">
+                            <strong>Create</strong>
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+
+        <!-- confirm media file -->
+        <div class="modal fade media-player-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
+            <style type="text/css">
+                .upload-box {
+                    border: 2px dashed #e51c4a !important;
+                    border-radius: 5px;
+                    background: white;
+                    min-height: 150px;
+                    border: 2px solid rgba(0, 0, 0, 0.3);
+                    background: white;
+                    padding: 54px 54px;
+                }
+                .dz-button{ font-weight: bold !important; font-size: 1.5em !important }
+            </style>
+
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: #e51c4a;">
+                        <h5 class="modal-title" style="color: #ffffff !important"><i class="mdi mdi-image-outline"></i> Photo - <span class="media-title"></span></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="color: #ffffff !important">×</button>
+                    </div>
+                    <div class="modal-body" style="text-align: center;">
+                        <img src="" class="media-player m-image" alt="Photo" />
+                        <audio controls src="" class="media-player m-audio"></audio>
+                        <video src="" class="media-player m-video" controls></video>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->

@@ -354,6 +354,61 @@ function getDriveFiles(){
     })
 }
 
+function createFolder(e){
+    $(e).html("<strong><div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div><span style='vertical-align:super' class='ml-1'>Please wait...</span></strong>");
+
+    var ajaxPost = $.ajax({
+        url: window.location.protocol+"//"+window.location.host+"/folder/create",
+        method: "POST",
+        data: $(".create-folder-form").serialize(),
+        headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+    });
+
+    ajaxPost.done(function(res){
+        $(e).html("<strong>Create</strong>");
+
+        if(res.message == "success"){
+            $(".response").html('<div class="alert alert-success" role="alert"><strong><i class="mdi mdi-check-circle-outline"></> Folder created successully.</strong></div>');
+
+            setTimeout(function(){
+                window.location.reload();
+            },2000);
+        }
+        else{
+            $(".response").html('<div class="alert alert-danger" role="alert"><strong>'+res.message+'</strong></div>');
+        }
+    });
+
+    ajaxPost.fail(function(res){
+    });
+}
+
+function getMedia(e,type){
+    var media = $(e).attr("data-media");
+    var name = $(e).attr("title");
+
+    $(".media-player").attr("src",media);
+    $(".media-title").html(name);
+
+    if(type == "photo"){
+        $("img.m-image").show();
+        $("audio.m-audio").hide();
+        $("video.m-video").hide();
+    }
+
+    if(type == "audio"){
+        $("img.m-image").hide();
+        $("audio.m-audio").show();
+        $("video.m-video").hide();
+    }
+
+    if(type == "video"){
+        $("img.m-image").hide();
+        $("audio.m-audio").hide();
+        $("video.m-video").show();
+    }
+}
+
 $('.search-input').keypress(function(event){
     var keycode = (event.keyCode ? event.keyCode : event.which);
     if(keycode == '13'){
@@ -477,6 +532,7 @@ var myDropzone = new Dropzone(".dropzone", {
         this.on("sending", function(file, xhr, formData) {
           formData.append("file_name", file.upload.filename);
           formData.append("file_size", file.size);
+          formData.append("folder_id", $(".folder-select").val());
 
           $(".upload-response").html('<div class="alert alert-info"><strong><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div><span class="ml-1" style="vertical-align:super">Uploading...</span></strong></div>');
         });
@@ -502,4 +558,8 @@ var myDropzone = new Dropzone(".dropzone", {
             $(".upload-response").html('<div class="alert alert-danger" role="alert"><strong>'+response.message+'</strong></div>');
         }
     }
+});
+
+const player = new Plyr('.media-player', {
+  tooltips:{ controls: true, seek: true }
 });
