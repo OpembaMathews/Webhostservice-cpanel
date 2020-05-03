@@ -532,7 +532,7 @@ var myDropzone = new Dropzone(".dropzone", {
         this.on("sending", function(file, xhr, formData) {
           formData.append("file_name", file.upload.filename);
           formData.append("file_size", file.size);
-          formData.append("folder_id", $(".folder-select").val());
+          //formData.append("folder_id", $(".folder-select").val());
 
           $(".upload-response").html('<div class="alert alert-info"><strong><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div><span class="ml-1" style="vertical-align:super">Uploading...</span></strong></div>');
         });
