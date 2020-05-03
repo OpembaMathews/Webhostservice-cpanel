@@ -298,13 +298,14 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header" style="background-color: #e51c4a;">
-                        <h5 class="modal-title" style="color: #ffffff !important"><i class="mdi mdi-image-outline"></i> Photo - <span class="media-title"></span></h5>
+                        <h5 class="modal-title" style="color: #ffffff !important"><i class="mdi mdi-file-document-box-outline"></i> <span class="media-title"></span></h5>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="color: #ffffff !important">×</button>
                     </div>
                     <div class="modal-body" style="text-align: center;">
                         <img src="" class="media-player m-image" alt="Photo" />
                         <audio controls src="" class="media-player m-audio"></audio>
                         <video src="" class="media-player m-video" controls></video>
+                        <iframe class="media-player m-document" src="" style="width: 100%; height: 35rem" allowfullscreen="true"></iframe>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
