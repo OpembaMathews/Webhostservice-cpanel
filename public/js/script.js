@@ -394,18 +394,28 @@ function getMedia(e,type){
         $("img.m-image").show();
         $("audio.m-audio").hide();
         $("video.m-video").hide();
+        $("iframe.m-document").hide();
     }
 
     if(type == "audio"){
         $("img.m-image").hide();
         $("audio.m-audio").show();
         $("video.m-video").hide();
+        $("iframe.m-document").hide();
     }
 
     if(type == "video"){
         $("img.m-image").hide();
         $("audio.m-audio").hide();
         $("video.m-video").show();
+        $("iframe.m-document").hide();
+    }
+
+    if(type == "document"){
+        $("img.m-image").hide();
+        $("audio.m-audio").hide();
+        $("video.m-video").hide();
+        $("embed.m-document").show();
     }
 }
 

@@ -206,7 +206,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header" style="background-color: #e51c4a;">
-                        <h5 class="modal-title" style="color: #ffffff !important"><i class="mdi mdi-video"></i> Play Video - <span class="media-title"></span></h5>
+                        <h5 class="modal-title" style="color: #ffffff !important"><i class="mdi mdi-video"></i> <span class="media-title"></span></h5>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="color: #ffffff !important">×</button>
                     </div>
                     <div class="modal-body" style="text-align: center;">

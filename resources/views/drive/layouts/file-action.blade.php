@@ -4,6 +4,8 @@
 <a class="dropdown-item" href="#" data-toggle="modal" data-target=".media-player-modal" data-media="{{asset('img/'.$d->path)}}" title="{{$d->name}}" onclick="getMedia(this,'video');">Play</a>
 @elseif($d->file_type == 'photo')
 <a class="dropdown-item" href="#" data-toggle="modal" data-target=".media-player-modal" data-media="https://eurekahostdrive.nyc3.cdn.digitaloceanspaces.com/{{$d->path}}" title="{{$d->name}}" onclick="getMedia(this,'photo');">View</a>
+@elseif($d->file_type == 'document')
+<a class="dropdown-item" href="#" data-toggle="modal" data-target=".media-player-modal" data-media="https://eurekahostdrive.nyc3.cdn.digitaloceanspaces.com/{{$d->path}}" title="{{$d->name}}" onclick="getMedia(this,'document');">Open</a>
 @endif
 
 <a class="dropdown-item" href="{{url('drive/download/'.$d->path)}}">Download</a>

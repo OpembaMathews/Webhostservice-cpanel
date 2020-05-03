@@ -188,6 +188,34 @@
             </div><!-- /.modal-dialog -->
         </div>
 
+         <!-- confirm audio file -->
+        <div class="modal fade media-player-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
+            <style type="text/css">
+                .upload-box {
+                    border: 2px dashed #e51c4a !important;
+                    border-radius: 5px;
+                    background: white;
+                    min-height: 150px;
+                    border: 2px solid rgba(0, 0, 0, 0.3);
+                    background: white;
+                    padding: 54px 54px;
+                }
+                .dz-button{ font-weight: bold !important; font-size: 1.5em !important }
+            </style>
+
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: #e51c4a;">
+                        <h5 class="modal-title" style="color: #ffffff !important"><i class="mdi mdi-file-document-box-outline"></i> <span class="media-title"></span></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="color: #ffffff !important">×</button>
+                    </div>
+                    <div class="modal-body" style="text-align: center;">
+                        <iframe class="media-player m-document" src="" style="width: 100%; height: 35rem" allowfullscreen="true"></iframe>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+
         @include('drive.scripts.index')
     </body>
 <html>
