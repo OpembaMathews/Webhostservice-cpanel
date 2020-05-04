@@ -6,11 +6,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use App\Drive;
+use App\DrivePasswordControl;
 use App\Folder;
 use App\DriveCapacity;
 use Carbon\Carbon;
 use App\Http\Controllers\DriveCapacityTrait;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+
 
 class DriveController extends Controller
 {
@@ -27,7 +31,7 @@ class DriveController extends Controller
     }
 
     public function create(Request $request){
-    	$path = Storage::disk('spaces')->put('',$request->file('filename'),'public');
+    	$path = 'dfdfdfd.png';//Storage::disk('spaces')->put('',$request->file('filename'),'public');
         $capacity = DriveCapacity::where('user_id',Auth::user()->id)->sum('capacity');
         $usage = DriveCapacity::where('user_id',Auth::user()->id)->sum('d_usage');
         $unused = $capacity - $usage;
@@ -62,13 +66,20 @@ class DriveController extends Controller
                     'size'=>$request->file_size,
                     'type'=>$type,
                     'file_type'=>$this->file_type,
-                    'user_id'=>Auth::user()->id
+                    'user_id'=>Auth::user()->id,
+                    'folder_id'=> $request->filled('folder_id') ? (int)$request->folder_id : NULL
                 ]);
 
                 DriveCapacity::create([
                     'd_usage'=> $request->file_size,
                     'capacity'=>0,
                     'user_id'=>Auth::user()->id
+                ]);
+
+                DrivePasswordControl::create([
+                    'drive_id'=>$drive->id,
+                    'password'=>$request->filled('password') ? Hash::make($request->password) : NULL,
+                    'drive_code'=>Str::random(5)
                 ]);
 
                 $this->data = 'success';
@@ -133,6 +144,7 @@ class DriveController extends Controller
     public function getFolder(){
         $folder = Folder::select(DB::raw('folder.*, drive.folder_id, COUNT(*) AS count'))
                         ->join('drive', 'drive.folder_id','=', 'folder.id')
+                        ->where('folder.user_id',Auth::user()->id)
                         ->groupBy('folder.name')
                         ->get();
 
@@ -141,9 +153,10 @@ class DriveController extends Controller
 
     public function getPhoto(){
         $drive = Drive::leftJoin('folder','folder.id','=','drive.folder_id')
+                      ->leftJoin('drive_password_control','drive_password_control.drive_id','=','drive.id')
                       ->where('drive.user_id',Auth::user()->id)
                       ->whereIn('type',['jpg','png','gif','webp','tiff','psd','raw','bmp','heif','indd','jpeg','svg','ai','eps'])
-                      ->select('drive.*','folder.name AS folder_name')
+                      ->select('drive.*','folder.name AS folder_name','drive_password_control.id AS dpc_id','drive_password_control.drive_code','drive_password_control.password')
                       ->get();
 
         return $drive;
@@ -151,9 +164,10 @@ class DriveController extends Controller
 
     public function getVideo(){
         $drive = Drive::leftJoin('folder','folder.id','=','drive.folder_id')
+                      ->leftJoin('drive_password_control','drive_password_control.drive_id','=','drive.id')
                       ->where('drive.user_id',Auth::user()->id)
                       ->whereIn('type',['webm','mpg','mp2','mpeg','mpe','mpv','ogg','mp4','m4p','m4v','avi','wmv','mov','qt','flv','swf'])
-                      ->select('drive.*','folder.name AS folder_name')
+                      ->select('drive.*','folder.name AS folder_name','drive_password_control.id AS dpc_id','drive_password_control.drive_code','drive_password_control.password')
                       ->get();
 
         return $drive;
@@ -161,9 +175,10 @@ class DriveController extends Controller
 
     public function getAudio(){
         $drive = Drive::leftJoin('folder','folder.id','=','drive.folder_id')
+                      ->leftJoin('drive_password_control','drive_password_control.drive_id','=','drive.id')
                       ->where('drive.user_id',Auth::user()->id)
                       ->whereIn('type',['aif','cda','mid','midi','mp3','mpa','ogg','wav','wma','wpl'])
-                      ->select('drive.*','folder.name AS folder_name')
+                      ->select('drive.*','folder.name AS folder_name','drive_password_control.id AS dpc_id','drive_password_control.drive_code','drive_password_control.password')
                       ->get();
 
         return $drive;
@@ -171,9 +186,10 @@ class DriveController extends Controller
 
     public function getDocument(){
         $drive = Drive::leftJoin('folder','folder.id','=','drive.folder_id')
+                      ->leftJoin('drive_password_control','drive_password_control.drive_id','=','drive.id')
                       ->where('drive.user_id',Auth::user()->id)
                       ->whereIn('type',['doc','docx','odt','pdf','rtf','tex','txt','wpd','bak','cab','cfg','cpl','cur','dll','dmp','drv','icns','ico','ini','lnk','msi','sys','tmp','ods','xls','xlsm','xlsx','c','class','cpp','cs','h','java','pl','sh','swift','vb','key','odp','pps','ppt','pptx','asp','aspx','cer','cfm','cgi','css','htm','html','js','jsp','part','php','py','rss','xhtml','fnt','eot','fon','otf','ttf','apk','bat','bin','cgi','com','exe','gadget','jar','msi','py','wsf','email','eml','emlx','msg','oft','ost','pst','vcf','csv','dat','db','dbf','log','mdb','sav','sql','tar','xml','bin','dmg','iso','toast','vcd'])
-                      ->select('drive.*','folder.name AS folder_name')
+                      ->select('drive.*','folder.name AS folder_name','drive_password_control.id AS dpc_id','drive_password_control.drive_code','drive_password_control.password')
                       ->get();
 
         return $drive;
@@ -181,9 +197,10 @@ class DriveController extends Controller
 
     public function getCompressed(){
         $drive = Drive::leftJoin('folder','folder.id','=','drive.folder_id')
+                      ->leftJoin('drive_password_control','drive_password_control.drive_id','=','drive.id')
                       ->where('drive.user_id',Auth::user()->id)
                       ->whereIn('type',['7z','arj','deb','pkg','rar','rpm','tar.gz','z','zip'])
-                      ->select('drive.*','folder.name AS folder_name')
+                      ->select('drive.*','folder.name AS folder_name','drive_password_control.id AS dpc_id','drive_password_control.drive_code','drive_password_control.password')
                       ->get();
 
         return $drive;

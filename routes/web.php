@@ -64,5 +64,7 @@ Route::delete('drive/delete', 'DriveController@delete');
 Route::get('folder/show/{id}', 'FolderController@show');
 Route::post('folder/create', 'FolderController@create');
 
+Route::post('drive/password/control/create', 'DrivePasswordController@create');
+
 
 

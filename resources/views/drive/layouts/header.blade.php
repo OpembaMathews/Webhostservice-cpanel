@@ -36,6 +36,7 @@
         <link rel="stylesheet" href="/css/plyr.css"/>
         <link href="/assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-stylesheet">
         <link href="/css/dropzone.min.css" rel="stylesheet" type="text/css" id="app-stylesheet">
+        <link href="/css/primer.css" rel="stylesheet" type="text/css" id="app-stylesheet">
 
         <style type="text/css">
             [data-toggle="tooltip"]:hover{text-decoration: underline !important;}

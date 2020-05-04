@@ -33,7 +33,11 @@
                                         <h6 class="card-title">
                                             <span style="line-height: 2.5; color: #c51c4a;cursor:pointer" title="{{$d->name}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{$d->name}}.{{$d->type}}">
                                                 {{strlen($d->name) > 15 ? substr($d->name,0,14).'...' : $d->name}}
-                                            </span><br>
+                                            </span>
+                                            @if($d->password)
+                                            <i class="mdi mdi-lock"></i>
+                                            @endif
+                                            <br>
                                             <small style="line-height: 2.5;">
                                                 <i class="mdi mdi-clock-outline"></i>
                                                 {{date_format($d->created_at,'M d, Y h:i A')}}
@@ -74,7 +78,11 @@
                                         <h6 class="card-title">
                                             <span style="line-height: 2.5; color: #c51c4a;cursor:pointer" title="{{$d->name}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{$d->name}}.{{$d->type}}">
                                                 {{strlen($d->name) > 15 ? substr($d->name,0,14).'...' : $d->name}}
-                                            </span><br>
+                                            </span>
+                                            @if($d->password)
+                                            <i class="mdi mdi-lock"></i>
+                                            @endif
+                                            <br>
                                             <small style="line-height: 2.5;">
                                                 <i class="mdi mdi-clock-outline"></i>
                                                 {{date_format($d->created_at,'M d, Y h:i A')}}
@@ -209,12 +217,25 @@
                         <h5 class="modal-title" style="color: #ffffff !important"><i class="mdi mdi-video"></i> <span class="media-title"></span></h5>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="color: #ffffff !important">×</button>
                     </div>
-                    <div class="modal-body" style="text-align: center;">
+                    <div class="modal-body">
                         <video src="" class="media-player" controls></video>
+
+                        <div class="form-group mt-5">
+                            <label>Copy File URL</label>
+                            <div class="input-group">
+                                <input class="form-control drive-url" value="">
+                                <span class="input-group-append">
+                                    <button type="button" id="copy-btn" class="btn btn-dark waves-effect waves-light" style="background-color: #e51c4a;" data-clipboard-action="copy" data-clipboard-target=".drive-url"><strong><i class=" mdi mdi-clipboard-text"></i> Copy</strong></button>
+                                </span>
+                            </div>
+                        </div>
+
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div>
+
+        @include('drive.layouts.general')
 
         @include('drive.scripts.index')
     </body>

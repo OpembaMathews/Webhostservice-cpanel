@@ -385,10 +385,12 @@ function createFolder(e){
 
 function getMedia(e,type){
     var media = $(e).attr("data-media");
-    var name = $(e).attr("title");
 
-    $(".media-player").attr("src",media);
-    $(".media-title").html(name);
+    $(".media-player").attr("src",$(e).attr("data-media"));
+    $(".media-title").html($(e).attr("title"));
+    $(".drive-url").val($(e).attr("data-url"));
+    $(".drive-url").val($(e).attr("data-url"));
+    $(".drive-id").val($(e).attr("data-id"));
 
     if(type == "photo"){
         $("img.m-image").show();
@@ -417,6 +419,92 @@ function getMedia(e,type){
         $("video.m-video").hide();
         $("embed.m-document").show();
     }
+
+    if(type == "add password"){
+        $("img.m-image").hide();
+        $("audio.m-audio").hide();
+        $("video.m-video").hide();
+        $("embed.m-document").hide();
+        $(".pwd-title").html("Add Password");
+    }
+
+    if(type == "remove password"){
+        $("img.m-image").hide();
+        $("audio.m-audio").hide();
+        $("video.m-video").hide();
+        $("embed.m-document").hide();
+        $(".pwd-title").html("Type 'REMOVE' in the box below to disable password control");
+    }
+}
+
+function addDrivePasswordControl(e){
+    $(e).html("<strong><div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div><span style='vertical-align:super' class='ml-1'>Please wait...</span></strong>");
+
+    var ajaxPost = $.ajax({
+        url: window.location.protocol+"//"+window.location.host+"/drive/password/control/create",
+        method: "POST",
+        data: $(".password-control-form").serialize(),
+        headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+    });
+
+    ajaxPost.done(function(res){
+        $(e).html("<strong>Save</strong>");
+
+        if(res.message == "success"){
+            $(".pwd-response").html('<div class="alert alert-success" role="alert"><strong><i class="mdi mdi-check-circle-outline"></> Password saved successully.</strong></div>');
+
+            setTimeout(function(){
+                window.location.reload();
+            },2000);
+        }
+        else{
+            $(".pwd-response").html('<div class="alert alert-danger" role="alert"><strong>'+res.message+'</strong></div>');
+        }
+    });
+
+    ajaxPost.fail(function(res){
+    });
+}
+
+var clipboard = new ClipboardJS('#copy-btn');
+
+clipboard.on('success',function(e){
+    e.clearSelection();
+    showTooltip(e.trigger,'Copied!');
+});
+
+clipboard.on('error',function(e){
+    console.error('Action:', e.action);
+    console.error('Trigger:', e.trigger);
+    showTooltip(e.trigger,fallbackMessage(e.action));
+});
+
+var btns = document.querySelectorAll('#copy-btn');
+
+for(var i = 0; i < btns.length; i++){
+    btns[i].addEventListener('mouseleave',clearTooltip);
+    btns[i].addEventListener('blur',clearTooltip);
+}
+
+function clearTooltip(e){
+    e.currentTarget.setAttribute('class','btn');
+    e.currentTarget.removeAttribute('aria-label');
+}
+
+function showTooltip(elem,msg){
+    elem.setAttribute('class','btn tooltipped tooltipped-s');
+    elem.setAttribute('aria-label',msg);
+}
+
+function fallbackMessage(action){
+    var actionMsg = '';
+    var actionKey = (action==='cut'?'X':'C');
+
+    if(/iPhone|iPad/i.test(navigator.userAgent)){ actionMsg = 'No support :('; }
+    else if(/Mac/i.test(navigator.userAgent)){ actionMsg = 'Press ⌘-'+actionKey+' to '+action; }
+    else{ actionMsg = 'Press Ctrl-'+actionKey+' to '+action; }
+
+    return actionMsg;
 }
 
 $('.search-input').keypress(function(event){
@@ -542,7 +630,8 @@ var myDropzone = new Dropzone(".dropzone", {
         this.on("sending", function(file, xhr, formData) {
           formData.append("file_name", file.upload.filename);
           formData.append("file_size", file.size);
-          //formData.append("folder_id", $(".folder-select").val());
+          formData.append("folder_id", $(".folder-select").val());
+          formData.append("password", $(".drive-password").val());
 
           $(".upload-response").html('<div class="alert alert-info"><strong><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div><span class="ml-1" style="vertical-align:super">Uploading...</span></strong></div>');
         });
