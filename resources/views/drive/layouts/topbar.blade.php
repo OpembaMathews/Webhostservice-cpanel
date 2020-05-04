@@ -1,7 +1,7 @@
 <div class="navbar-custom" style="background-color: #e51c4a;">
     <ul class="list-unstyled topnav-menu float-right mb-0">
 
-
+        @if(!Request::is('drive/share/*'))
         <li class="dropdown notification-list">
             <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false" style="color: #fff">
                 <img src="/assets/images/users/avatar.png" alt="user-image" class="rounded-circle">
@@ -46,6 +46,18 @@
 
             </div>
         </li>
+        @else
+        <li>
+            <a class="nav-link nav-user mr-0 waves-effect waves-light" href="{{url('login')}}" style="color: #fff">
+                <span class="d-none d-sm-inline-block ml-1 font-weight-medium">Login</span>
+            </a>
+        </li>
+        <li>
+            <a class="nav-link nav-user mr-0 waves-effect waves-light" href="{{url('register')}}" style="color: #fff">
+                <span class="d-none d-sm-inline-block ml-1 font-weight-medium">Register</span>
+            </a>
+        </li>
+        @endif
         
     </ul>
 
@@ -83,6 +95,7 @@
             </button>
         </li>
 
+        @if(!Request::is('drive/share/*'))
         <li class="d-none d-sm-block">
             <form class="app-search">
                 <div class="app-search-box">
@@ -97,5 +110,7 @@
                 </div>
             </form>
         </li>
+        @endif
+
     </ul>
 </div>

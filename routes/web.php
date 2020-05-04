@@ -24,12 +24,13 @@ Route::delete('user/delete', 'UserController@delete');
 
 Route::get('/logout', 'Auth\LoginController@logout');
 
-Route::get('/dashboard', 'HomeController@index')->name('home');
+Route::get('/dashboard', 'HomeController@index');
+Route::get('/home', 'HomeController@index');
 
 // Admin  Routes
 Route::group(['middleware' => ['admin']], function () {
-    Route::get('admin/dashboard', 'AdminController@index')->name('admin.home');
-    Route::get('admin/customers', 'AdminController@customers')->name('admin.customers');
+    Route::get('admin/dashboard', 'AdminController@index');
+    Route::get('admin/customers', 'AdminController@customers');
     Route::get('edit/user/{id}', 'AdminController@editUser');
     Route::get('admin/edit/user/{id}', 'AdminController@editUser');
     Route::post('admin/updateuser', 'AdminController@updateUser');
@@ -65,6 +66,9 @@ Route::get('folder/show/{id}', 'FolderController@show');
 Route::post('folder/create', 'FolderController@create');
 
 Route::post('drive/password/control/create', 'DrivePasswordController@create');
+Route::get('drive/share/entry', function(){
+	return view('drive.drive-password');
+});
 
 
 
