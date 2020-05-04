@@ -31,7 +31,7 @@ class DriveController extends Controller
     }
 
     public function create(Request $request){
-    	$path = 'dfdfdfd.png';//Storage::disk('spaces')->put('',$request->file('filename'),'public');
+    	$path = Storage::disk('spaces')->put('',$request->file('filename'),'public');
         $capacity = DriveCapacity::where('user_id',Auth::user()->id)->sum('capacity');
         $usage = DriveCapacity::where('user_id',Auth::user()->id)->sum('d_usage');
         $unused = $capacity - $usage;
