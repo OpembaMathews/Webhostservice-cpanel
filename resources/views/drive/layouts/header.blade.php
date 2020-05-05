@@ -42,7 +42,7 @@
 
         <style type="text/css">
             [data-toggle="tooltip"]:hover{text-decoration: underline !important;}
-            .modal-body img {width: auto !important; height: 100% !important}
+            .modal-body img {width: 100% !important; height: 100% !important}
         </style>
 
     </head>
