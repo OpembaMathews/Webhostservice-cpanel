@@ -106,14 +106,21 @@ class DriveController extends Controller
     }
 
     public function getMyFiles(){
-    	$drive = Drive::where(['user_id'=>Auth::user()->id,'folder_id'=>NULL])->get();
+    	$drive = Drive::leftJoin('drive_password_control','drive_password_control.drive_id','=','drive.id')
+                        ->where(['user_id'=>Auth::user()->id,'folder_id'=>NULL])
+                        ->get();
 
     	return $drive;
     }
 
     //List files uploaded not more than 7 days
     public function getRecent(){
-    	$drive = Drive::where('user_id',Auth::user()->id)->get();
+    	$drive = Drive::leftJoin('folder','folder.id','=','drive.folder_id')
+                       ->leftJoin('drive_password_control','drive_password_control.drive_id','=','drive.id')
+                       ->where('drive.user_id',Auth::user()->id)
+                       ->select('drive.*','folder.name AS folder_name','drive_password_control.id AS dpc_id','drive_password_control.drive_code','drive_password_control.password')
+                       ->get();
+
     	$now = Carbon::now();
     	$data = [];
 

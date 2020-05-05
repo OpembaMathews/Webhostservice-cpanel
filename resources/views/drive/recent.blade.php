@@ -44,11 +44,22 @@
                                         <h6 class="card-title">
                                             <span style="line-height: 2.5; color: #c51c4a;cursor:pointer" title="{{$d->name}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{$d->name}}.{{$d->type}}">
                                                 {{strlen($d->name) > 15 ? substr($d->name,0,14).'...' : $d->name}}
-                                            </span><br>
+                                            </span>
+                                            @if($d->password)
+                                            <i class="mdi mdi-lock"></i>
+                                            @endif
+                                            <br>
                                             <small style="line-height: 2.5;">
                                                 <i class="mdi mdi-clock-outline"></i>
                                                 {{date_format($d->created_at,'M d, Y h:i A')}}
                                             </small>
+                                            @if($d->folder_name)
+                                            <br>
+                                            <small style="line-height: 2.5; font-weight: bold;">
+                                                <i class="mdi mdi-folder"></i>
+                                                {{$d->folder_name}}
+                                            </small>
+                                            @endif
                                             <div class="btn-group mt-1 mr-1 float-right">
                                                 <button class="btn btn-white btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="mdi mdi-dots-horizontal" style="font-size: 1.5em"></i>
@@ -89,11 +100,22 @@
                                         <h6 class="card-title">
                                             <span style="line-height: 2.5; color: #c51c4a;cursor:pointer" title="{{$d->name}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{$d->name}}.{{$d->type}}">
                                                 {{strlen($d->name) > 15 ? substr($d->name,0,14).'...' : $d->name}}
-                                            </span><br>
+                                            </span>
+                                            @if($d->password)
+                                            <i class="mdi mdi-lock"></i>
+                                            @endif
+                                            <br>
                                             <small style="line-height: 2.5;">
                                                 <i class="mdi mdi-clock-outline"></i>
                                                 {{date_format($d->created_at,'M d, Y h:i A')}}
                                             </small>
+                                            @if($d->folder_name)
+                                            <br>
+                                            <small style="line-height: 2.5; font-weight: bold;">
+                                                <i class="mdi mdi-folder"></i>
+                                                {{$d->folder_name}}
+                                            </small>
+                                            @endif
                                             <div class="btn-group mt-1 mr-1 float-right">
                                                 <button class="btn btn-white btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="mdi mdi-dots-horizontal" style="font-size: 1.5em"></i>
@@ -222,11 +244,22 @@
                         <audio controls src="" class="media-player m-audio"></audio>
                         <video src="" class="media-player m-video" controls></video>
                         <iframe class="media-player m-document" src="" style="width: 100%; height: 35rem" allowfullscreen="true"></iframe>
+
+                        <div class="form-group mt-5" style="text-align: left !important;">
+                            <label >Copy File URL</label>
+                            <div class="input-group">
+                                <input class="form-control drive-url" value="">
+                                <span class="input-group-append">
+                                    <button type="button" id="copy-btn" class="btn btn-dark waves-effect waves-light" style="background-color: #e51c4a;" data-clipboard-action="copy" data-clipboard-target=".drive-url"><strong><i class=" mdi mdi-clipboard-text"></i> Copy</strong></button>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div>
 
+         @include('drive.layouts.general')
         @include('drive.scripts.index')
     </body>
 <html>

@@ -306,6 +306,16 @@
                         <audio controls src="" class="media-player m-audio"></audio>
                         <video src="" class="media-player m-video" controls></video>
                         <iframe class="media-player m-document" src="" style="width: 100%; height: 35rem" allowfullscreen="true"></iframe>
+
+                        <div class="form-group mt-5" style="text-align: left !important;">
+                            <label >Copy File URL</label>
+                            <div class="input-group">
+                                <input class="form-control drive-url" value="">
+                                <span class="input-group-append">
+                                    <button type="button" id="copy-btn" class="btn btn-dark waves-effect waves-light" style="background-color: #e51c4a;" data-clipboard-action="copy" data-clipboard-target=".drive-url"><strong><i class=" mdi mdi-clipboard-text"></i> Copy</strong></button>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
