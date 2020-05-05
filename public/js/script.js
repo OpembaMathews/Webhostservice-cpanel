@@ -491,6 +491,7 @@ function checkDrivePassword(e){
                 $(".m-video").hide();
                 $(".m-document").hide();
                 $(".m-compress").hide();
+                $(".plyr").hide();
             }
 
             if(res.drive.file_type == "audio"){
@@ -500,6 +501,7 @@ function checkDrivePassword(e){
                 $(".m-video").hide();
                 $(".m-document").hide();
                 $(".m-compress").hide();
+                $(".plyr").show();
             }
 
             if(res.drive.file_type == "video"){
@@ -509,6 +511,7 @@ function checkDrivePassword(e){
                 $(".m-photo").hide();
                 $(".m-document").hide();
                 $(".m-compress").hide();
+                $(".plyr").show();
             }
 
             if(res.drive.file_type == "document"){
@@ -518,6 +521,7 @@ function checkDrivePassword(e){
                 $(".m-video").hide();
                 $(".m-photo").hide();
                 $(".m-compress").hide();
+                $(".plyr").hide();
             }
 
             if(res.drive.file_type == "compress"){
@@ -527,6 +531,7 @@ function checkDrivePassword(e){
                 $(".m-video").hide();
                 $(".m-document").hide();
                 $(".m-photo").hide();
+                $(".plyr").hide();
             }
         }
         else{
