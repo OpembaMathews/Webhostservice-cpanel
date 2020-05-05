@@ -45,7 +45,7 @@
                                     </div>
 
                                     <div class="drive-file" style="display: none;">
-                                        <img src="" class="m-photo" alt="Photo" style="display: none;"/>
+                                        <img src="" class="m-photo" alt="Photo" style="display: none; width: 100%;"/>
 
                                         <audio src="" class="media-player m-audio" style="display: none;" controls></audio>
 
