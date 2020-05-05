@@ -316,6 +316,8 @@ class DriveController extends Controller
 
         Drive::withTrashed()->where('id',$request->trash_id)->forceDelete();
 
+        DrivePasswordControl::where('drive_id',$request->trash_id)->delete();
+
         return response()->json([
             'message'=>'success',
             'status'=>200
