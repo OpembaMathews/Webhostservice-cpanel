@@ -108,6 +108,7 @@ class DriveController extends Controller
     public function getMyFiles(){
     	$drive = Drive::leftJoin('drive_password_control','drive_password_control.drive_id','=','drive.id')
                         ->where(['user_id'=>Auth::user()->id,'folder_id'=>NULL])
+                        ->select('drive.*','drive_password_control.id AS dpc_id','drive_password_control.drive_code','drive_password_control.password')
                         ->get();
 
     	return $drive;
@@ -149,8 +150,8 @@ class DriveController extends Controller
     }
 
     public function getFolder(){
-        $folder = Folder::select(DB::raw('folder.*, drive.folder_id, COUNT(*) AS count'))
-                        ->join('drive', 'drive.folder_id','=', 'folder.id')
+        $folder = Folder::select(DB::raw('folder.*, drive.folder_id, COUNT(drive.folder_id) AS count'))
+                        ->leftJoin('drive', 'drive.folder_id','=', 'folder.id')
                         ->where('folder.user_id',Auth::user()->id)
                         ->groupBy('folder.name')
                         ->get();

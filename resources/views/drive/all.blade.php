@@ -87,11 +87,22 @@
                                         <h6 class="card-title">
                                             <span style="line-height: 2.5; color: #c51c4a;cursor:pointer" title="{{$d->name}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{$d->name}}.{{$d->type}}">
                                                 {{strlen($d->name) > 15 ? substr($d->name,0,14).'...' : $d->name}}
-                                            </span><br>
+                                            </span>
+                                            @if($d->password)
+                                            <i class="mdi mdi-lock"></i>
+                                            @endif
+                                            <br>
                                             <small style="line-height: 2.5;">
                                                 <i class="mdi mdi-clock-outline"></i>
                                                 {{date_format($d->created_at,'M d, Y h:i A')}}
                                             </small>
+                                            @if($d->folder_name)
+                                            <br>
+                                            <small style="line-height: 2.5; font-weight: bold;">
+                                                <i class="mdi mdi-folder"></i>
+                                                {{$d->folder_name}}
+                                            </small>
+                                            @endif
                                             <div class="btn-group mt-1 mr-1 float-right">
                                                 <button class="btn btn-white btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="mdi mdi-dots-horizontal" style="font-size: 1.5em"></i>
@@ -132,20 +143,28 @@
                                         <h6 class="card-title">
                                             <span style="line-height: 2.5; color: #c51c4a;cursor:pointer" title="{{$d->name}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{$d->name}}.{{$d->type}}">
                                                 {{strlen($d->name) > 15 ? substr($d->name,0,14).'...' : $d->name}}
-                                            </span><br>
+                                            </span>
+                                            @if($d->password)
+                                            <i class="mdi mdi-lock"></i>
+                                            @endif
+                                            <br>
                                             <small style="line-height: 2.5;">
                                                 <i class="mdi mdi-clock-outline"></i>
                                                 {{date_format($d->created_at,'M d, Y h:i A')}}
                                             </small>
+                                            @if($d->folder_name)
+                                            <br>
+                                            <small style="line-height: 2.5; font-weight: bold;">
+                                                <i class="mdi mdi-folder"></i>
+                                                {{$d->folder_name}}
+                                            </small>
+                                            @endif
                                             <div class="btn-group mt-1 mr-1 float-right">
                                                 <button class="btn btn-white btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="mdi mdi-dots-horizontal" style="font-size: 1.5em"></i>
                                                 </button>
                                                 <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 28px, 0px);">
-                                                    <a class="dropdown-item" href="{{url('drive/download/'.$d->path)}}">Download</a>
-                                                    <a class="dropdown-item" href="#" onclick="moveToTrash(this);" data-toggle="modal" data-target=".move-to-trash-modal" data-value="{{$d->path}}" data-id="{{$d->id}}">Move to trash</a>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="#" style="color: #e51c4a" onclick="deleteFile(this);" data-toggle="modal" data-target=".delete-file-modal" data-value="{{$d->path}}" data-id="{{$d->id}}">Delete</a>
+                                                    @include('drive.layouts.file-action')
                                                 </div>
                                             </div>
                                         </h5>
@@ -321,6 +340,7 @@
             </div><!-- /.modal-dialog -->
         </div>
 
+         @include('drive.layouts.general')
         @include('drive.scripts.index')
         
     </body>
