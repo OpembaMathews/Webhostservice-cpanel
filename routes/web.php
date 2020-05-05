@@ -66,9 +66,8 @@ Route::get('folder/show/{id}', 'FolderController@show');
 Route::post('folder/create', 'FolderController@create');
 
 Route::post('drive/password/control/create', 'DrivePasswordController@create');
-Route::get('drive/share/entry', function(){
-	return view('drive.drive-password');
-});
+Route::get('drive/share/{code}', 'DrivePasswordController@share');
+Route::get('drive/password/check', 'DrivePasswordController@check');
 
 
 

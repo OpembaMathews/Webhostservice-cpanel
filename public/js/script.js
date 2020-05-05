@@ -466,6 +466,78 @@ function addDrivePasswordControl(e){
     });
 }
 
+function checkDrivePassword(e){
+    $(e).html("<strong><div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div><span style='vertical-align:super' class='ml-1'>Please wait...</span></strong>");
+
+    var ajaxPost = $.ajax({
+        url: window.location.protocol+"//"+window.location.host+"/drive/password/check",
+        method: "GET",
+        data: $(".drive-password-form").serialize(),
+        dataType:"json",
+        headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+    });
+
+    ajaxPost.done(function(res){
+        $(e).html("<strong>Send</strong>");
+
+        if(res.message == "success"){
+            $(".drive-password-box").hide();
+            $(".drive-file").show();
+
+            if(res.drive.file_type == "photo"){
+                $(".m-photo").attr("src","https://eurekahostdrive.nyc3.cdn.digitaloceanspaces.com/"+res.drive.path).show();
+
+                $(".m-audio").hide();
+                $(".m-video").hide();
+                $(".m-document").hide();
+                $(".m-compress").hide();
+            }
+
+            if(res.drive.file_type == "audio"){
+                $(".m-audio").attr("src","https://eurekahostdrive.nyc3.cdn.digitaloceanspaces.com/"+res.drive.path).show();
+
+                $(".m-photo").hide();
+                $(".m-video").hide();
+                $(".m-document").hide();
+                $(".m-compress").hide();
+            }
+
+            if(res.drive.file_type == "video"){
+                $(".m-video").attr("src","https://eurekahostdrive.nyc3.cdn.digitaloceanspaces.com/"+res.drive.path).show();
+
+                $(".m-audio").hide();
+                $(".m-photo").hide();
+                $(".m-document").hide();
+                $(".m-compress").hide();
+            }
+
+            if(res.drive.file_type == "document"){
+                $(".m-document").attr("src","https://eurekahostdrive.nyc3.cdn.digitaloceanspaces.com/"+res.drive.path).show();
+
+                $(".m-audio").hide();
+                $(".m-video").hide();
+                $(".m-photo").hide();
+                $(".m-compress").hide();
+            }
+
+            if(res.drive.file_type == "compress"){
+                $(".m-compress").attr("src","https://eurekahostdrive.nyc3.cdn.digitaloceanspaces.com/"+res.drive.path).show();
+
+                $(".m-audio").hide();
+                $(".m-video").hide();
+                $(".m-document").hide();
+                $(".m-photo").hide();
+            }
+        }
+        else{
+            $(".pwd-response").html('<div class="alert alert-danger" role="alert"><strong>'+res.message+'</strong></div>');
+        }
+    });
+
+    ajaxPost.fail(function(err){
+    });
+}
+
 var clipboard = new ClipboardJS('#copy-btn');
 
 clipboard.on('success',function(e){
@@ -660,5 +732,17 @@ var myDropzone = new Dropzone(".dropzone", {
 });
 
 const player = new Plyr('.media-player', {
+  tooltips:{ controls: true, seek: true }
+});
+
+const player2 = new Plyr('.media-v-player', {
+  tooltips:{ controls: true, seek: true }
+});
+
+const player3 = new Plyr('.media-a-player', {
+  tooltips:{ controls: true, seek: true }
+});
+
+const player4 = new Plyr('.media-vv-player', {
   tooltips:{ controls: true, seek: true }
 });
