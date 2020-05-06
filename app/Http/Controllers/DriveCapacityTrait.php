@@ -36,6 +36,6 @@ trait DriveCapacityTrait
             $this->data = (string)$v.' TB';
         }
 
-        return $this->data.'-'.$usage;
+        return $this->data.'/'.$usage;
     }
 }

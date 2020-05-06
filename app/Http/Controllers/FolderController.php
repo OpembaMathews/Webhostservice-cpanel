@@ -52,4 +52,19 @@ class FolderController extends Controller
             'message'=>$this->data
         ]);
     }
+
+    public function delete(Request $request){
+        $drive = Drive::withTrashed()->where('folder_id',$request->trash_id)->get();
+
+        foreach ($drive as $d) {
+            Storage::disk('spaces')->delete($d->path);
+            Drive::where('folder_id',$request->trash_id)->forceDelete();
+        }
+        
+        Folder::where('id',$request->trash_id)->forceDelete();
+
+        return response()->json([
+            'message'=>'success'
+        ]);
+    }
 }

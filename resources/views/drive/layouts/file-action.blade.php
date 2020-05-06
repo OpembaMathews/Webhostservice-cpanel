@@ -1,5 +1,5 @@
 @if($d->file_type == 'audio')
-<a class="dropdown-item" href="#" data-toggle="modal" data-target=".media-player-modal" data-media="{{asset('img/'.$d->path)}}" title="{{$d->name}}" onclick="getMedia(this,'audio');" data-url="{{url('drive/share/'.$d->drive_code)}}">Play</a>
+<a class="dropdown-item" href="#" data-toggle="modal" data-target=".media-player-modal" data-media="https://eurekahostdrive.nyc3.cdn.digitaloceanspaces.com/{{$d->path}}" title="{{$d->name}}" onclick="getMedia(this,'audio');" data-url="{{url('drive/share/'.$d->drive_code)}}">Play</a>
 
 <a class="dropdown-item" href="#" data-toggle="modal" data-target=".media-player-modal" data-media="https://eurekahostdrive.nyc3.cdn.digitaloceanspaces.com/{{$d->path}}" title="{{$d->name}}"  data-url="{{url('drive/share/'.$d->drive_code)}}" onclick="getMedia(this,'audio');">Copy File URL</a>
 
@@ -7,7 +7,7 @@
 
 
 @elseif($d->file_type == 'video')
-<a class="dropdown-item" href="#" data-toggle="modal" data-target=".media-player-modal" data-media="{{asset('img/'.$d->path)}}" title="{{$d->name}}" onclick="getMedia(this,'video');" data-url="{{url('drive/share/'.$d->drive_code)}}">Play</a>
+<a class="dropdown-item" href="#" data-toggle="modal" data-target=".media-player-modal" data-media="https://eurekahostdrive.nyc3.cdn.digitaloceanspaces.com/{{$d->path}}" title="{{$d->name}}" onclick="getMedia(this,'video');" data-url="{{url('drive/share/'.$d->drive_code)}}">Play</a>
 
 <a class="dropdown-item" href="#" data-toggle="modal" data-target=".media-player-modal" data-media="https://eurekahostdrive.nyc3.cdn.digitaloceanspaces.com/{{$d->path}}" title="{{$d->name}}"  data-url="{{url('drive/share/'.$d->drive_code)}}" onclick="getMedia(this,'video');">Copy File URL</a>
 
@@ -46,4 +46,24 @@
 <a class="dropdown-item" href="{{url('drive/download/'.$d->path)}}">Download</a>
 
 <div class="dropdown-divider"></div>
-<a class="dropdown-item" href="#" style="color: #e51c4a" onclick="deleteFile(this);" data-toggle="modal" data-target=".delete-file-modal" data-value="{{$d->path}}" data-id="{{$d->id}}">Delete</a>
+
+@if($d->file_type == 'audio')
+<a class="dropdown-item" href="#" style="color: #e51c4a" onclick="deleteFile(this,'audio');" data-toggle="modal" data-target=".delete-file-modal" data-value="{{asset('img/music.svg')}}" data-id="{{$d->id}}" title="{{$d->name}}">Delete</a>
+
+
+@elseif($d->file_type == 'video')
+<a class="dropdown-item" href="#" style="color: #e51c4a" onclick="deleteFile(this,'video');" data-toggle="modal" data-target=".delete-file-modal" data-value="{{asset('img/video.svg')}}" data-id="{{$d->id}}" title="{{$d->name}}">Delete</a>
+
+
+@elseif($d->file_type == 'photo')
+<a class="dropdown-item" href="#" style="color: #e51c4a" onclick="deleteFile(this,'photo');" data-toggle="modal" data-target=".delete-file-modal" data-value="{{$d->path}}" data-id="{{$d->id}}" title="{{$d->name}}">Delete</a>
+
+
+@elseif($d->file_type == 'document')
+<a class="dropdown-item" href="#" style="color: #e51c4a" onclick="deleteFile(this,'document');" data-toggle="modal" data-target=".delete-file-modal" data-value="{{asset('img/document.svg')}}" data-id="{{$d->id}}" title="{{$d->name}}">Delete</a>
+
+@elseif($d->file_type == 'compress')
+
+<a class="dropdown-item" href="#" style="color: #e51c4a" onclick="deleteFile(this,'compress');" data-toggle="modal" data-target=".delete-file-modal" data-value="{{asset('img/archive.svg')}}" data-id="{{$d->id}}" title="{{$d->name}}">Delete</a>
+
+@endif

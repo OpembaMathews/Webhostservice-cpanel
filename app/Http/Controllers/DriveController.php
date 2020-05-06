@@ -43,21 +43,20 @@ class DriveController extends Controller
                 if(in_array($type, ['jpg','png','gif','webp','tiff','psd','raw','bmp','heif','indd','jpeg','svg','ai','eps'])){
                     $this->file_type = 'photo';
                 }
-
-                if(in_array($type, ['aif','cda','mid','midi','mp3','mpa','ogg','wav','wma','wpl'])){
+                else if(in_array($type, ['aif','cda','mid','midi','mp3','mpa','ogg','wav','wma','wpl'])){
                     $this->file_type = 'audio';
                 }
-
-                if(in_array($type, ['webm','mpg','mp2','mpeg','mpe','mpv','ogg','mp4','m4p','m4v','avi','wmv','mov','qt','flv','swf'])){
+                elseif(in_array($type, ['webm','mpg','mp2','mpeg','mpe','mpv','ogg','mp4','m4p','m4v','avi','wmv','mov','qt','flv','swf'])){
                     $this->file_type = 'video';
                 }
-
-                if(in_array($type, ['doc','docx','odt','pdf','rtf','tex','txt','wpd','bak','cab','cfg','cpl','cur','dll','dmp','drv','icns','ico','ini','lnk','msi','sys','tmp','ods','xls','xlsm','xlsx','c','class','cpp','cs','h','java','pl','sh','swift','vb','key','odp','pps','ppt','pptx','asp','aspx','cer','cfm','cgi','css','htm','html','js','jsp','part','php','py','rss','xhtml','fnt','eot','fon','otf','ttf','apk','bat','bin','cgi','com','exe','gadget','jar','msi','py','wsf','email','eml','emlx','msg','oft','ost','pst','vcf','csv','dat','db','dbf','log','mdb','sav','sql','tar','xml','bin','dmg','iso','toast','vcd'])){
+                elseif(in_array($type, ['doc','docx','odt','pdf','rtf','tex','txt','wpd','bak','cab','cfg','cpl','cur','dll','dmp','drv','icns','ico','ini','lnk','msi','sys','tmp','ods','xls','xlsm','xlsx','c','class','cpp','cs','h','java','pl','sh','swift','vb','key','odp','pps','ppt','pptx','asp','aspx','cer','cfm','cgi','css','htm','html','js','jsp','part','php','py','rss','xhtml','fnt','eot','fon','otf','ttf','apk','bat','bin','cgi','com','exe','gadget','jar','msi','py','wsf','email','eml','emlx','msg','oft','ost','pst','vcf','csv','dat','db','dbf','log','mdb','sav','sql','tar','xml','bin','dmg','iso','toast','vcd'])){
                     $this->file_type = 'document';
                 }
-
-                if(in_array($type, ['7z','arj','deb','pkg','rar','rpm','tar.gz','z','zip'])){
+                elseif(in_array($type, ['7z','arj','deb','pkg','rar','rpm','tar.gz','z','zip'])){
                     $this->file_type = 'compress';
+                }
+                else{ 
+                    $this->file_type = 'document'; 
                 }
 
                 $drive = Drive::create([
@@ -276,8 +275,8 @@ class DriveController extends Controller
             $total_usage = $this->getCapacity('d_usage');
             $total_storage = $this->getCapacity('capacity');
 
-            $uVal = explode('-', $total_usage);
-            $sVal = explode('-', $total_storage);
+            $uVal = explode('/', $total_usage);
+            $sVal = explode('/', $total_storage);
 
             $percent = ((int)$uVal[1] * 100) / (int)$sVal[1];
 
@@ -313,7 +312,7 @@ class DriveController extends Controller
             if($response_type == 'view'){
         	   return view('drive.'.$type,['data'=>$this->drive,'count_all'=>sizeof($myFile),'count_recent'=>sizeof($recent),'count_trash'=>sizeof($trash[0]) + sizeof($trash[1]),'total_storage'=>$sVal[0],'total_usage'=>$uVal[0],'percentage'=>round($percent,0),'folder'=>$folder,'count_photo'=>sizeof($photo),'count_video'=>sizeof($video),'count_audio'=>sizeof($audio),'count_document'=>sizeof($document),'count_compress'=>sizeof($compressed),'openFolder'=>$openFolder]);
 
-                //return $this->drive;
+                //return $uVal[0];
             }
             else{
                 return $this->drive;
@@ -337,18 +336,18 @@ class DriveController extends Controller
     }
 
     public function delete(Request $request){
-        $delete = Storage::disk('spaces')->delete($request->trash_file);
         $drive = Drive::withTrashed()->where('id',(int)$request->trash_id)->first();
-
+        $delete = Storage::disk('spaces')->delete($drive->path);
+        
         DriveCapacity::create([
             'd_usage'=> 0 - $drive->size,
             'capacity'=>0,
             'user_id'=>Auth::user()->id
         ]);
 
-        Drive::withTrashed()->where('id',$request->trash_id)->forceDelete();
-
         DrivePasswordControl::where('drive_id',$request->trash_id)->delete();
+
+        Drive::withTrashed()->where('id',$request->trash_id)->forceDelete();
 
         return response()->json([
             'message'=>'success',

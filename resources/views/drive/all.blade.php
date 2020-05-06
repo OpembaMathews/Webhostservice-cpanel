@@ -56,12 +56,12 @@
                                                     
                                                     <a class="dropdown-item" href="{{url('drive/file/folder/view/'.$f->id)}}">Open</a>
 
-                                                    <a class="dropdown-item" href="#" onclick="renameFolder(this);" data-toggle="modal" data-target=".rename-folder-modal" data-value="{{$f->name}}" data-id="{{$f->id}}">Rename</a>
+                                                    <a class="dropdown-item" href="#" onclick="renameFolder(this,'folder');" data-toggle="modal" data-target=".rename-folder-modal" data-value="{{asset('img/folder.jpg')}}" data-id="{{$f->id}}" title="{{$f->name}}">Rename</a>
 
                                                     <a class="dropdown-item" href="#" onclick="moveToTrash(this,'folder');" data-toggle="modal" data-target=".move-to-trash-modal" data-value="{{asset('img/folder.jpg')}}" data-id="{{$f->id}}" title="{{$f->name}}">Move to trash</a>
 
                                                     <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="#" style="color: #e51c4a" onclick="deleteFile(this);" data-toggle="modal" data-target=".delete-file-modal" data-value="{{$f->path}}" data-id="{{$f->id}}">Delete</a>
+                                                    <a class="dropdown-item" href="#" style="color: #e51c4a" onclick="deleteFolder(this,'folder');" data-toggle="modal" data-target=".delete-folder-modal" data-value="{{asset('img/folder.jpg')}}" data-id="{{$f->id}}" title="{{$f->name}}">Delete</a>
                                                 </div>
                                             </div>
                                         </h5>
@@ -188,45 +188,7 @@
 
        @include('drive.layouts.upload')
 
-        <!-- confirm delete file -->
-        <div class="modal fade delete-file-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
-            <style type="text/css">
-                .upload-box {
-                    border: 2px dashed #e51c4a !important;
-                    border-radius: 5px;
-                    background: white;
-                    min-height: 150px;
-                    border: 2px solid rgba(0, 0, 0, 0.3);
-                    background: white;
-                    padding: 54px 54px;
-                }
-                .dz-button{ font-weight: bold !important; font-size: 1.5em !important }
-            </style>
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header" style="background-color: #e51c4a;">
-                        <h5 class="modal-title" style="color: #ffffff !important">Want to delete this file?</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="color: #ffffff !important">×</button>
-                    </div>
-                    <div class="modal-body" style="text-align: center;">
-                        <div class="response"></div>
-                        <img src="" style="width: 300px; height: auto; border-radius: .25rem" class="trash-file">
-                        <form class="delete-file-form">
-                            <input type="hidden" name="trash_id">
-                            <input type="hidden" name="trash_file">
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-light waves-effect" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn waves-effect waves-light" style="background-color: #e51c4a;" onclick="confirmDeleteFile(this);">
-                            <strong>Delete</strong>
-                        </button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div>
-
-        <!-- confirm delete file -->
+        <!-- confirm create folder file -->
         <div class="modal fade create-folder-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
             <style type="text/css">
                 .upload-box {
@@ -306,7 +268,7 @@
             </div><!-- /.modal-dialog -->
         </div>
 
-        <!-- confirm media file -->
+        <!-- confirm rename file -->
         <div class="modal fade rename-folder-modal" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
             <style type="text/css">
                 .upload-box {

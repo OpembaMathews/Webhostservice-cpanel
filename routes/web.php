@@ -64,6 +64,7 @@ Route::delete('drive/delete', 'DriveController@delete');
 
 Route::post('folder/create', 'FolderController@create');
 Route::put('folder/update', 'FolderController@update');
+Route::delete('folder/delete', 'FolderController@delete');
 
 Route::post('drive/password/control/create', 'DrivePasswordController@create');
 Route::get('drive/share/{code}', 'DrivePasswordController@share');

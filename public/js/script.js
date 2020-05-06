@@ -190,11 +190,68 @@ function restoreFile(e,type){
     $("[name='trash_id']").val(id);
 }
 
-function deleteFile(e){
+function deleteFile(e,type){
     var path = $(e).attr("data-value");
     var id = $(e).attr("data-id");
+    $(".file-title").html($(e).attr("title"));
 
-    $("img.trash-file").attr("src","https://eurekahostdrive.nyc3.cdn.digitaloceanspaces.com/"+path);
+    if(type == "photo"){
+        $("img.trash-file").attr("src","https://eurekahostdrive.nyc3.cdn.digitaloceanspaces.com/"+path);
+    }
+
+    if(type == "audio"){
+        $("img.trash-file").attr("src",path);
+    }
+
+    if(type == "video"){
+        $("img.trash-file").attr("src",path);
+    }
+
+    if(type == "document"){
+        $("img.trash-file").attr("src",path);
+    }
+
+    if(type == "compress"){
+        $("img.trash-file").attr("src",path);
+    }
+
+    if(type == "folder"){
+        $("img.trash-file").attr("src",path);
+    }
+
+    $("[name='trash_id']").val(id);
+    $("[name='trash_file']").val(path);
+}
+
+function deleteFolder(e,type){
+    var path = $(e).attr("data-value");
+    var id = $(e).attr("data-id");
+    $(".file-title").html($(e).attr("title"));
+
+    if(type == "photo"){
+        $("img.trash-file").attr("src","https://eurekahostdrive.nyc3.cdn.digitaloceanspaces.com/"+path);
+    }
+
+    if(type == "audio"){
+        $("img.trash-file").attr("src",path);
+    }
+
+    if(type == "video"){
+        $("img.trash-file").attr("src",path);
+    }
+
+    if(type == "document"){
+        $("img.trash-file").attr("src",path);
+    }
+
+    if(type == "compress"){
+        $("img.trash-file").attr("src",path);
+    }
+
+    if(type == "folder"){
+        $("img.trash-file").attr("src",path);
+    }
+
     $("[name='trash_id']").val(id);
     $("[name='trash_file']").val(path);
 }
@@ -260,6 +317,35 @@ function confirmDeleteFile(e){
 
         if(res.message == "success"){
             $(".response").html('<div class="alert alert-success" role="alert"><strong><i class="mdi mdi-check-circle-outline"></> File deleted</strong></div>');
+
+            setTimeout(function(){
+                window.location.reload()
+            },2000);
+        }
+        else{
+            $(".response").html('<div class="alert alert-danger" role="alert"><strong>'+res.message+'</strong></div>');
+        }
+    });
+
+    ajaxPost.fail(function(res){
+    });
+}
+
+function confirmDeleteFolder(e){
+    $(e).html("<strong><div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div><span style='vertical-align:super' class='ml-1'>Please wait...</span></strong>");
+
+    var ajaxPost = $.ajax({
+        url: window.location.protocol+"//"+window.location.host+"/folder/delete",
+        method: "DELETE",
+        data: $(".delete-folder-form").serialize(),
+        headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+    });
+
+    ajaxPost.done(function(res){
+        $(e).html("<strong>Delete</strong>");
+
+        if(res.message == "success"){
+            $(".response").html('<div class="alert alert-success" role="alert"><strong><i class="mdi mdi-check-circle-outline"></> Folder deleted</strong></div>');
 
             setTimeout(function(){
                 window.location.reload()
@@ -464,7 +550,7 @@ function confirmRenameFolder(e){
 
 function renameFolder(e){
     $(".folder-id").val($(e).attr("data-id"));
-    $(".folder-name").val($(e).attr("data-value"));
+    $(".folder-name").val($(e).attr("title"));
     $(".folder-title").html($(e).attr("data-value"));
 }
 

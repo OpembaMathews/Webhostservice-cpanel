@@ -54,7 +54,7 @@
                                                     <a class="dropdown-item" href="#" data-toggle="modal" data-target=".restore-file-modal" data-value="{{asset('img/folder.jpg')}}" data-id="{{$f->id}}" title="{{$f->name}}" onclick="restoreFile(this,'folder');">Restore</a>
                                                     <div class="dropdown-divider"></div>
 
-                                                    <a class="dropdown-item" href="#" style="color: #e51c4a" onclick="deleteFile(this);" data-toggle="modal" data-target=".delete-file-modal" data-value="{{$f->path}}" data-id="{{$f->id}}">Delete</a>
+                                                    <a class="dropdown-item" href="#" style="color: #e51c4a" onclick="deleteFolder(this,'folder');" data-toggle="modal" data-target=".delete-folder-modal" data-value="{{asset('img/folder.jpg')}}" data-id="{{$f->id}}" title="{{$f->name}}">Delete</a>
                                                 </div>
                                             </div>
                                         </h5>
@@ -112,7 +112,26 @@
 
                                                     <div class="dropdown-divider"></div>
 
-                                                    <a class="dropdown-item" href="#" style="color: #e51c4a" onclick="deleteFile(this);" data-toggle="modal" data-target=".delete-file-modal" data-value="{{$d->path}}" data-id="{{$d->id}}">Delete</a>
+                                                    @if($d->file_type == 'audio')
+                                                    <a class="dropdown-item" href="#" style="color: #e51c4a" onclick="deleteFile(this,'audio');" data-toggle="modal" data-target=".delete-file-modal" data-value="{{asset('img/music.svg')}}" data-id="{{$d->id}}" title="{{$d->name}}">Delete</a>
+
+
+                                                    @elseif($d->file_type == 'video')
+                                                    <a class="dropdown-item" href="#" style="color: #e51c4a" onclick="deleteFile(this,'video');" data-toggle="modal" data-target=".delete-file-modal" data-value="{{asset('img/video.svg')}}" data-id="{{$d->id}}" title="{{$d->name}}">Delete</a>
+
+
+                                                    @elseif($d->file_type == 'photo')
+                                                    <a class="dropdown-item" href="#" style="color: #e51c4a" onclick="deleteFile(this,'photo');" data-toggle="modal" data-target=".delete-file-modal" data-value="{{$d->path}}" data-id="{{$d->id}}" title="{{$d->name}}">Delete</a>
+
+
+                                                    @elseif($d->file_type == 'document')
+                                                    <a class="dropdown-item" href="#" style="color: #e51c4a" onclick="deleteFile(this,'document');" data-toggle="modal" data-target=".delete-file-modal" data-value="{{asset('img/document.svg')}}" data-id="{{$d->id}}" title="{{$d->name}}">Delete</a>
+
+                                                    @elseif($d->file_type == 'compress')
+
+                                                    <a class="dropdown-item" href="#" style="color: #e51c4a" onclick="deleteFile(this,'compress');" data-toggle="modal" data-target=".delete-file-modal" data-value="{{asset('img/archive.svg')}}" data-id="{{$d->id}}" title="{{$d->name}}">Delete</a>
+
+                                                    @endif
 
                                                 </div>
                                             </div>
@@ -150,7 +169,7 @@
                                                     <a class="dropdown-item" href="#" data-toggle="modal" data-target=".restore-file-modal" data-value="{{asset('img/folder.jpg')}}" data-id="{{$d->id}}" title="{{$d->name}}" onclick="restoreFile(this,'folder');">Restore</a>
                                                     <div class="dropdown-divider"></div>
 
-                                                    <a class="dropdown-item" href="#" style="color: #e51c4a" onclick="deleteFile(this);" data-toggle="modal" data-target=".delete-file-modal" data-value="{{$d->path}}" data-id="{{$d->id}}">Delete</a>
+                                                    <a class="dropdown-item" href="#" style="color: #e51c4a" onclick="deleteFolder(this,'folder');" data-toggle="modal" data-target=".delete-folder-modal" data-value="{{asset('img/folder.jpg')}}" data-id="{{$f->id}}" title="{{$f->name}}">Delete</a>
                                                 </div>
                                             </div>
                                         </h5>
@@ -208,7 +227,26 @@
 
                                                     <div class="dropdown-divider"></div>
 
-                                                    <a class="dropdown-item" href="#" style="color: #e51c4a" onclick="deleteFile(this);" data-toggle="modal" data-target=".delete-file-modal" data-value="{{$d->path}}" data-id="{{$d->id}}">Delete</a>
+                                                    @if($d->file_type == 'audio')
+                                                    <a class="dropdown-item" href="#" style="color: #e51c4a" onclick="deleteFile(this,'audio');" data-toggle="modal" data-target=".delete-file-modal" data-value="{{asset('img/music.svg')}}" data-id="{{$d->id}}" title="{{$d->name}}">Delete</a>
+
+
+                                                    @elseif($d->file_type == 'video')
+                                                    <a class="dropdown-item" href="#" style="color: #e51c4a" onclick="deleteFile(this,'video');" data-toggle="modal" data-target=".delete-file-modal" data-value="{{asset('img/video.svg')}}" data-id="{{$d->id}}" title="{{$d->name}}">Delete</a>
+
+
+                                                    @elseif($d->file_type == 'photo')
+                                                    <a class="dropdown-item" href="#" style="color: #e51c4a" onclick="deleteFile(this,'photo');" data-toggle="modal" data-target=".delete-file-modal" data-value="{{$d->path}}" data-id="{{$d->id}}" title="{{$d->name}}">Delete</a>
+
+
+                                                    @elseif($d->file_type == 'document')
+                                                    <a class="dropdown-item" href="#" style="color: #e51c4a" onclick="deleteFile(this,'document');" data-toggle="modal" data-target=".delete-file-modal" data-value="{{asset('img/document.svg')}}" data-id="{{$d->id}}" title="{{$d->name}}">Delete</a>
+
+                                                    @elseif($d->file_type == 'compress')
+
+                                                    <a class="dropdown-item" href="#" style="color: #e51c4a" onclick="deleteFile(this,'compress');" data-toggle="modal" data-target=".delete-file-modal" data-value="{{asset('img/archive.svg')}}" data-id="{{$d->id}}" title="{{$d->name}}">Delete</a>
+
+                                                    @endif
 
                                                 </div>
                                             </div>
@@ -272,44 +310,8 @@
             </div><!-- /.modal-dialog -->
         </div>
 
-        <!-- confirm delete file -->
-        <div class="modal fade delete-file-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
-            <style type="text/css">
-                .upload-box {
-                    border: 2px dashed #e51c4a !important;
-                    border-radius: 5px;
-                    background: white;
-                    min-height: 150px;
-                    border: 2px solid rgba(0, 0, 0, 0.3);
-                    background: white;
-                    padding: 54px 54px;
-                }
-                .dz-button{ font-weight: bold !important; font-size: 1.5em !important }
-            </style>
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header" style="background-color: #e51c4a;">
-                        <h5 class="modal-title" style="color: #ffffff !important">Want to delete this file?</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="color: #ffffff !important">×</button>
-                    </div>
-                    <div class="modal-body" style="text-align: center;">
-                        <div class="response"></div>
-                        <img src="" style="width: 300px; height: auto; border-radius: .25rem" class="trash-file">
-                        <form class="delete-file-form">
-                            <input type="hidden" name="trash_id">
-                            <input type="hidden" name="trash_file">
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-light waves-effect" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn waves-effect waves-light" style="background-color: #e51c4a;" onclick="confirmDeleteFile(this);">
-                            <strong>Delete</strong>
-                        </button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div>
-
+        
+        @include('drive.layouts.general')
         @include('drive.scripts.index')
     </body>
 <html>
