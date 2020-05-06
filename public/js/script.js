@@ -551,7 +551,7 @@ function confirmRenameFolder(e){
 function renameFolder(e){
     $(".folder-id").val($(e).attr("data-id"));
     $(".folder-name").val($(e).attr("title"));
-    $(".folder-title").html($(e).attr("data-value"));
+    $(".folder-title").html($(e).attr("title"));
 }
 
 function getMedia(e,type){
