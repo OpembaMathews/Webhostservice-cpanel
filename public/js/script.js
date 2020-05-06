@@ -125,17 +125,68 @@ function errorResponse(response){
     }
 }
 
-function moveToTrash(e){
+function moveToTrash(e,type){
     var path = $(e).attr("data-value");
     var id = $(e).attr("data-id");
-    $("img.trash-file").attr("src","https://eurekahostdrive.nyc3.cdn.digitaloceanspaces.com/"+path);
+    $(".file-title").html($(e).attr("title"));
+
+    if(type == "photo"){
+        $("img.trash-file").attr("src","https://eurekahostdrive.nyc3.cdn.digitaloceanspaces.com/"+path);
+    }
+
+    if(type == "audio"){
+        $("img.trash-file").attr("src",path);
+    }
+
+    if(type == "video"){
+        $("img.trash-file").attr("src",path);
+    }
+
+    if(type == "document"){
+        $("img.trash-file").attr("src",path);
+    }
+
+    if(type == "compress"){
+        $("img.trash-file").attr("src",path);
+    }
+
+    if(type == "folder"){
+        $("img.trash-file").attr("src",path);
+    }
+
     $("[name='trash_id']").val(id);
 }
 
-function restoreFile(e){
+function restoreFile(e,type){
     var path = $(e).attr("data-value");
     var id = $(e).attr("data-id");
-    $("img.trash-file").attr("src","https://eurekahostdrive.nyc3.cdn.digitaloceanspaces.com/"+path);
+    $(".file-title").html($(e).attr("title"));
+
+    if(type == "photo"){
+        $("img.trash-file").attr("src","https://eurekahostdrive.nyc3.cdn.digitaloceanspaces.com/"+path);
+    }
+
+    if(type == "audio"){
+        $("img.trash-file").attr("src",path);
+    }
+
+    if(type == "video"){
+        $("img.trash-file").attr("src",path);
+    }
+
+    if(type == "document"){
+        $("img.trash-file").attr("src",path);
+    }
+
+    if(type == "compress"){
+        $("img.trash-file").attr("src",path);
+    }
+
+    if(type == "folder"){
+        $("img.trash-file").attr("src",path);
+    }
+
+    
     $("[name='trash_id']").val(id);
 }
 
@@ -383,6 +434,40 @@ function createFolder(e){
     });
 }
 
+function confirmRenameFolder(e){
+    $(e).html("<strong><div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div><span style='vertical-align:super' class='ml-1'>Please wait...</span></strong>");
+
+    var ajaxPost = $.ajax({
+        url: window.location.protocol+"//"+window.location.host+"/folder/update",
+        method: "PUT",
+        data: $(".rename-folder-form").serialize(),
+        headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+    });
+
+    ajaxPost.done(function(res){
+        $(e).html("<strong>Save</strong>");
+
+        if(res.message == "success"){
+            $(".folder-response").html('<div class="alert alert-success" role="alert"><strong><i class="mdi mdi-check-circle-outline"></> Folder saved successully.</strong></div>');
+
+            setTimeout(function(){
+                window.location.reload();
+            },2000);
+        }
+        else{
+            $(".folder-response").html('<div class="alert alert-danger" role="alert"><strong>'+res.message+'</strong></div>');
+        }
+    });
+
+    ajaxPost.fail(function(res){});
+}
+
+function renameFolder(e){
+    $(".folder-id").val($(e).attr("data-id"));
+    $(".folder-name").val($(e).attr("data-value"));
+    $(".folder-title").html($(e).attr("data-value"));
+}
+
 function getMedia(e,type){
     var media = $(e).attr("data-media");
 
@@ -451,7 +536,7 @@ function addDrivePasswordControl(e){
         $(e).html("<strong>Save</strong>");
 
         if(res.message == "success"){
-            $(".pwd-response").html('<div class="alert alert-success" role="alert"><strong><i class="mdi mdi-check-circle-outline"></> Password saved successully.</strong></div>');
+            $(".pwd-response").html('<div class="alert alert-success" role="alert"><strong><i class="mdi mdi-check-circle-outline"></> Successful.</strong></div>');
 
             setTimeout(function(){
                 window.location.reload();

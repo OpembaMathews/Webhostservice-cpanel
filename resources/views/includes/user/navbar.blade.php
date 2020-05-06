@@ -38,7 +38,7 @@
 
                         @if(Auth::user()->account_type == 3)
                         <!-- item-->
-                        <a href="{{url('drive/file/all/view')}}" class="dropdown-item notify-item">
+                        <a href="{{url('drive/file/all/view/show')}}" class="dropdown-item notify-item">
                             <i class="mdi mdi-server"></i>
                             <span>Switch To <strong>EurekaHost Drive</strong></span>
                         </a>

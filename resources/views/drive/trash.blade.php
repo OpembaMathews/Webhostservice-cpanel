@@ -32,7 +32,38 @@
                         </div>
 
                         <div class="row default-files-trash">
-                            @foreach($data as $d)
+                            @foreach($data[1] as $f)
+                            <div class="col-sm-6 col-lg-2">
+                                <div class="card">
+                                    <img class="card-img-top img-fluid" src="{{asset('img/folder.jpg')}}" alt="Card image cap">
+                                    <div class="card-body" style="padding-bottom: 0">
+                                        <h6 class="card-title">
+                                            <span style="line-height: 2.5; color: #c51c4a;cursor:pointer" title="{{$f->name}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{$f->name}}">
+                                                {{strlen($f->name) > 15 ? substr($f->name,0,14).'...' : $f->name}} <small>({{$f->count}})</small>
+                                            </span><br>
+                                            <small style="line-height: 2.5;">
+                                                <i class="mdi mdi-clock-outline"></i>
+                                                {{date_format($f->created_at,'M d, Y h:i A')}}
+                                            </small>
+                                            <div class="btn-group mt-1 mr-1 float-right">
+                                                <button class="btn btn-white btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="mdi mdi-dots-horizontal" style="font-size: 1.5em"></i>
+                                                </button>
+                                                <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 28px, 0px);">
+                                                    
+                                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target=".restore-file-modal" data-value="{{asset('img/folder.jpg')}}" data-id="{{$f->id}}" title="{{$f->name}}" onclick="restoreFile(this,'folder');">Restore</a>
+                                                    <div class="dropdown-divider"></div>
+
+                                                    <a class="dropdown-item" href="#" style="color: #e51c4a" onclick="deleteFile(this);" data-toggle="modal" data-target=".delete-file-modal" data-value="{{$f->path}}" data-id="{{$f->id}}">Delete</a>
+                                                </div>
+                                            </div>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+
+                            @foreach($data[0] as $d)
                             <div class="col-sm-6 col-lg-2">
                                 <!-- Simple card -->
                                 <div class="card">
@@ -62,9 +93,27 @@
                                                     <i class="mdi mdi-dots-horizontal" style="font-size: 1.5em"></i>
                                                 </button>
                                                 <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 28px, 0px);">
-                                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target=".restore-file-modal" data-value="{{$d->path}}" data-id="{{$d->id}}" onclick="restoreFile(this);">Restore</a>
+
+                                                    @if($d->file_type == 'photo')
+                                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target=".restore-file-modal" data-value="{{$d->path}}" data-id="{{$d->id}}" title="{{$d->name}}" onclick="restoreFile(this,'photo');">Restore</a>
+
+                                                    @elseif($d->file_type == 'audio')
+                                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target=".restore-file-modal" data-value="{{asset('img/music.svg')}}" data-id="{{$d->id}}" title="{{$d->name}}" onclick="restoreFile(this,'audio');">Restore</a>
+
+                                                    @elseif($d->file_type == 'video')
+                                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target=".restore-file-modal" data-value="{{asset('img/video.svg')}}" data-id="{{$d->id}}" title="{{$d->name}}" onclick="restoreFile(this,'video');">Restore</a>
+
+                                                    @elseif($d->file_type == 'document')
+                                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target=".restore-file-modal" data-value="{{asset('img/document.svg')}}" data-id="{{$d->id}}" title="{{$d->name}}" onclick="restoreFile(this,'document');">Restore</a>
+
+                                                    @elseif($d->file_type == 'compress')
+                                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target=".restore-file-modal" data-value="{{asset('img/archive.svg')}}" data-id="{{$d->id}}" title="{{$d->name}}" onclick="restoreFile(this,'compress');">Restore</a>
+                                                    @endif
+
                                                     <div class="dropdown-divider"></div>
+
                                                     <a class="dropdown-item" href="#" style="color: #e51c4a" onclick="deleteFile(this);" data-toggle="modal" data-target=".delete-file-modal" data-value="{{$d->path}}" data-id="{{$d->id}}">Delete</a>
+
                                                 </div>
                                             </div>
                                         </h5>
@@ -79,7 +128,38 @@
                                 <strong><span style='vertical-align:super' class='ml-1'>No file found</span></strong>
                             </div>
 
-                            @foreach($data as $d)
+                            @foreach($data[1] as $d)
+                            <div class="col-sm-6 col-lg-2 search-col" data-name="{{$d->name}}">
+                                <div class="card">
+                                    <img class="card-img-top img-fluid" src="{{asset('img/folder.jpg')}}" alt="Card image cap">
+                                    <div class="card-body" style="padding-bottom: 0">
+                                        <h6 class="card-title">
+                                            <span style="line-height: 2.5; color: #c51c4a;cursor:pointer" title="{{$f->name}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{$f->name}}">
+                                                {{strlen($d->name) > 15 ? substr($d->name,0,14).'...' : $d->name}} <small>({{$d->count}})</small>
+                                            </span><br>
+                                            <small style="line-height: 2.5;">
+                                                <i class="mdi mdi-clock-outline"></i>
+                                                {{date_format($f->created_at,'M d, Y h:i A')}}
+                                            </small>
+                                            <div class="btn-group mt-1 mr-1 float-right">
+                                                <button class="btn btn-white btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="mdi mdi-dots-horizontal" style="font-size: 1.5em"></i>
+                                                </button>
+                                                <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 28px, 0px);">
+                                                    
+                                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target=".restore-file-modal" data-value="{{asset('img/folder.jpg')}}" data-id="{{$d->id}}" title="{{$d->name}}" onclick="restoreFile(this,'folder');">Restore</a>
+                                                    <div class="dropdown-divider"></div>
+
+                                                    <a class="dropdown-item" href="#" style="color: #e51c4a" onclick="deleteFile(this);" data-toggle="modal" data-target=".delete-file-modal" data-value="{{$d->path}}" data-id="{{$d->id}}">Delete</a>
+                                                </div>
+                                            </div>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+
+                            @foreach($data[0] as $d)
                             <div class="col-sm-6 col-lg-2 search-col" data-name="{{$d->name}}">
                                 <!-- Simple card -->
                                 <div class="card">
@@ -109,9 +189,27 @@
                                                     <i class="mdi mdi-dots-horizontal" style="font-size: 1.5em"></i>
                                                 </button>
                                                 <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 28px, 0px);">
-                                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target=".restore-file-modal" data-value="{{$d->path}}" data-id="{{$d->id}}" onclick="restoreFile(this);">Restore</a>
+
+                                                    @if($d->file_type == 'photo')
+                                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target=".restore-file-modal" data-value="{{$d->path}}" data-id="{{$d->id}}" title="{{$d->name}}" onclick="restoreFile(this,'photo');">Restore</a>
+
+                                                    @elseif($d->file_type == 'audio')
+                                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target=".restore-file-modal" data-value="{{asset('img/music.svg')}}" data-id="{{$d->id}}" title="{{$d->name}}" onclick="restoreFile(this,'audio');">Restore</a>
+
+                                                    @elseif($d->file_type == 'video')
+                                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target=".restore-file-modal" data-value="{{asset('img/video.svg')}}" data-id="{{$d->id}}" title="{{$d->name}}" onclick="restoreFile(this,'video');">Restore</a>
+
+                                                    @elseif($d->file_type == 'document')
+                                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target=".restore-file-modal" data-value="{{asset('img/document.svg')}}" data-id="{{$d->id}}" title="{{$d->name}}" onclick="restoreFile(this,'document');">Restore</a>
+
+                                                    @elseif($d->file_type == 'compress')
+                                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target=".restore-file-modal" data-value="{{asset('img/archive.svg')}}" data-id="{{$d->id}}" title="{{$d->name}}" onclick="restoreFile(this,'compress');">Restore</a>
+                                                    @endif
+
                                                     <div class="dropdown-divider"></div>
+
                                                     <a class="dropdown-item" href="#" style="color: #e51c4a" onclick="deleteFile(this);" data-toggle="modal" data-target=".delete-file-modal" data-value="{{$d->path}}" data-id="{{$d->id}}">Delete</a>
+
                                                 </div>
                                             </div>
                                         </h5>
@@ -149,7 +247,12 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header" style="background-color: #e51c4a;">
-                        <h5 class="modal-title" style="color: #ffffff !important">Want to restore file from trash?</h5>
+                        <h5 class="modal-title" style="color: #ffffff !important">
+                            <i class="mdi mdi-file-document-box-outline"></i>
+                            <span class="file-title"></span> - 
+
+                            Want to restore file from trash?
+                        </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="color: #ffffff !important">×</button>
                     </div>
                     <div class="modal-body" style="text-align: center;">

@@ -170,7 +170,7 @@
                     <span>Go To Host</span>
                 </a>
 
-                <a href="{{url('drive/file/all/view')}}" class="dropdown-item notify-item">
+                <a href="{{url('drive/file/all/view/show')}}" class="dropdown-item notify-item">
                     <i class="mdi mdi-dtabase"></i>
                     <span>Go To Drive</span>
                 </a>

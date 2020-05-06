@@ -7,9 +7,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use App\Folder;
 use App\Drive;
-use App\DriveCapacity;
 use Carbon\Carbon;
-use App\Http\Controllers\DriveCapacityTrait;
 
 class FolderController extends Controller
 {
@@ -35,5 +33,23 @@ class FolderController extends Controller
     	return response()->json([
     		'message'=>$this->data
     	]);
+    }
+
+    public function update(Request $request){
+        if($request->filled('folder_name')){
+            Folder::where('id',$request->folder_id)->update([
+                'name'=>$request->folder_name
+            ]);
+
+            $this->data = 'success';
+        }
+        else{
+            $this->data = 'All fields are required';
+        }
+        
+
+        return response()->json([
+            'message'=>$this->data
+        ]);
     }
 }

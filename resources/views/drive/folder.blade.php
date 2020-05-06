@@ -17,18 +17,29 @@
                                             <li class="breadcrumb-item active">Starter</li>
                                         </ol>
                                     </div> -->
-                                    <h4 class="page-title"><i class="mdi mdi-image-outline" style="margin: 0 10px 0 3px;"></i>Photos <small>({{$count_photo}})</small></h4>
+                                    <h4 class="page-title"><i class="mdi mdi-folder" style="margin: 0 10px 0 3px;"></i> {{$openFolder[1][0]->name}} <small>({{sizeof($openFolder[0])}})</small></h4>
                                 </div>
                             </div>
                         </div>     
                         <!-- end page title --> 
 
-                        <div class="row default-files-photo">
-                            @foreach($data as $d)
+                        <div class="row default-files-folder">
+                            @foreach($openFolder[0] as $d)
                             <div class="col-sm-6 col-lg-2">
                                 <!-- Simple card -->
                                 <div class="card">
-                                    <img class="card-img-top img-fluid" src="https://eurekahostdrive.nyc3.cdn.digitaloceanspaces.com/{{$d->path}}" alt="Card image cap">
+                                    @if($d->file_type == 'photo')
+                                    <img class="card-img-top img-fluid" src="https://eurekahostdrive.nyc3.digitaloceanspaces.com/{{$d->path}}" alt="{{$d->name}}">
+                                    @elseif($d->file_type == 'audio')
+                                    <img class="card-img-top img-fluid" src="{{asset('img/music.svg')}}" alt="{{$d->name}}">
+                                    @elseif($d->file_type == 'video')
+                                    <img class="card-img-top img-fluid" src="{{asset('img/video.svg')}}" alt="{{$d->name}}">
+                                    @elseif($d->file_type == 'document')
+                                    <img class="card-img-top img-fluid" src="{{asset('img/document.svg')}}" alt="{{$d->name}}">
+                                    @elseif($d->file_type == 'compress')
+                                    <img class="card-img-top img-fluid" src="{{asset('img/archive.svg')}}" alt="{{$d->name}}">
+                                    @endif
+
                                     <div class="card-body" style="padding-bottom: 0">
                                         <h6 class="card-title">
                                             <span style="line-height: 2.5; color: #c51c4a;cursor:pointer" title="{{$d->name}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{$d->name}}.{{$d->type}}">
@@ -42,13 +53,6 @@
                                                 <i class="mdi mdi-clock-outline"></i>
                                                 {{date_format($d->created_at,'M d, Y h:i A')}}
                                             </small>
-                                            @if($d->folder_name)
-                                            <br>
-                                            <small style="line-height: 2.5; font-weight: bold;">
-                                                <i class="mdi mdi-folder"></i>
-                                                {{$d->folder_name}}
-                                            </small>
-                                            @endif
                                             <div class="btn-group mt-1 mr-1 float-right">
                                                 <button class="btn btn-white btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="mdi mdi-dots-horizontal" style="font-size: 1.5em"></i>
@@ -64,16 +68,27 @@
                             @endforeach
                         </div>
 
-                        <div class="row search-files-photo" style="display: none">
+                        <div class="row search-files-folder" style="display: none">
                             <div class='alert alert-info search-response' style='width:100%'>
                                 <strong><span style='vertical-align:super' class='ml-1'>No file found</span></strong>
                             </div>
 
-                            @foreach($data as $d)
+                            @foreach($openFolder[0] as $d)
                             <div class="col-sm-6 col-lg-2 search-col" data-name="{{$d->name}}">
                                 <!-- Simple card -->
                                 <div class="card">
-                                    <img class="card-img-top img-fluid" src="https://eurekahostdrive.nyc3.cdn.digitaloceanspaces.com/{{$d->path}}" alt="Card image cap">
+                                    @if($d->file_type == 'photo')
+                                    <img class="card-img-top img-fluid" src="https://eurekahostdrive.nyc3.digitaloceanspaces.com/{{$d->path}}" alt="{{$d->name}}">
+                                    @elseif($d->file_type == 'audio')
+                                    <img class="card-img-top img-fluid" src="{{asset('img/music.svg')}}" alt="{{$d->name}}">
+                                    @elseif($d->file_type == 'video')
+                                    <img class="card-img-top img-fluid" src="{{asset('img/video.svg')}}" alt="{{$d->name}}">
+                                    @elseif($d->file_type == 'document')
+                                    <img class="card-img-top img-fluid" src="{{asset('img/document.svg')}}" alt="{{$d->name}}">
+                                    @elseif($d->file_type == 'compress')
+                                    <img class="card-img-top img-fluid" src="{{asset('img/archive.svg')}}" alt="{{$d->name}}">
+                                    @endif
+
                                     <div class="card-body" style="padding-bottom: 0">
                                         <h6 class="card-title">
                                             <span style="line-height: 2.5; color: #c51c4a;cursor:pointer" title="{{$d->name}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{$d->name}}.{{$d->type}}">
@@ -87,13 +102,6 @@
                                                 <i class="mdi mdi-clock-outline"></i>
                                                 {{date_format($d->created_at,'M d, Y h:i A')}}
                                             </small>
-                                            @if($d->folder_name)
-                                            <br>
-                                            <small style="line-height: 2.5; font-weight: bold;">
-                                                <i class="mdi mdi-folder"></i>
-                                                {{$d->folder_name}}
-                                            </small>
-                                            @endif
                                             <div class="btn-group mt-1 mr-1 float-right">
                                                 <button class="btn btn-white btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="mdi mdi-dots-horizontal" style="font-size: 1.5em"></i>
@@ -159,7 +167,7 @@
             </div><!-- /.modal-dialog -->
         </div>
 
-        <!-- confirm photo file -->
+        <!-- confirm media file -->
         <div class="modal fade media-player-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
             <style type="text/css">
                 .upload-box {
@@ -177,14 +185,17 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header" style="background-color: #e51c4a;">
-                        <h5 class="modal-title" style="color: #ffffff !important"><i class="mdi mdi-image-outline"></i> <span class="media-title"></span></h5>
+                        <h5 class="modal-title" style="color: #ffffff !important"><i class="mdi mdi-file-document-box-outline"></i> <span class="media-title"></span></h5>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="color: #ffffff !important">×</button>
                     </div>
-                    <div class="modal-body">
-                        <img src="" class="media-player" alt="Photo" />
+                    <div class="modal-body" style="text-align: center;">
+                        <img src="" class="media-player m-image" alt="Photo" />
+                        <audio controls src="" class="media-player m-audio"></audio>
+                        <video src="" class="media-player m-video" controls></video>
+                        <iframe class="media-player m-document" src="" style="width: 100%; height: 35rem" allowfullscreen="true"></iframe>
 
-                        <div class="form-group mt-5">
-                            <label>Copy File URL</label>
+                        <div class="form-group mt-5" style="text-align: left !important;">
+                            <label >Copy File URL</label>
                             <div class="input-group">
                                 <input class="form-control drive-url" value="">
                                 <span class="input-group-append">
@@ -192,14 +203,12 @@
                                 </span>
                             </div>
                         </div>
-
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div>
 
         @include('drive.layouts.general')
-
         @include('drive.scripts.index')
     </body>
 <html>

@@ -56,14 +56,14 @@ Route::get('drive','DriveController@index');
 Route::post('drive/create', 'DriveController@create');
 Route::get('drive/show', 'DriveController@show');
 Route::delete('drive/delete', 'DriveController@delete');
-Route::get('drive/file/{type}/{response_type}', 'DriveController@getDrive');
+Route::get('drive/file/{type}/{response_type}/{folder_id}', 'DriveController@getDrive');
 Route::get('drive/download/{file}', 'DriveController@download');
 Route::post('drive/move/trash', 'DriveController@moveToTrash');
 Route::post('drive/restore', 'DriveController@restore');
 Route::delete('drive/delete', 'DriveController@delete');
 
-Route::get('folder/show/{id}', 'FolderController@show');
 Route::post('folder/create', 'FolderController@create');
+Route::put('folder/update', 'FolderController@update');
 
 Route::post('drive/password/control/create', 'DrivePasswordController@create');
 Route::get('drive/share/{code}', 'DrivePasswordController@share');

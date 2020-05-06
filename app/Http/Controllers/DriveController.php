@@ -136,17 +136,32 @@ class DriveController extends Controller
     }
 
     public function getTrash(){
-    	$trash = Drive::where('user_id',Auth::user()->id)->onlyTrashed()->get();
+    	$drive_trash = Drive::where(['user_id'=>Auth::user()->id,'folder_id'=>NULL])->onlyTrashed()->get();
+        //$folder_trash = Folder::where('user_id',Auth::user()->id)->onlyTrashed()->get();
+
+        $folder_trash = Folder::select(DB::raw('folder.*, drive.folder_id, COUNT(drive.folder_id) AS count'))
+                ->leftJoin('drive', 'drive.folder_id','=', 'folder.id')
+                ->where('folder.user_id',Auth::user()->id)
+                ->onlyTrashed()
+                ->groupBy('folder.name')
+                ->get();
+
         $now = Carbon::now();
 
-        foreach ($trash as $t) {
+        foreach ($drive_trash as $t) {
             if($now->diffInDays($t->deleted_at) >= 7){
                 Storage::disk('spaces')->delete($t->path);
                 Drive::where('deleted_at',$t->deleted_at)->forceDelete();
             }
         }
 
-    	return $trash;
+        foreach ($folder_trash as $t) {
+            if($now->diffInDays($t->deleted_at) >= 7){
+                Folder::where('deleted_at',$t->deleted_at)->forceDelete();
+            }
+        }
+
+    	return [$drive_trash,$folder_trash];
     }
 
     public function getFolder(){
@@ -157,6 +172,14 @@ class DriveController extends Controller
                         ->get();
 
         return $folder;
+    }
+
+    public function openFolder($id){
+        if($id != 'show'){
+            $drive = Drive::where(['folder_id'=>$id,'deleted_at'=>NULL])->get();
+            $folder = $folder = Folder::where('id',(int)$id)->get();
+            return [$drive,$folder]; 
+        }
     }
 
     public function getPhoto(){
@@ -215,7 +238,11 @@ class DriveController extends Controller
     }
 
     public function moveToTrash(Request $request){
-        Drive::where('id',$request->trash_id)->delete();
+        Drive::where('id',$request->trash_id)
+             ->orWhere('folder_id',$request->trash_id)
+             ->delete();
+
+        Folder::where('id',$request->trash_id)->delete();
 
         return response()->json([
             'message'=>'success',
@@ -224,7 +251,8 @@ class DriveController extends Controller
     }
 
     public function restore(Request $request){
-        Drive::where('id',$request->trash_id)->restore();
+        Drive::where('id',$request->trash_id)->orWhere('folder_id',$request->trash_id)->restore();
+        Folder::where('id',$request->trash_id)->restore();
 
         return response()->json([
             'message'=>'success',
@@ -232,12 +260,13 @@ class DriveController extends Controller
         ]);
     }
 
-    public function getDrive($type,$response_type){
+    public function getDrive($type,$response_type,$folder_id){
         if(Auth::user()->account_type == 2 || Auth::user()->account_type == 3){
         	$myFile = $this->getMyFiles();
         	$recent = $this->getRecent();
         	$trash = $this->getTrash();
             $folder = $this->getFolder();
+            $openFolder = $this->openFolder($folder_id);
             $photo = $this->getPhoto();
             $video = $this->getVideo();
             $audio = $this->getAudio();
@@ -276,10 +305,13 @@ class DriveController extends Controller
             else if($type == 'compress'){
                 $this->drive = $compressed;
             }
+            else if($type == 'folder'){
+                $this->drive = $openFolder;
+            }
         	else{ return abort(404); }
 
             if($response_type == 'view'){
-        	   return view('drive.'.$type,['data'=>$this->drive,'count_all'=>sizeof($myFile),'count_recent'=>sizeof($recent),'count_trash'=>sizeof($trash),'total_storage'=>$sVal[0],'total_usage'=>$uVal[0],'percentage'=>round($percent,0),'folder'=>$folder,'count_photo'=>sizeof($photo),'count_video'=>sizeof($video),'count_audio'=>sizeof($audio),'count_document'=>sizeof($document),'count_compress'=>sizeof($compressed)]);
+        	   return view('drive.'.$type,['data'=>$this->drive,'count_all'=>sizeof($myFile),'count_recent'=>sizeof($recent),'count_trash'=>sizeof($trash[0]) + sizeof($trash[1]),'total_storage'=>$sVal[0],'total_usage'=>$uVal[0],'percentage'=>round($percent,0),'folder'=>$folder,'count_photo'=>sizeof($photo),'count_video'=>sizeof($video),'count_audio'=>sizeof($audio),'count_document'=>sizeof($document),'count_compress'=>sizeof($compressed),'openFolder'=>$openFolder]);
 
                 //return $this->drive;
             }
