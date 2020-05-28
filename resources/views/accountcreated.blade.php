@@ -34,28 +34,25 @@
         </div>
         <!-- end page title -->
 
-        @if(!$count)
+        
         <div class="row">
             <div class="col-12">
-                <div class="card-box">
-                  <form class="domain-form" action = "/home/account"  id="ordersubmitform">
-                  @csrf
-                    <div class="form-group">
-                        <div class="response"></div>
-                        <label>Domain name </label>
-                        <input type="text" name="domain" class="form-control"  placeholder="Enter your domain name">
 
-                        <button type="submit" class="btn btn-primary btn-lg mt-3 check-domain" onclick="checkDomain();">Create hosting account</button>
-                        <label class="text-muted float-right mt-3">
-                            Don't have a domain? <a href="#">Get one here</a>
-                        </label>
-                    </div>
-                </form>
-
+                <div class="alert alert-success">
+                    <strong>Success!</strong> Account Created Successifully!!!!!
+                  </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <a href="/home">
+                        <button type="button" class="btn btn-success btn-block">Go Home</button>
+                    </a>
                 </div>
+                
+            </div>
             </div>
         </div>
-        @endif
+        
 
         <div class="row">
             <div class="col-xl-3 col-md-6">

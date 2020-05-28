@@ -25,7 +25,8 @@ Route::delete('user/delete', 'UserController@delete');
 Route::get('/logout', 'Auth\LoginController@logout');
 
 Route::get('/dashboard', 'HomeController@index');
-Route::get('/home', 'HomeController@index');
+Route::any('/home', 'HomeController@index');
+Route::get('/home/account', 'HomeController@createDomainAccount');
 
 // Admin  Routes
 Route::group(['middleware' => ['admin']], function () {
@@ -69,6 +70,3 @@ Route::delete('folder/delete', 'FolderController@delete');
 Route::post('drive/password/control/create', 'DrivePasswordController@create');
 Route::get('drive/share/{code}', 'DrivePasswordController@share');
 Route::get('drive/password/check', 'DrivePasswordController@check');
-
-
-
