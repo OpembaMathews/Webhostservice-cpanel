@@ -45,7 +45,7 @@
                         <label>Domain name </label>
                         <input type="text" name="domain" class="form-control"  placeholder="Enter your domain name">
 
-                        <button type="submit" class="btn btn-primary btn-lg mt-3 check-domain" onclick="checkDomain();">Create hosting account</button>
+                        <button type="button" class="btn btn-primary btn-lg mt-3 check-domain" onclick="checkDomain();">Create hosting account</button>
                         <label class="text-muted float-right mt-3">
                             Don't have a domain? <a href="#">Get one here</a>
                         </label>

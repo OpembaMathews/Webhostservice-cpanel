@@ -56,15 +56,15 @@ class HomeController extends Controller
       $user = auth()->user();
       if(Auth::user()->account_type == 1 || Auth::user()->account_type == 3) {
 
-          $domain_name =$request->input('domain');
-          $user = User::find($user->id);
-          $user ->domain = $domain_name;
-          $user->save();
+          $domain_name = 'boya.com';//$request->input('domain');
+          //$user = User::find($user->id);
+          //$user->domain = $domain_name;
+          //$user->save();
 
           if ($domain_name ) {
-            error_log($user->email);
+            //error_log($user->email);
             error_log($domain_name);
-            $email = $user->email;
+            $email = 'glinkonline@aol.com';//$user->email;
             $client = new Client();
             // Send an asynchronous request.
             $link =  'http://127.0.0.1:3004/get?domain='.$domain_name.'&email='.$email;
@@ -78,10 +78,6 @@ class HomeController extends Controller
                 
             });
           $promise->wait();
-
-          
-
-
 
           $plan = HostingPlan::where('user_id',Auth::user()->id)->select('host_period','updated_at')->first();
           $expires = Carbon::parse($plan->updated_at)->addYears($plan->host_period)->format('F jS, Y, h:i A');
