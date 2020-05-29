@@ -14,9 +14,9 @@ class AddColumnToVoucherTable extends Migration
     public function up()
     {
         Schema::table('vouchers', function (Blueprint $table) {
-            $table->bigInteger('host_size')->nullable();
-            $table->bigInteger('drive_size')->nullable();
-            $table->string('type')->nullable();
+            $table->bigInteger('host_size')->unsigned()->nullable()->change();
+            $table->bigInteger('drive_size')->unsigned()->nullable()->change();
+            $table->string('type')->nullable()->change();
         });
     }
 

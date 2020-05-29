@@ -33,7 +33,7 @@ function checkDomain(){
             $(".check-domain").html('Create hosting account');
         }
         else{
-            $(".response").html("<div class='alert alert-success' style='margin-bottom:10px'><strong> Domain name created successfully!</strong></div>").show();
+            $(".response").html("<div class='alert alert-success' style='margin-bottom:10px'><strong> Account is being created. Please wait...</strong></div>").show();
 
             $(".check-domain").html('Create hosting account');
 

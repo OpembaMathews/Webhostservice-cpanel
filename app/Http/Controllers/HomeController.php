@@ -67,8 +67,8 @@ class HomeController extends Controller
             $email = $user->email;
             $client = new Client();
             // Send an asynchronous request.
-            // $link =  'http://127.0.0.1:3004/get?domain='.$domain_name.'&email='.$email;
-            $link =  'http://794b32ba.ngrok.io/get?domain='.$domain_name.'&email='.$email;
+            $link =  'http://127.0.0.1:3004/get?domain='.$domain_name.'&email='.$email;
+            // $link =  'http://794b32ba.ngrok.io/get?domain='.$domain_name.'&email='.$email;
 
             error_log($link);
 
